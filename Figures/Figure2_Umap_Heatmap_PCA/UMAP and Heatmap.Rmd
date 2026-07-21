@@ -1,0 +1,287 @@
+---
+title: "Figure 2 UMAP and Heatmap"
+author: "Jack Pepper"
+date: "2026-01-30"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(ComplexHeatmap) #BiocManager::install("ComplexHeatmap")
+library(viridis)
+library(scattermore)
+library(circlize)
+library(RColorBrewer)
+```
+
+
+#### UMAP FIGURES FOR PAPER
+
+```{r}
+#UMAP PAPER FIGURE
+
+# Name mapping
+
+# Original column names
+original_names <- c(
+  "FJComp.B510.A_Ly6C.FITC_logicle",
+  "FJComp.B537.A_CD8a.RB545_logicle",
+  "FJComp.B810.A_I.A_I.E.RB780_logicle",
+  "FJComp.R675.A_CD64.AF647_logicle",
+  "FJComp.R710.A_CD19.APC.R700_logicle",
+  "FJComp.UV379.A_CD11c.BUV395_logicle",
+  "FJComp.V427.A_F4_80.BV421_logicle",
+  "FJComp.V470.A_CD3e.BV480_logicle",
+  "FJComp.V540.A_CD4.SV538_logicle",
+  "FJComp.V595.A_Ly6G.BV605_logicle",
+  "FJComp.V660.A_XCR1.BV650_logicle",
+  "FJComp.V710.A_CD11b.BV711_logicle",
+  "FJComp.V785.A_pDCA.1.BV786_logicle",
+  "FJComp.YG585.A_CD103.PE_logicle",
+  "FJComp.YG602.A_B220.PE.CF594_logicle",
+  "FJComp.YG670.A_CD206.PE.Cy5_logicle",
+  "FJComp.YG780.A_NKp46.PE.Cy7_logicle"
+)
+
+
+# Cleaned marker names
+cleaned_names <- c(
+  "Ly6C", "CD8a", "I-A/I-E", "CD64", "CD19", "CD11c", "F4-80", "CD3e", "CD4",
+  "Ly6G", "XCR1", "CD11b", "pDCA-1", "CD103", "B220", "CD206", "NKp46"
+)
+
+name_mapping <- setNames(cleaned_names, original_names)
+
+print(name_mapping)
+
+# Setting labels and ordering for figures
+cell_order <- c("Neutrophils",
+                "Monocytes",
+                "Ly6C(hi)CD64(hi) Monocytes",
+                "CD206+ Macrophages",
+                "CD64+MHCII- Macrophages",
+                "cDC1",
+                "cDC2",
+                "moDCs",
+                "pDCs",
+                "Ly6C+ NK cells",
+                "Ly6C- NK cells",
+                "Ly6C+CD8+ T-cells",
+                "Ly6C-CD8+ T-cells",
+                "CD4+ T-cells",
+                "CD103+CD4+ T-cells",
+                "B-cells")
+
+my_labs <- c("B-cells" = "B-cells",
+             "moDCs" = "Alv Mac",
+             "CD4+ T-cells" = "CD4+ T",
+             "Ly6C-CD8+ T-cells" = "Ly6C-CD8+ T",
+             "Ly6C+CD8+ T-cells" = "Ly6C+CD8+ T",
+             "Ly6C+ NK cells" = "Ly6C+NK",
+             "Ly6C- NK cells" = "Ly6C-NK",
+             "CD103+CD4+ T-cells" = "CD103+CD4+ T",
+             "Ly6C(hi)CD64(hi) Monocytes" = "iMono",
+             "cDC1" = "cDC1",
+             "Monocytes" = "Mono",
+             "Neutrophils" = "Neut",
+             "CD206+ Macrophages" = "CD206+ Mac",
+             "cDC2" = "cDC2",
+             "pDCs" = "pDC",
+             "CD64+MHCII- Macrophages" = "CD64+ Mac")
+
+tissue_order <- c("Nasal", "Nasal Tissue", "Lung", "Spleen")
+
+# Data read in
+cell.sub.raw <- read.csv("../../processing/rds/data.sub_spectre_hnswk30d0.1_ANNOYk40_autoLgcl.csv")
+annotations.raw <- read.csv("../../processing/annotations2026-06-30.csv")
+
+# df joining into a combined df
+cell.sub.anotate <- cell.sub.raw %>%
+  left_join(annotations.raw %>% select(PhenoGraph:Annotation), by = "PhenoGraph") %>%
+  mutate(Tissue = factor(Tissue, levels = tissue_order)) %>%
+  filter(!(Annotation == "Drop")) %>%
+  filter(!(Annotation == "Unknown Myeloid"))
+
+# Calculate centroids for adding on labels onto the UMAP
+centroids <- cell.sub.anotate %>%
+  group_by(Annotation) %>%
+  summarise(
+    x = median(umap_x),
+    y = median(umap_y)
+  )
+
+centroids$Annotation <- my_labs[as.character(centroids$Annotation)]
+cell.sub.anotate$Annotation <- my_labs[as.character(cell.sub.anotate$Annotation)]
+
+cell_order_renamed <- my_labs[cell_order]
+
+d3_colors <- ggsci::pal_d3("category20b")(17)
+
+# Generateing UMAP
+ggsave("Figure2A-UMAP.tiff", 
+       plot = ggplot(cell.sub.anotate, 
+       aes(x = umap_x,
+           y = umap_y,
+           colour = factor(Annotation))) + 
+    geom_scattermore(size = 0.01, show.legend = TRUE) +
+    geom_point(data = centroids, aes(x = x, y = y), size = 1.5, color = "black") +
+    ggrepel::geom_label_repel(data = centroids, aes(x = x, y = y, label = Annotation), size = 5, color = "black",
+                              box.padding = 0.75, segment.color = "black", segment.size = 0.3,
+                              max.overlaps = Inf, alpha = 0.75) +
+    ggpubr::theme_transparent() +
+    theme(legend.position = "right",
+          panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+    scale_colour_manual(values = d3_colors, name = "Cellular Populations") +
+    guides(colour = guide_legend(override.aes = list(size = 5), ncol = 1)) + 
+    xlab("umap_x") + ylab("umap_y"), 
+       height = 8, width = 10, dpi = 196*2)
+```
+
+# Mean then Z-Scored
+
+```{r}
+### 1. Rename columns using name_mapping
+cell.sub <- cell.sub.anotate %>%
+  rename_with(
+    ~ name_mapping[.x],
+    .cols = intersect(names(name_mapping), colnames(.))
+  )
+
+### 2. Select marker columns
+marker_cols <- cell.sub %>%
+  select(Ly6C:NKp46) %>%
+  colnames()
+
+### 3. Get one row per Annotation (mean values)
+cell.mean <- cell.sub %>%
+  group_by(Annotation) %>%
+  summarise(across(all_of(marker_cols), ~ mean(.x, na.rm = TRUE))) %>%
+  ungroup()
+
+### 4. Scale marker columns (z-scores)
+mat <- cell.mean %>%
+  select(all_of(marker_cols)) %>%
+  as.matrix()
+rownames(mat) <- cell.mean$Annotation
+
+mat.scaled <- scale(mat)
+rownames(mat.scaled) <- cell.mean$Annotation
+
+library(ComplexHeatmap)
+library(viridis)
+
+### 5. Heatmap
+png("Figure2B-Heatmap.png", width = 3000, height = 2400, res = 600)
+Heatmap(
+  mat.scaled,
+  name = "z-score",
+  cluster_rows = TRUE,
+  cluster_columns = TRUE,
+  show_row_dend = FALSE,
+  show_column_dend = FALSE,
+  col = magma(6),
+  row_names_gp = gpar(fontsize = 8),
+  column_names_gp = gpar(fontsize = 8),
+  row_names_side = "left"
+)
+dev.off()
+```
+
+# Median
+
+```{r}
+### 1. Rename columns using name_mapping
+cell.sub <- cell.sub.anotate %>%
+  rename_with(
+    ~ name_mapping[.x],
+    .cols = intersect(names(name_mapping), colnames(.))
+  )
+
+### 2. Select marker columns
+marker_cols <- cell.sub %>%
+  select(Ly6C:NKp46) %>%
+  colnames()
+
+### 3. Get one row per Annotation (mean values)
+cell.median <- cell.sub %>%
+  group_by(Annotation) %>%
+  summarise(across(all_of(marker_cols), ~ median(.x, na.rm = TRUE))) %>%
+  ungroup()
+
+mat.median <- cell.median %>%
+  select(!Annotation) %>%
+  as.matrix()
+
+rownames(mat.median) <- cell.median$Annotation
+
+
+# col_fun <- colorRamp2(
+#   c(min(mat.median, na.rm = TRUE), max(mat.median, na.rm = TRUE)),
+#   c("black", "red")
+# )
+
+png("Heatmap-Median.png", width = 3000, height = 2400, res = 600)
+Heatmap(
+  mat.median,
+  name = "Median MFI",
+  cluster_rows = TRUE,
+  cluster_columns = TRUE,
+  show_row_dend = FALSE,
+  show_column_dend = FALSE,
+  col = colorRampPalette(rev(brewer.pal(10, "RdBu")))(100),
+  row_names_gp = gpar(fontsize = 8),
+  column_names_gp = gpar(fontsize = 8),
+  row_names_side = "left"
+)
+dev.off()
+```
+
+# Mean
+
+```{r}
+### 1. Rename columns using name_mapping
+cell.sub <- cell.sub.anotate %>%
+  rename_with(
+    ~ name_mapping[.x],
+    .cols = intersect(names(name_mapping), colnames(.))
+  )
+
+### 2. Select marker columns
+marker_cols <- cell.sub %>%
+  select(Ly6C:NKp46) %>%
+  colnames()
+
+### 3. Get one row per Annotation (mean values)
+cell.mean <- cell.sub %>%
+  group_by(Annotation) %>%
+  summarise(across(all_of(marker_cols), ~ mean(.x, na.rm = TRUE))) %>%
+  ungroup()
+
+mat.mean <- cell.mean %>%
+  select(!Annotation) %>%
+  as.matrix()
+
+rownames(mat.mean) <- cell.mean$Annotation
+
+
+# col_fun <- colorRamp2(
+#   c(min(mat.median, na.rm = TRUE), max(mat.median, na.rm = TRUE)),
+#   c("black", "red")
+# )
+
+png("Heatmap-Mean.png", width = 3000, height = 2400, res = 600)
+Heatmap(
+  mat.mean,
+  name = "Mean MFI",
+  cluster_rows = TRUE,
+  cluster_columns = TRUE,
+  show_row_dend = FALSE,
+  show_column_dend = FALSE,
+  col = colorRampPalette(rev(brewer.pal(10, "RdBu")))(100),
+  row_names_gp = gpar(fontsize = 8),
+  column_names_gp = gpar(fontsize = 8),
+  row_names_side = "left"
+)
+dev.off()
+```

@@ -1,0 +1,1899 @@
+---
+title: "Spritz-OM: Mechanisms of Action - Computational Analysis"
+author: "Jack Pepper"
+date: "2024-11-04"
+output:
+  html_notebook:
+    toc: true
+    toc_depth: 4
+    number_sections: true
+    theme: united
+    highlight: tango
+  pdf_document:
+    toc: true
+    toc_depth: '4'
+---
+
+# Introduction
+
+This analysis pipeline has been established for the analysis of pre-clinical data to determine the immune response and mechanisms of action of Spritz-OM in an influenza-driven Non-typable Haemophilus Influenzae Otitis Media (NTHi-OM) murine model. This workflow utilises a number of different tools presently avalible for the correction, transformation, identification, and analysis of flow cytometry data.
+
+We bagan with **CytoNorm**, which was used to normalise across the 41 flow cytometry runs present within the project. Samples are normalised using a quality control sample consisting of $1*10^6$ murine splenocytes. This consits of a generating a training model to determine the mean of positive and negative populations, along with the distrubution shape, for each marker across all batches, how far each batch has drifted from the mean, and to which degree each marker has to be adjusted in each batch to return to the mean. This model is then applied to all tissues, and adjusting all the tissue samples back to the mean, based on the variance observed in the QC of that particular samples run, to removed any variance introduced by processing and staining divergence that occurred between runs, allowing for the identification of statistically significant biological variation induced by Sprtiz-OM in our NTHi-OM murine model.
+
+Next, due to some events being shifted significantly towards $Inf$. These events had to be 'truncated', retaining only events that were sill biologically relavent and within resonable ranges for analysis. A bespoke function was written to deal with these events, by reading in the normalised FCS files, removeing any events that were above or below arbitrary threholds well outside of a flow cytometers typical capture range, then written back to FCS. This allows for the files to be easily reintegrated into traditional analysis workflow that reads in FCS files.
+
+Trunacted files were next read in and automatically transformed using auto-logicle transformation within the **Spectre** package. This is to 'standardise' the data expression values so they can be passed into unsupervised clustering and high dimensiolaity reduction algorithms through the use of Phenograph and UMAP.
+
+- **RPhenoAnnoy** was utilized for unsupervised Phenograph Clustering to determine how our data clustered given a set range of parameters. This particular implementation was chosen over the standard **RPhenograph** due to its ability to cluster data in parallel and then combine the results at a later stage. This parallel processing allowed the data to be clustered approximately 9 times faster. For a dataset of approximately 3.8 million events and 17 parameters, this reduced the computational time required from 18 hours to just under 2 hours. The unsupervised clustering results between **RPhenograph** and **RPhenoAnnoy** appear comparable. A rudimentary cosine similarity analysis was conducted to determine the similarity between the two methods, which returned a value of $0.9167979$. Given these comparable results and the significant reduction in computational time, the decision was made to move forward with **RPhenoAnnoy** due to time savings.
+
+- **UWOT** was utilized for dimensionality reduction due to the additional algorithms available for use with UMAP analysis. While UMAP can be conducted on a subset purely for visualization, we aimed to find a UMAP implementation that could be run on the entire dataset. This approach allows us to capture the global structure more accurately, avoiding potential misrepresentation from using only a subset, which might be biased towards or against rarer populations. The HNSW algorithm was used for **UWOT::UMAP** due to its higher speed performance and reduced RAM requirements for our dataset. HNSW utilizes Approximate Nearest Neighbors (ANN) compared to k-Nearest Neighbors (KNN). ANN is more appropriate for larger datasets, as it starts training on a smaller subset of data and approximates the nearest neighbors rather than calculating them exactly. HNSW also generates navigable small-world networks, allowing for the efficient insertion of new data and a more efficient search overall. This enables the approximation of nearest neighbors to be adjusted as more data is included over time, resulting in a less computationally intensive process overall. I have found that this produces comparable final UMAP outputs between ‘standard’, ANNOY, and HNSW, so HNSW was selected due to being the quicker implementation of the three.
+
+- **RphenoAnnoy** and **UWOT::UMAP** analyses can be run in parallel on a VM containing a 12 core CPU within 128GB of RAM, and ran in approximatly xxx and xxx respectively.
+
+Data was then writen to disk in a complete CSV containing: raw MFI, logically transformed MFI, metadata, UMAP co-ordinates, and Phenograph cluster. This point was intended for use as a checkpoint for the analysis pipeline. Data from this point could be written back to FCS, or an adjusted CSV, for analysis in FlowJo, or reread from disk for use in continued visulisation and analysis.
+
+# Preparation
+
+## Package install
+
+```{r include=FALSE}
+install.packages("BiocManager", "qs2")
+BiocManager::install(c("flowCore", "FlowSOM", "ggplot", "dplyr", "rhdf5", "HDF5Array", "CytoPipeline", "progress", "tictoc", "tidyverse"))
+
+install.packages("filenamer")
+BiocManager::install("CytoPipeline")
+
+install.packages("devtools")
+devtools::install_github("immunedynamics/spectre", dependencies=TRUE)
+devtools::install_github("saeyslab/CytoNorm", dependencies=TRUE)
+devtools::install_github("JinmiaoChenLab/cytofkit2", dependencies=TRUE)
+```
+
+## Load packages, and set working directory
+
+```{r setup}
+var_Date <- Sys.Date()
+
+knitr::opts_chunk$set(include = FALSE)
+library(job)
+library(CytoNorm)
+library(tidyverse)
+library(cytofkit2)
+library(flowCore)
+library(data.table)
+library(cowplot)
+library(Spectre)
+library(qs2)
+Spectre::package.check()
+Spectre::package.load()
+
+### Resolve known conflicts
+    conflicted::conflicts_prefer(
+      dplyr::filter(),
+      dplyr::count(),
+      dplyr::mutate(),
+      dplyr::summarise(),
+      dplyr::rename()
+    )
+
+### Set 'primary' directory
+    dirname(rstudioapi::getActiveDocumentContext()$path)
+    setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+    getwd()
+    PrimaryDirectory <- getwd()
+    
+### Set 'input' directory
+    setwd(PrimaryDirectory)
+    setwd("data/raw_data/")
+    InputDirectory <- getwd()
+    setwd(PrimaryDirectory)
+
+### Set 'metadata' directory
+    setwd(PrimaryDirectory)
+    setwd("data/metadata/")
+    MetaDirectory <- getwd()
+    setwd(PrimaryDirectory)
+  
+### Create output directory
+    setwd(PrimaryDirectory)
+    dir.create("output", showWarnings = FALSE)
+    setwd("output/")
+    OutputDirectory <- getwd()
+    setwd(PrimaryDirectory)
+    
+### Set 'normalised' directory
+    setwd(PrimaryDirectory)
+    dir.create("processing/normalised", showWarnings = FALSE, recursive = TRUE)
+    setwd("processing/normalised/")
+    NormalisedDirectory <- getwd()
+    setwd(PrimaryDirectory)
+    
+### Set 'RDS' directory
+    setwd(PrimaryDirectory)
+    dir.create("processing/rds", showWarnings = FALSE, recursive = TRUE)
+    setwd("processing/rds/")
+    RDSDirectory <- getwd()
+    setwd(PrimaryDirectory)
+    
+### Set 'truncated_normalised' directory
+    setwd(PrimaryDirectory)
+    dir.create("processing/truncated_normalised", showWarnings = FALSE, recursive = TRUE)
+    setwd("processing/truncated_normalised/")
+    TruncatedNormalisedDirectory <- getwd()
+    setwd(PrimaryDirectory)
+    
+### Set 'temporary' directory
+    setwd(PrimaryDirectory)
+    dir.create("processing/temporary", showWarnings = FALSE, recursive = TRUE)
+    setwd("processing/temporary/")
+    TemporaryDirectory <- getwd()
+    setwd(PrimaryDirectory)
+```
+
+# Batch Alignment (CytoNorm)
+
+Batch alignment is a core component of this analysis, as it removes any batch effects present within the data, so that any differences observed within the data can be attributed to biological variance induced by treatment, rather then variance due to day-to-day processing, staining and acquisition.
+
+CytoNorm has been arbitrarily chosen to enact the normalisation. Additional platforms, such as cyCombine, exist, but were not evaluated for this project, as this is the package used in predominant pipeline packages, such as Spectre by Immune Dynamics and CytofKit2 by Jin Miao Chen's lab.
+
+## Data Identification
+
+```{r}
+# library(CytoNorm)
+
+# Generates a list of all files (with paths) containing .fcs extensions
+files <- list.files(InputDirectory, pattern = ".fcs")
+if(length(files) == 0){stop("No files in data directory")}
+
+# Creates a data frame with cols File (File Name), Path (File Path), Type (Qc/!QC), and Batch (Experiment Number)
+data <- data.table(File = files,
+                   Path = file.path(InputDirectory, files),
+                   Type = ifelse(stringr::str_detect(files, "QC"), "QC", "Tissue"), 
+                   Batch = stringr::str_match(files, "EXP([1-9]|[1-9][0-9])_")[, 2],
+                   stringsAsFactors = FALSE)
+
+# Subsets data into QC and Tissue only data sets
+QC_train_data <- dplyr::filter(data, Type == "QC")
+all_data <- data
+
+# Reads the first flow file to obtain comped-channels present, and removes un-neeed channels (i.e. those found in flowjo comp export)
+ff <- flowCore::read.FCS(all_data$Path[1])
+ff <- CytoPipeline::removeChannels(ff, channels = c("FSC-A", "FSC-H", "FSC-W", "SSC-A", "SSC-H", "SSC-W", "Time"))
+channels <- flowCore::colnames(ff)
+
+# A list of transformMaps to be applied to a list of parameters.
+transformList <- flowCore::transformList(channels,
+                                         cytofTransform)
+transformList.reverse <- flowCore::transformList(channels,
+                                                 cytofTransform.reverse)
+
+all_data |> plyr::count('Type')
+all_data |> plyr::count('Batch')
+
+rm(files, data, ff)
+```
+
+## CytoNorm model
+
+### Training
+
+Training of the CytoNorm model uses reference data (QC samples) to determine what levels of batch effect are present within the data along with the correct factors required to bring this reference data, on a per batch basis, back into alignment with each other. Multiple different correction methods exist, either mean (as chosen here), quantile-based, or using a pre-determine batch as the 'true' batch.
+
+We have not tested which of these is the most 'ideal' correction method, so have opted for the default (mean) as to minimise the 'distance' that correction may have to adjust by.
+
+```{r}
+#remove a tmp folder that can sometimes hold a previous "CytoNorm_FlowSOM.RDS" if a previous run was interrupted. This rds object will cause errors if any FlowSOM.params don't match
+try(fs::dir_delete(paste0(PrimaryDirectory, "/tmp")))
+try(fs::dir_delete(paste0(PrimaryDirectory, "/tmp")))
+
+setwd(PrimaryDirectory)
+
+#trains CytoNorm Model on QC data for application and normalisation of all downstream data
+model <- CytoNorm.train(files = QC_train_data$Path,
+                        labels = QC_train_data$Batch,
+                        channels = channels,
+                        transformList = transformList,
+                        FlowSOM.params = list(nCells = (50000*length(QC_train_data$Path)), 
+                                              xdim = 15,
+                                              ydim = 15,
+                                              nClus = 22, # This parameter can be optimised, see Data Verification > Testing Clustering > Pre
+                                              scale = FALSE),
+                        normMethod.train = QuantileNorm.train,
+                        normParams = list(nQ = 101,
+                                          goal = "mean"),
+                        seed = 1,
+                        verbose = TRUE, 
+                        recompute = TRUE,
+                        truncate_max_range = FALSE)
+
+setwd(RDSDirectory)
+qs_save(model, sprintf("CytoNorm_model.%s.qs2", var_Date))
+model <- qs_read(paste0(RDSDirectory, "/CytoNorm_model.", var_Date, ".qs2"))
+```
+
+### Application
+
+Application of the CytoNorm model can be very computationally heavy, but is a process that can be done in parallel. Included below are two sets of the same code. The first chunk will run the model application in a single thread. The second chunk will disperse the workload based on batch number across all available cpu cores minus one. Splitting by batch number is a mostly arbitrary decision. It would probably be more computationally efficient to split evenly the entire data set across the available cpu cores. I have however made my bed, and will now lay in it.
+
+If the model application is interrupted in any capacity, make sure stopCluster() and subsequent C\_\_ removal code is run before re-running. This is to make sure that all cpu cores are released and can be required, as well as clearing out disk space and avoiding errors due to over-writing files.
+
+The below code may be adjusted to be more computationally efficient, but that is for whoever reads this afterwards to decide for their own application.
+
+#### Model application using a single core
+
+```{r}
+CytoNorm.normalize(model = model,
+                   files = all_data$Path,
+                   labels = all_data$Batch,
+                   transformList = transformList,
+                   transformList.reverse = transformList.reverse,
+                   normMethod.normalize = QuantileNorm.normalize,
+                   outputDir = NormalisedDirectory,
+                   prefix = paste0(var_Date, "_Norm_"),
+                   clean = TRUE,
+                   verbose = TRUE)
+```
+
+#### Model application using multi-core
+
+```{r eval=FALSE, include=FALSE}
+# Load the necessary packages
+library(future)
+library(furrr)
+
+# Determine the number of cores
+no_cores <- detectCores() - 1
+#no_cores <- 4
+
+# Create a cluster
+cl <- makeCluster(no_cores)
+
+# Set up future to use the cluster
+plan(cluster, workers = cl)
+
+# Split your data
+split_data <- split(all_data, all_data$Batch)
+
+# Use future_map to apply the function in parallel
+results <- future_map(split_data, function(data) {
+  CytoNorm.normalize(model = model,
+                     files = data$Path,
+                     labels = data$Batch,
+                     transformList = transformList,
+                     transformList.reverse = transformList.reverse,
+                     normMethod.normalize = QuantileNorm.normalize,
+                     outputDir = NormalisedDirectory,
+                     prefix = paste0(var_Date, "_Norm_"),
+                     clean = TRUE,
+                     verbose = FALSE)
+})
+
+# Stop the cluster
+stopCluster(cl)
+
+# Removal of split fcs files that may remain due to parallelisation
+list.files(path = NormalisedDirectory, pattern = "^C__") %>%
+file.path(NormalisedDirectory, .) %>%
+file.remove()
+```
+
+## Data Verification
+
+The following chunks are a culmination of verification steps for pre- and post-correction data to verify that batch effect correction has been applied correctly, and that there are no outliers, or incorrectly adjusted batches.
+
+### Denity Plot Verifications
+
+These density plots are to demonstrate and verify that the application of normalisation has worked accurately and there are no specific runs that may warrant additional investigation for possible exclusion. Only QC will be plotted due to the variance that may be observed due to different population proportions between tissues, time points, and treatment groups that may 'muddy' the interpretation. All cells within each QC will be plotted to obtain the highest level of resolution possible for these plots.
+
+#### Pre-Normalisation Density Plot
+
+```{r}
+job::job({
+setwd(OutputDirectory)
+dir.create("Output 2.1 - density plots", showWarnings = FALSE)
+setwd("Output 2.1 - density plots")
+
+files <- list.files(InputDirectory, pattern = "QC")
+
+ff <- flowCore::read.FCS(file.path(InputDirectory, files[1]))
+ff <- CytoPipeline::removeChannels(ff, channels = c("FSC-A", "FSC-H", "FSC-W", "SSC-A", "SSC-H", "SSC-W", "Time"))
+channels <- flowCore::colnames(ff)
+transformList <- flowCore::transformList(channels,
+                                         cytofTransform)
+
+densities <- getDensities(files = file.path(InputDirectory, files),
+                          channels = channels,
+                          transformList = transformList,
+                          quantileValues = c(0.25, 0.5, 0.75))
+
+densities$densities$Marker <- FlowSOM::GetMarkers(ff, densities$densities$Channel)
+
+densities$densities$FileNames <- basename(densities$densities$File)
+
+saveRDS(densities, paste0(RDSDirectory, "/Pre-Normalised-Densities.rds"))
+
+library(ggplot2)
+ggplot(dplyr::filter(densities$densities,
+                     File == file.path(InputDirectory, files))) +
+  geom_line(aes(x = x, y = y, color = FileNames)) + 
+  facet_wrap(~ Marker, scales = "free") +
+  theme_minimal()
+
+ggsave(filename = "Pre-Normalised-QC.png", width = 30, height = 20, units = "cm", dpi = 400, scale = 1.5)
+
+ggplot(dplyr::filter(densities$densities,
+                     File == file.path(InputDirectory, files))) +
+  geom_line(aes(x = x, y = y, color = FileNames)) + 
+  facet_grid(rows = vars(File), cols = vars(Channel)) +
+  theme_minimal()
+
+ggsave(filename = "Pre-Normalised.png", width = 30, height = 20, units = "cm", dpi = 400, scale = 1.5)
+
+gc()
+
+}, title = "Pre-Normalised Density Plots - QC", import = "auto")
+```
+
+#### Post-Normalisation Density Plot
+
+```{r}
+job::job({
+
+setwd(OutputDirectory)
+dir.create("Output 2.1 - density plots", showWarnings = FALSE)
+setwd("Output 2.1 - density plots")
+files <- list.files(NormalisedDirectory, pattern = "QC")
+
+ff <- flowCore::read.FCS(file.path(NormalisedDirectory, files[1]))
+ff <- CytoPipeline::removeChannels(ff, channels = c("FSC-A", "FSC-H", "FSC-W", "SSC-A", "SSC-H", "SSC-W", "Time"))
+channels <- flowCore::colnames(ff)
+transformList <- flowCore::transformList(channels,
+                                         cytofTransform)
+
+densities <- getDensities(files = file.path(NormalisedDirectory, files),
+                          channels = channels,
+                          transformList = transformList,
+                          quantileValues = c(0.25, 0.5, 0.75))
+
+densities$densities$Marker <- FlowSOM::GetMarkers(ff, densities$densities$Channel)
+
+densities$densities$FileNames <- basename(densities$densities$File)
+
+saveRDS(densities, paste0(RDSDirectory, "/Post-Normalised-Densities.rds"))
+
+library(ggplot2)
+ggplot(dplyr::filter(densities$densities,
+                     File == file.path(NormalisedDirectory, files))) +
+  geom_line(aes(x = x, y = y, color = FileNames)) + 
+  facet_wrap(~ Marker, scales = "free") +
+  theme_minimal()
+
+ggsave(filename = "Post-Normalised-QC.png", width = 35, height = 20, units = "cm", dpi = 400, scale = 1.5)
+
+ggplot(dplyr::filter(densities$densities,
+                     File == file.path(NormalisedDirectory, files))) +
+  geom_line(aes(x = x, y = y, color = FileNames)) + 
+  facet_grid(rows = vars(File), cols = vars(Channel)) +
+  theme_minimal()
+
+ggsave(filename = "Post-Normalised.png", width = 35, height = 20, units = "cm", dpi = 400, scale = 1.5)
+
+}, title = "Post-Normalised Density Plots - QC", import = "auto")
+```
+
+### Testing Clustering
+
+#### Pre-Normalisation
+
+This chunk checks whether clustering is an an appropriate step, by determining if batch effect influences clustering by computing CV (co-efficient of variation) values for each cluster. If CV values sit greater then 1.5 or 2, then normalisation is required to minimise the batch effect present on clusters.
+
+nCells = \~50,000 per file to achieve a reasonable population representation from each sample nClus = 22, as this has been the determined max number of clusters for this data
+
+```{r}
+#To maintain consistency
+nClus <- 22
+
+#Runs clustering as a background job to allow for model training to occur in parallel
+job::job({
+  fsom <- prepareFlowSOM(QC_train_data$Path,
+                         channels,
+                         nCells = (length(QC_train_data$Path)*50000),
+                         FlowSOM.params = list(xdim = 5,
+                                               ydim = 5,
+                                               nClus = nClus,
+                                               scale = FALSE),
+                         transformList = transformList,
+                         seed = 1,
+                         verbose = TRUE)
+  
+  setwd(OutputDirectory)
+  dir.create("Output 0 - coefficient of variance", showWarnings = FALSE)
+  setwd("Output 0 - coefficient of variance")   
+  
+  #saves plots as png
+  png(paste0("CoefficientOfVariance-PreNormalisedQC-nClus", nClus,".png"))
+  cvs <- testCV(fsom,
+                cluster_values = c(3:nClus)) 
+  dev.off()
+  
+  cvs$pctgs$`10`
+}, title = "CytoNorm.train - Pre")
+```
+
+#### Post-Normalisation
+
+This section is a duplication 2.0 Batch Alignment, but using Normalised QC files, to verify that the Coefficient of Variance (CV) has been reduced on clusters to an appropriate level for down-stream analysis.
+
+```{r}
+library(CytoNorm)
+
+# Generates a list of all files (with paths) containing .fcs extensions
+files <- list.files(NormalisedDirectory, pattern = ".fcs")
+
+# Creates a data frame with cols File (File Name), Path (File Path), Type (Qc/!QC), and Batch (Experiment Number)
+data <- data.table(File = files,
+                   Path = file.path(NormalisedDirectory, files),
+                   Type = ifelse(stringr::str_detect(files, "QC"), "QC", "Tissue"), 
+                   Batch = stringr::str_match(files, "EXP([1-9]|[1-4][0-9]|50)_")[, 2],
+                   stringsAsFactors = FALSE)
+
+# Subsets data into QC and Tissue only data sets
+QC_train_data <- dplyr::filter(data, Type == "QC")
+all_data <- data
+
+# Reads the first flow file to obtain comped-channels present, and removes un-neeed channels (i.e. those found in flowjo comp export)
+ff <- flowCore::read.FCS(data$Path[1])
+ff <- CytoPipeline::removeChannels(ff, channels = c("FSC-A", "FSC-H", "FSC-W", "SSC-A", "SSC-H", "SSC-W", "Time"))
+channels <- flowCore::colnames(ff)
+
+# A list of transformMaps to be applied to a list of parameters.
+transformList <- flowCore::transformList(channels,
+                                         cytofTransform)
+transformList.reverse <- flowCore::transformList(channels,
+                                                 cytofTransform.reverse)
+
+rm(files, data, ff)
+```
+
+### Testing Clustering
+
+```{r}
+job::job({
+  fsom <- prepareFlowSOM(QC_train_data$Path,
+                         channels,
+                         nCells = (length(QC_train_data$Path)*10000),
+                         FlowSOM.params = list(xdim = 5,
+                                               ydim = 5,
+                                               nClus = nClus,
+                                               scale = FALSE),
+                         transformList = transformList,
+                         seed = 1,
+                         verbose = TRUE)
+  
+  setwd(OutputDirectory)
+  dir.create("Output 0 - coefficient of variance", showWarnings = FALSE)
+  setwd("Output 0 - coefficient of variance")   
+  
+  #saves plots as png
+  png(paste0("CoefficientOfVariance-PostNormalisedQC-nClus", nClus,".png"))
+  cvs <- testCV(fsom,
+                cluster_values = c(3:nClus)) 
+  dev.off()
+  
+  cvs$pctgs$`10`
+}, title = "CytoNorm.train - Post")
+```
+
+# Comparison UMAPS
+
+```{r}
+# May require the use of TrauncatedNormalised files
+
+files <- list.files(InputDirectory, pattern = ".fcs")
+# Creates a data frame with cols File (File Name), Path (File Path), Type (Qc/!QC), and Batch (Experiment Number)
+data <- data.table(File = files,
+                   Path = file.path(InputDirectory, files),
+                   Type = ifelse(stringr::str_detect(files, "QC"), "QC", "Tissue"), 
+                   Batch = stringr::str_match(files, "EXP([1-9]|[1-9][0-9])_")[, 2],
+                   stringsAsFactors = FALSE)
+
+# Subsets data into QC and Tissue only data sets
+QC_train_data <- dplyr::filter(data, Type == "QC")
+all_data <- data
+
+files <- list.files(TruncatedNormalisedDirectory, pattern = ".fcs")
+# Creates a data frame with cols File (File Name), Path (File Path), Type (Qc/!QC), and Batch (Experiment Number)
+data <- data.table(File = files,
+                   Path = file.path(NormalisedDirectory, files),
+                   Type = ifelse(stringr::str_detect(files, "QC"), "QC", "Tissue"), 
+                   Batch = stringr::str_match(files, "EXP([1-9]|[1-9][0-9])_")[, 2],
+                   stringsAsFactors = FALSE)
+
+# Subsets data into QC and Tissue only data sets
+QC_train_data <- dplyr::filter(data, Type == "QC")
+all_data_normed <- data
+
+all_data_combined <- rbind(all_data, all_data_normed)
+all_data_combined
+```
+
+```{r}
+rm(dt.list, dt.cells, dt.uwot, dt.total)
+gc()
+
+dt.list <- Spectre::read.files(files = all_data_combined$Path, nrows = 1000, file.type = ".fcs")
+
+dt.cells <- Spectre::do.merge.files(dt.list)
+
+dt.cells <- dt.cells %>%
+  mutate(Batch = str_extract(FileName, "(?i)(?<=_exp)\\d+(?=_)"),
+         Normed = ifelse(str_detect(FileName, "Norm"), "Normed", "NotNormed"),
+         Batch = factor(Batch, levels = c(1:41)))
+
+use_cols <- colnames(dt.cells)[c(7:11, 13, 16:22, 24:27)]
+
+gc()
+
+dt.subset <- dt.cells %>% select(all_of(use_cols))
+
+dt.uwot <- uwot::umap2(dt.subset, 
+                       nn_method = "HNSW", 
+                       n_neighbors = 45, 
+                       min_dist = 0.1)
+
+dt.total <- cbind(dt.cells, dt.uwot)
+
+setwd(OutputDirectory)
+Spectre::make.multi.plot(dt.total, "V1", "V2", plot.by = "Batch", divide.by = "Normed", dot.size = 0.1, )
+```
+
+# Data Correction
+
+## Post-Normalisation Data Truncation
+
+For some events in every sample, they are placed well above or below what can reasonablly be considered an accurate representation of the cells expression post-normalisation. These outlier events result in the failure automatic logicle transformation of the data. To counter this, the every file is truncated along the largest axis set possible, with the negative values being the most prone to inducing failure. -2E3 has been determined to be the lowest possible value in the dataset, with 5E5 being determined to be highest reasonable threshold before events retention and analysis is no longer accurate to the remaining data set. The proportion of all events removed from each files is saved in a log text file which can be view later to determine if there are any samples that are 'unfairly' biased against this process.
+
+Once truncation has occured, all data still within the defined bounds is written back into an FCS file for further processing an analysis. An additional desnity plot of a subset selection of the files may be selected to demonstrate the percentage of cells lost within the context of cells within bounds.
+
+```{r}
+FCS_RangeLimit <- function(dir_input, dir_output, minRange, maxRange, runtime_individual=FALSE, safeLog_retain=FALSE) {
+    require(Biobase)
+  
+  
+    ### Obtain files
+    files <- list.files(dir_input, ".fcs")
+    
+    ### Checks if dir_input == dir_output
+    ### If TRUE, sets file prefix to "Inftruncated_", and removes prefix files from import
+    if (dir_input == dir_output) {
+        file_prefix <- "Inftruncated_"
+        files <- files[!grepl("Inftruncated_", files)]
+    } else {
+        file_prefix <- ""
+    }
+    
+    ### Start timer for total run time
+    time_overall <- Sys.time()
+    
+    ### Set working directory to dir_output and remove any pre-existing log files
+    setwd(dir_output)
+    
+    if (file.exists("Loss_Log.csv")) file.remove("Loss_Log.csv")
+    if (file.exists("Inf_Log.txt")) file.remove("Inf_Log.txt")
+    
+    file.create("Loss_Log.csv")
+    file.create("Inf_Log.txt")
+    write(format(Sys.Date()), "Inf_Log.txt")
+    
+    ### Creates a progress bar of how many files have been processed
+    pb <- progress::progress_bar$new(
+        format = "  Truncating FCS file :current/:total [:bar] :percent completed in :elapsed (ETA::eta)",
+        total = length(files), clear = FALSE)
+    
+    ### Initialise an empty data.frame for logging
+    logging_df <- NULL
+    logging_df <- data.table()
+    
+    
+    ### Reads in FCS file, sets the maxRange and minRange, then write FCS file with adjusted ranges, and write ranges to log file for verification later
+    for (i in files) {
+        time_start <- Sys.time()
+        dat.all <- read.FCS(paste0(dir_input, "/", i), transformation = FALSE)
+        dat <- exprs(dat.all)
+        dat <- dat[1:nrow(dat),1:ncol(dat)]
+        
+        events_total <- nrow(dat)
+        
+        events_maxLost <- nrow(dat[apply(dat > maxRange, 1, any),])
+        events_minLost <- nrow(dat[apply(dat < minRange, 1, any),])
+        
+        dat <- dat[!apply(dat > maxRange | dat < minRange, 1, any),]
+
+        events_remaining <- events_total - events_minLost - events_maxLost
+        
+        metadata <- data.table(name=as.vector(dat.all@parameters@data[[1]]),desc=as.vector(dat.all@parameters@data[[2]])) 
+        metadata$maxRange <- maxRange
+        metadata$minRange <- minRange
+        metadata$range <- apply(apply(dat,2,range),2,diff)
+        
+        dat.ff <- new("flowFrame",exprs=as.matrix(dat), parameters=AnnotatedDataFrame(metadata))
+        write.FCS(dat.ff, paste0(file_prefix, i))
+        
+        if (safeLog_retain == TRUE) {
+          temp_df <- NULL
+          try(temp_df <- data.table(
+            "Sample_Name" = i,
+            "Run_Time" = format(round(Sys.time() - time_start, digits = 2), unit = "si"),
+            "Events_lost_Total(%)" = signif((100 - (events_remaining * 100 / events_total)), 4),
+            "Events_lost_minRange(%)" = signif(((events_minLost * 100 / events_total)), 4),
+            "Events_lost_maxRange(%)" = signif(((events_maxLost * 100 / events_total)), 4))
+            )
+          write(c(i, format(Sys.time())), file = "Inf_Log.txt", append = TRUE)
+          suppressWarnings(write.table(as.data.table(list(minRange = dat.ff@parameters@data$minRange,
+                                         maxRange = dat.ff@parameters@data$maxRange,
+                                         Range = dat.ff@parameters@data$range)), 
+                      "Inf_Log.txt", 
+                      append = TRUE,
+                      row.names = FALSE,
+                      col.names = TRUE,
+                      sep = "\t",
+                      quote = FALSE))
+          
+          logging_df <- rbind(logging_df, temp_df)
+        }
+
+        ### Iterates progress bar
+        pb$tick()
+    }
+    
+    ### Write logging_df and overall run time
+    write.csv(logging_df, file = "Loss_Log.csv", quote = FALSE, row.names = FALSE)
+    write(paste0("Overall Run Time: ",format(round(Sys.time() - time_overall, digits = 2), unit = "si")), "Loss_Log.csv", append = TRUE)
+    
+    ### Verification that no inf values are present in written files by verifying the log written
+    lines <- readLines("Inf_Log.txt")
+    has_string <- any(sapply(lines, function(x) grepl("Inf", x)))
+    
+    if (has_string) {
+        rm(has_string, lines, i, files)
+        stop("Inf value found! 
+           Check 'Inf_Log.txt' for file 
+           Consider increasing maxRange or minRange cut-off to remove Inf")
+    }
+    rm(has_string, lines, i, files)
+    print("Data truncated - No Inf value found.")
+    
+    ### Deletes the Log file if no Inf values have been found within maxRange and minRange in all files written
+    if (!safeLog_retain) {
+        file.remove("Inf_Log.txt")
+        print("'Inf_Log.txt' file deleted")
+        
+    }
+}
+
+FCS_RangeLimit(dir_input = InputDirectory,
+               dir_output = TruncatedNormalisedDirectory,
+               minRange = -2E3,
+               maxRange = 5E5, 
+               safeLog_retain = TRUE)
+```
+
+### Truncated values density plot
+
+```{r}
+dir.create(paste0(OutputDirectory, "/Output 2.2 - Truncated density plots"), recursive = TRUE)
+
+FCS_RangeLimit_AddedGraphs <- function(dir_input, dir_output, minRange, maxRange, runtime_individual=FALSE, safeLog_retain=FALSE) {
+    require(Biobase)
+  
+  
+    ### Obtain files
+    files <- list.files(dir_input, ".fcs")
+    
+    ### Checks if dir_input == dir_output
+    ### If TRUE, sets file prefix to "Inftruncated_", and removes prefix files from import
+    if (dir_input == dir_output) {
+        file_prefix <- "Inftruncated_"
+        files <- files[!grepl("Inftruncated_", files)]
+    } else {
+        file_prefix <- ""
+    }
+    
+    ### Start timer for total run time
+    time_overall <- Sys.time()
+    
+    ### Set working directory to dir_output and remove any pre-existing log files
+    setwd(dir_output)
+    
+    if (file.exists("Loss_Log.csv")) file.remove("Loss_Log.csv")
+    if (file.exists("Inf_Log.txt")) file.remove("Inf_Log.txt")
+    
+    file.create("Loss_Log.csv")
+    file.create("Inf_Log.txt")
+    write(format(Sys.Date()), "Inf_Log.txt")
+    
+    ### Creates a progress bar of how many files have been processed
+    pb <- progress::progress_bar$new(
+        format = "  Truncating FCS file :current/:total [:bar] :percent completed in :elapsed (ETA::eta)",
+        total = length(files), clear = FALSE)
+    
+    ### Initialise an empty data.table for logging
+    logging_df <- NULL
+    logging_df <- data.table()
+    
+    
+    ### Reads in FCS file, sets the maxRange and minRange, then write FCS file with adjusted ranges, and write ranges to log file for verification later
+    
+    
+    for (i in files) {
+        time_start <- Sys.time()
+        dat.all <- read.FCS(paste0(dir_input, "/", i), transformation = FALSE)
+        dat <- exprs(dat.all)
+        dat.exp <- exprs(dat.all)
+        dat <- dat[1:nrow(dat),1:ncol(dat)]
+        
+        events_total <- nrow(dat)
+        
+        events_maxLost <- nrow(dat[apply(dat > maxRange, 1, any),])
+        events_minLost <- nrow(dat[apply(dat < minRange, 1, any),])
+        
+        dat <- dat[!apply(dat > maxRange | dat < minRange, 1, any),]
+
+        events_remaining <- events_total - events_minLost - events_maxLost
+        
+        metadata <- data.table(name=as.vector(dat.all@parameters@data[[1]]),desc=as.vector(dat.all@parameters@data[[2]])) 
+        metadata$maxRange <- maxRange
+        metadata$minRange <- minRange
+        metadata$range <- apply(apply(dat,2,range),2,diff)
+        
+        dat.ff <- new("flowFrame",exprs=as.matrix(dat), parameters=AnnotatedDataFrame(metadata))
+        #write.FCS(dat.ff, paste0(file_prefix, i))
+        
+        if (safeLog_retain == TRUE) {
+          temp_df <- NULL
+          temp_df <- data.table(
+            "Sample_Name" = i,
+            "Run_Time" = format(round(Sys.time() - time_start, digits = 2), unit = "si"),
+            "Events_lost_Total(%)" = signif((100 - (events_remaining * 100 / events_total)), 4),
+            "Events_lost_minRange(%)" = signif(((events_minLost * 100 / events_total)), 4),
+            "Events_lost_maxRange(%)" = signif(((events_maxLost * 100 / events_total)), 4)
+            )
+          write(c(i, format(Sys.time())), file = "Inf_Log.txt", append = TRUE)
+          suppressWarnings(write.table(as.data.table(list(minRange = dat.ff@parameters@data$minRange,
+                                         maxRange = dat.ff@parameters@data$maxRange,
+                                         Range = dat.ff@parameters@data$range)), 
+                      "Inf_Log.txt", 
+                      append = TRUE,
+                      row.names = FALSE,
+                      col.names = TRUE,
+                      sep = "\t",
+                      quote = FALSE))
+          
+          logging_df <- rbind(logging_df, temp_df)
+        }
+        
+        ggplot_truncatedFlow <- ggplot(dat.exp |> 
+           as.data.table() |> 
+           select(!c("FSC-A", "FSC-H", "FSC-W", "SSC-A", "SSC-H", "SSC-W", "Time")) |> 
+           pivot_longer(cols = everything(), names_to = "variable", values_to = "value"), aes(x = value)) +
+            geom_density() +
+            geom_vline(xintercept = minRange, linetype = "dashed", color = "blue") +
+            geom_vline(xintercept = maxRange, linetype = "dashed", color = "red") +
+            facet_wrap(~ variable, scales = "free") +
+            ggcyto::scale_x_flowjo_biexp(limits = c(minRange-500, maxRange+500)) +
+            theme_minimal() +
+            geom_text(data = temp_df, aes(x = minRange+600, y = Inf, label = paste0("Min: ", temp_df$Events_lost_minRange..., "%")), 
+                      color = "blue", vjust = 2, hjust = 0) +
+            geom_text(data = temp_df, aes(x = minRange+600, y = Inf, label = paste0("Max: ", temp_df$Events_lost_maxRange..., "%")), 
+                      color = "red", vjust = 3, hjust = 0) +
+            geom_text(data = temp_df, aes(x = minRange+600, y = Inf, label = paste0("Total: ", temp_df$Events_lost_Total..., "%")), 
+                      color = "black", vjust = 4, hjust = 0) +
+            labs(title = temp_df$Sample_Name, x = "Marker Expression", y = "Density")
+        
+        suppressWarnings(ggsave(filename = paste0(temp_df$Sample_Name, ".png"), width = 20, height = 15, units = "in"))
+
+        ### Iterates progress bar
+        pb$tick()
+    }
+    
+    ### Write logging_df and overall run time
+    print(logging_df)
+    write.csv(logging_df, file = "Loss_Log.csv", quote = FALSE, row.names = FALSE)
+    write(paste0("Overall Run Time: ",format(round(Sys.time() - time_overall, digits = 2), unit = "si")), "Loss_Log.csv", append = TRUE)
+    
+}
+
+job::job({
+  FCS_RangeLimit_AddedGraphs(dir_input = InputDirectory,
+                             dir_output = paste0(OutputDirectory, "/Output 2.2 - Truncated density plots"),
+                             minRange = -2E3,
+                             maxRange = 5E5, 
+                             safeLog_retain = TRUE)
+}, title = "Truncation Graphs", import = "auto")
+
+```
+
+# Computational Analysis
+
+## Global Parameters
+
+This is to allow for consistency and ease of naming. These parameters can be manually superceded as required.
+
+```{r}
+param.clusterAlgo <- c("hnsw", "annoy")[1]
+param.transformation <- "autoLgcl" # Used for naming conventions only
+param.pheno.k <- 40
+param.umap.k <- 30
+param.minDist <- 0.1
+```
+
+## Data Import
+
+```{r}
+setwd(InputDirectory)
+list.files(InputDirectory, ".fcs$")
+
+gc()
+
+data.list <- Spectre::read.files(file.loc = TruncatedNormalisedDirectory,
+                                 file.type = ".fcs",
+                                 do.embed.file.names = TRUE)
+
+check <- do.list.summary(data.list)
+check$name.table
+check$ncol.check
+check$nrow.check
+
+data.list[[1]]
+
+cell.dat <- Spectre::do.merge.files(dat = data.list)
+cell.dat
+
+setwd(RDSDirectory)
+qs_save(cell.dat, "cell.dat.dataImport.noTransformation.qs2")
+cell.dat <- qs_read("cell.dat.dataImport.noTransformation.qs2")
+
+if (anyNA(cell.dat)) {stop("NA present, check cell.dat")}
+gc()
+rm(data.list)
+```
+
+## Data Transformation
+
+```{r}
+as.matrix(names(cell.dat))
+
+to.logicle <- names(cell.dat)[c(7:11, 13, 16:22, 24:27)]
+to.logicle
+
+cell.dat <- do.logicle(cell.dat, to.logicle)
+
+if (anyNA(cell.dat)) {stop("NA present, check cell.dat")}
+
+transformed.cols <- paste0(to.logicle, "_logicle")
+```
+
+## Metadata Import and Tagging
+
+```{r}
+setwd(MetaDirectory)
+meta.dat <- fread("samples.metadata.20250122.csv")
+meta.dat
+
+meta.dat
+cell.dat
+
+sample.info <- meta.dat[,c(2:9)]
+sample.info
+
+if (anyNA(meta.dat)) {
+  na_columns <- colnames(meta.dat)[colSums(is.na(meta.dat)) > 0]
+  na_columns <- base::setdiff(na_columns, c("Hh Dose", "NTHi Dose", "NTHi MET CFUml", "Log10(CFUml)", "Developed OM")) # Allows for columns with known NAs present
+  if (length(na_columns != 0)) {
+    stop(paste("NA present in columns:", paste(na_columns, collapse = ", ")))
+  }
+}
+
+cell.dat <- cell.dat[, FileName := sub("^Norm_", "", FileName)]
+cell.dat <- do.add.cols(cell.dat, "FileName", sample.info, "Sample", rmv.ext = TRUE)
+table(cell.dat$Experiment)
+glimpse(cell.dat)
+
+if (anyNA(cell.dat)) {
+  na_columns <- colnames(cell.dat)[colSums(is.na(cell.dat)) > 0]
+  stop(paste("NA present in columns:", paste(na_columns, collapse = ", ")))
+}
+
+as.matrix(names(cell.dat))
+cellular.cols <- names(cell.dat)[c(31:47)]
+as.matrix(cellular.cols)
+cluster.cols <- names(cell.dat)[c(31:47)]
+as.matrix(cluster.cols)
+        
+sample.col <- "FileName"
+group.col <- "Treatment"
+batch.col <- "Experiment"
+
+data.frame(table(cell.dat[[group.col]]))
+as.matrix(unique(cell.dat[[group.col]]))
+table(cell.dat[[group.col]])
+```
+
+## PhenoAnnoy Clustering
+
+```{r}
+#Select columns for clustering
+clust.params <- cell.dat[,c(31:47)]
+colnames(clust.params)
+dim(clust.params)
+
+library(Rphenoannoy)
+library(igraph)
+
+job::job({
+  cluster_PhenoGraphAnnoy <- Rphenoannoy::Rphenoannoy(clust.params, k = param.pheno.k)
+  
+  igraph::modularity(cluster_PhenoGraphAnnoy[[2]])
+  igraph::membership(cluster_PhenoGraphAnnoy[[2]])
+  
+  setwd(RDSDirectory)
+  qs_save(cluster_PhenoGraphAnnoy, sprintf("cluster_PhenoGraphAnnoy_k%s_%s.qs2", param.pheno.k, param.transformation))
+  cluster_PhenoGraphAnnoy <- qs_read(sprintf("%s/cluster_PhenoGraphAnnoy_k%s_%s.qs2", RDSDirectory, param.pheno.k, param.transformation))
+}, import = "auto", title = "RPhenoAnnoy")
+```
+
+## UWOT UMAP DimRed
+
+It is generally reccomended to wait until the Rphenograph has completed before running this.
+
+```{r}
+library(cytofkit2)
+library(uwot)
+library(RcppHNSW)
+library(igraph)
+tictoc::tic("Combined Dimensionality Reduction")
+
+#Run dim reduction
+dimred.params <- clust.params
+colnames(dimred.params)
+
+
+job::job({
+  gc()
+  
+  print(Sys.time())
+  tictoc::tic("UWOT")
+  data_transformed_uwot <- uwot::umap2(dimred.params, 
+                                       nn_method = param.clusterAlgo, 
+                                       n_neighbors = param.umap.k, 
+                                       min_dist = param.minDist)
+  tictoc::toc()
+  
+  setwd(RDSDirectory)
+  fwrite(data_transformed_uwot, sprintf("data_transformed_spectre_uwot_%sk%sd%s_%s.csv", param.clusterAlgo, param.umap.k, param.minDist, param.transformation))
+  data_transformed_uwot <- fread(sprintf("%s/data_transformed_spectre_uwot_%sk%sd%s_%s.csv", RDSDirectory, param.clusterAlgo, param.umap.k, param.minDist, param.transformation))
+  
+  rm(dimred.params)
+  gc()
+}, import = "auto", title = "UMAP")
+
+tictoc::toc()
+```
+
+## Data Export
+
+For the data export to run correctly, both the Rphenograph and UMAP will have had to have completed and written/read from disk.
+
+```{r}
+tictoc::tic("Append and Export for CSV")
+
+#Append clustering and dim reduction data to fluorescence data
+data_all <- cbind(cell.dat, data_transformed_uwot, 
+                     PhenoGraph = factor(igraph::membership(cluster_PhenoGraphAnnoy[[2]])))
+
+#Export as csv file
+setwd(RDSDirectory)
+data_all <- as.data.table(data_all)
+glimpse(data_all)
+fwrite(data_all, sprintf("data.all_spectre_%sk%sd%s_ANNOYk%s_%s.csv", param.clusterAlgo, param.umap.k, param.minDist, param.pheno.k, param.transformation))
+rm(data_all)
+
+tictoc::toc()
+```
+
+# Graphical Cluster Identification
+
+Now that our data has undergone unsupervised clustering and dimensionality reduction, we now have to manually identify the underlying biological cell type that each cluster represents, and combine clusters that represent the same cell type. This section has also been treated as a computational break in the work flow, so that analysis can be easily resumed, or restarted on the same dataset, from this point.
+
+The overall workflow of this section can be sumarised into three main sections:
+
+1.  [Interim Panels] for cluster visulisation,
+2.  [Multiplots] for both expression and isolated clusters, and
+3.  [Final Panels] for population visulisation
+
+The final output of this section will be an updated .csv file that will contain a new column for the assigned Cell_ID
+
+## Data Import
+
+```{r}
+# Imports .csv file if visualisation
+expression.data <- fread(sprintf("%s/data.all_spectre_%sk%sd%s_ANNOYk%s_%s.csv", RDSDirectory, param.clusterAlgo, param.umap.k, param.minDist, param.pheno.k, param.transformation)) |> 
+  rownames_to_column(var = "rowname") |> 
+  select(rowname, everything()) |> 
+  mutate(PhenoGraph = as.integer(as.character(PhenoGraph)))
+
+#get relevant (compensated) expression data
+colnames(expression.data)
+expression.data <- expression.data[,c(30:58)]
+colnames(expression.data)
+
+#clean up column names
+colnames(expression.data) <- c("FileName", "FileNo", "Ly6C", "CD8a", "I.A.I.E",
+                               "CD64", "CD19", "CD11c", "F4_80",
+                               "CD3e", "CD4", "Ly6G", "XCR1",
+                               "CD11b", "pDCA1", "CD103", "B220",
+                               "CD206", "NKp46", "Experiment", "Tissue", 
+                               "Mouse Number", "For_Vlookup", "UniqueMouseID", "Treatment", 
+                               "Timepoint", "umap_x", "umap_y", "PhenoGraph"
+                               )
+colnames(expression.data)
+
+cluster.cols <- colnames(expression.data)[3:19]
+cellular.cols <- colnames(expression.data)[3:19]
+
+expression.data$Tissue[grepl("Lung", expression.data$FileName, ignore.case = TRUE)] <- "Lung"
+expression.data$Tissue[grepl("Nasal", expression.data$FileName, ignore.case = TRUE)] <- "Nasal"
+expression.data$Tissue[grepl("Spleen", expression.data$FileName, ignore.case = TRUE)] <- "Spleen"
+expression.data$Tissue[grepl("QC", expression.data$FileName, ignore.case = TRUE)] <- "QC"
+
+expression.data$Tissue[is.na(expression.data$Tissue)] <- "Unknown"
+
+expression.data <- subset(expression.data, !(Tissue %in% c("Unknown", "QC")))
+
+table(expression.data$Tissue)
+```
+
+## Proportional Subsampling
+
+This function allows for proportional subsampling of a dataset down to a set size, whilst maintaining the proportions present within a set value. `proportional_sample` calculates the proportions of each PhenoGraph within the dataset, the outputs an ordered vector with the number of cells required to meet the proportion of the total number of cells required. Some checksums are printed to check that the order of the clustering is correct pre- and post-subsampling utilising `do.subsample` from **Spectre**\index{Spectre}.
+
+```{r}
+proportional_sample <- function(dat.tab, num, col.cluster, verbose = FALSE) {
+    # Check if the column exists in the data.table
+    if (!(col.cluster %in% colnames(dat.tab))) {
+        stop(paste("Column", col.cluster, "does not exist in the data.table"))
+    }
+    
+    print(sprintf("Proportional sampling based on: %s", col.cluster))
+    print(sprintf("Vector length: %s", length(unique(dat.tab[[col.cluster]]))))
+    
+    # Calculate the proportions of each unique element in the specified column
+    proportions <- dat.tab[, .N, by = get(col.cluster)]
+    setnames(proportions, "get", col.cluster)
+    proportions[, proportion := N / sum(N)]
+    
+    # Calculate the number of samples for each unique element
+    proportions[, sample_size := round(proportion * num)]
+    
+    # Ensure the total sum is approximately equal to the specified number
+    total_diff <- num - sum(proportions$sample_size)
+    if (total_diff != 0) {
+        # Adjust the sample sizes to match the total number
+        adjustments <- sample(1:nrow(proportions), abs(total_diff), replace = FALSE)
+        if (total_diff > 0) {
+            proportions[adjustments, sample_size := sample_size + 1]
+        } else {
+            proportions[adjustments, sample_size := sample_size - 1]
+        }
+    }
+    
+    if (verbose) {
+        message("Proportions before sorting:")
+        print(glimpse(proportions))
+    }
+    
+    # Sort the proportions by the col.cluster column in ascending order
+    setorderv(proportions, col.cluster)
+    
+    if (verbose) {
+        message("Proportions after sorting:")
+        print(proportions)
+    }
+    
+    return(proportions)
+}
+
+param.subsampleTargetProportional <- proportional_sample(expression.data, 100000, "PhenoGraph", verbose = FALSE)
+print(param.subsampleTargetProportional)
+print(setNames(param.subsampleTargetProportional$sample_size, param.subsampleTargetProportional$PhenoGraph))
+
+expression.data.sorted <- setorderv(expression.data, "PhenoGraph")
+
+expression.sub <- do.subsample(expression.data.sorted, param.subsampleTargetProportional$sample_size, "PhenoGraph")
+glimpse(expression.sub)
+table(expression.sub$PhenoGraph)
+table(expression.sub$Tissue)
+
+rm(expression.data.sorted)
+
+setwd(RDSDirectory)
+fwrite(expression.sub, sprintf("data.sub_spectre_%sk%sd%s_ANNOYk%s_%s.csv", param.clusterAlgo, param.umap.k, param.minDist, param.pheno.k, param.transformation))
+expression.sub <- fread(sprintf("%s/data.sub_spectre_%sk%sd%s_ANNOYk%s_%s.csv", RDSDirectory, param.clusterAlgo, param.umap.k, param.minDist, param.pheno.k, param.transformation))
+```
+
+## Interim Panels
+
+### Entire Dataset
+
+```{r}
+# All events
+ggplot(expression.data, aes(x = umap_x,
+                            y = umap_y,
+                            colour = factor(PhenoGraph))) + 
+                            geom_scattermore(size = 0.01, show.legend = TRUE) +
+                            theme_linedraw() +
+                            guides(colour = guide_legend(override.aes = list(size = 5), ncol = 2)) + 
+                            xlab("umap_x") + ylab("umap_y")
+
+# Seperated by Tissue
+ggplot(expression.data, aes(x = umap_x,
+                            y = umap_y,
+                            colour = factor(PhenoGraph))) + 
+                            geom_scattermore(size = 0.01, show.legend = TRUE) +
+                            theme_linedraw() +
+                            guides(colour = guide_legend(override.aes = list(size = 5), ncol = 2)) + 
+                            xlab("umap_x") + ylab("umap_y") + facet_wrap(~Tissue, ncol = 3)
+```
+
+### Proportional Dataset
+
+```{r}
+setwd(OutputDirectory)
+dir.create("3. Graphical Analysis", showWarnings = FALSE)
+setwd("3. Graphical Analysis")
+dir.create("3.1 Interim Panel", showWarnings = FALSE)
+setwd("3.1 Interim Panel")
+
+#Unlabeled
+make.colour.plot(expression.sub %>% filter(Tissue == "Lung"), "umap_x", "umap_y", "PhenoGraph", col.type = "factor", add.label = FALSE, title = "Unlabeled Interim Panel - Lung")
+make.colour.plot(expression.sub %>% filter(Tissue == "Nasal"), "umap_x", "umap_y", "PhenoGraph", col.type = "factor", add.label = FALSE, title = "Unlabeled Interim Panel - Nasal")
+make.colour.plot(expression.sub %>% filter(Tissue == "Spleen"), "umap_x", "umap_y", "PhenoGraph", col.type = "factor", add.label = FALSE, title = "Unlabeled Interim Panel - Spleen")
+
+#Labeled
+make.colour.plot(expression.sub %>% filter(Tissue == "Lung"), "umap_x", "umap_y", "PhenoGraph", col.type = "factor", add.label = TRUE, title = "Labeled Interim Panel - Lung")
+make.colour.plot(expression.sub %>% filter(Tissue == "Nasal"), "umap_x", "umap_y", "PhenoGraph", col.type = "factor", add.label = TRUE, title = "Labeled Interim Panel - Nasal")
+make.colour.plot(expression.sub %>% filter(Tissue == "Spleen"), "umap_x", "umap_y", "PhenoGraph", col.type = "factor", add.label = TRUE, title = "Labeled Interim Panel - Spleen")
+```
+
+# Preliminary Figures
+
+## Multiplots
+
+```{r}
+# Function to rename most recent file in working directory
+# For primary use in [Expression Multiplots]
+rename_most_recent_file <- function(new_base_name) {
+  files <- list.files(full.names = TRUE)
+  most_recent_file <- files[which.max(file.info(files)$mtime)]
+  file_extension <- tools::file_ext(most_recent_file)
+  new_name <- paste0(new_base_name, ".", file_extension)
+  file.rename(most_recent_file, new_name)
+}
+```
+
+### Expression Multiplots
+
+```{r}
+setwd(OutputDirectory)
+setwd("3. Graphical Analysis")
+dir.create("3.2 Multiplots", showWarnings = FALSE)
+setwd("3.2 Multiplots")
+dir.create("3.2.1 Expression Multiplots", showWarnings = FALSE)
+setwd("3.2.1 Expression Multiplots")
+
+make.multi.plot(expression.sub, "umap_x", "umap_y", cellular.cols, dot.size = 0.01)
+rename_most_recent_file("Expression Multiplot - All")
+
+make.multi.plot(expression.sub %>% filter(Tissue == "Lung"), "umap_x", "umap_y", cellular.cols, dot.size = 0.01)
+rename_most_recent_file("Expression Multiplot - Lung")
+
+make.multi.plot(expression.sub %>% filter(Tissue == "Nasal"), "umap_x", "umap_y", cellular.cols, dot.size = 0.01)
+rename_most_recent_file("Expression Multiplot - Nasal")
+
+make.multi.plot(expression.sub %>% filter(Tissue == "Spleen"), "umap_x", "umap_y", cellular.cols, dot.size = 0.01)
+rename_most_recent_file("Expression Multiplot - Spleen")
+```
+
+### Visually Isolated Clusters
+
+This creates a umap where all clusters except the identified one are grey, making it easier to see where the cluster of interest (red) sits amongst everything else, and make the referencing back to the expression multi-plots easier.
+
+```{r}
+make_grey_palette <- function(data, cluster_column, grey_colour = "grey80") {
+  
+  clusters <- sort(unique(data[[cluster_column]]))
+  
+  pal_ids <- setNames(
+    rep(grey_colour, length(clusters)),
+    as.character(clusters)
+  )
+  
+  return(pal_ids)
+}
+
+pal_ids <- make_grey_palette(
+  expression.sub,
+  cluster_column = "PhenoGraph"
+)
+```
+
+```{r}
+setwd(OutputDirectory)
+setwd("3. Graphical Analysis")
+dir.create("3.2 Multiplots", showWarnings = FALSE)
+setwd("3.2 Multiplots")
+dir.create("3.2.2 Isolated Cluster Multiplots", showWarnings = FALSE)
+setwd("3.2.2 Isolated Cluster Multiplots")
+
+plot_and_save_clusters <- function(data, file_name, cluster_column) {
+  if (!cluster_column %in% colnames(data)) {
+    stop(sprintf("Column '%s' does not exist in the data.", cluster_column))
+  }
+  
+  gg_Intrim_Panel_list <- list()
+  
+  for (var_phenocluster in sort(unique(data[[cluster_column]]))) {
+    temp_pal_ids <- pal_ids
+    temp_pal_ids[var_phenocluster] <- "red"
+    
+    gg_Intrim_Panel <- ggplot(data, aes(x = umap_x,
+                                        y = umap_y,
+                                        colour = factor(data[[cluster_column]]))) + 
+                                        geom_scattermore(size = 0.01, show.legend = TRUE) +
+                                        theme_linedraw() +
+                                        scale_colour_manual("PhenoGraph", values = temp_pal_ids) +
+                                        guides(colour = guide_legend(override.aes = list(size = 5), ncol = 2)) + 
+                                        xlab("umap_x") + ylab("umap_y") + ylim(-10,10) + xlim(-10,10) + labs(title = var_phenocluster) +
+                                        theme(legend.position = "none")
+    gg_Intrim_Panel_list <- append(gg_Intrim_Panel_list, list(gg_Intrim_Panel))
+  }
+  
+  gg_list_final <- plot_grid(plotlist = gg_Intrim_Panel_list,
+                             ncol = round_any(sqrt(length(gg_Intrim_Panel_list)), 1, ceiling),
+                             align = "hv")
+  
+  ggsave(file_name, width = 30, height = 30, units = "in", plot = gg_list_final, dpi = 600)
+  gg_list_final
+  
+  gc(verbose = FALSE)
+}
+
+setwd(OutputDirectory)
+setwd("3. Graphical Analysis")
+setwd("3.2 Multiplots")
+setwd("3.2.2 Isolated Cluster Multiplots")
+
+plot_and_save_clusters(expression.sub, "Isolated Cluster - Coloured - All.jpg", "PhenoGraph")
+plot_and_save_clusters(expression.sub %>% filter(Tissue == "Lung"), "Isolated Cluster - Coloured - Lung.jpg", "PhenoGraph")
+plot_and_save_clusters(expression.sub %>% filter(Tissue == "Nasal"), "Isolated Cluster - Coloured - Nasal.jpg", "PhenoGraph")
+plot_and_save_clusters(expression.sub %>% filter(Tissue == "Spleen"), "Isolated Cluster - Coloured - Spleen.jpg", "PhenoGraph")
+```
+
+### Mean Flourescence Index
+
+```{r}
+setwd(OutputDirectory)
+setwd("3. Graphical Analysis")
+dir.create("3.2 Multiplots", showWarnings = FALSE)
+setwd("3.2 Multiplots")
+dir.create("3.2.3 MFI Multiplots", showWarnings = FALSE)
+setwd("3.2.3 MFI Multiplots")
+
+cellular.cols
+
+make.pheatmap(dat = do.aggregate(dat = expression.data, 
+                                 use.cols = cellular.cols, 
+                                 by = 'PhenoGraph'), 
+              sample.col = 'PhenoGraph', 
+              plot.cols = cellular.cols, 
+              plot.title = "PhenoGraph MFI - All", 
+              file.name = "PhenoGraph MFI - All.jpg", normalise = FALSE)
+make.pheatmap(dat = do.aggregate(dat = expression.data %>%
+                                   filter(Tissue == "Lung"), 
+                                 use.cols = cellular.cols, 
+                                 by = 'PhenoGraph'), 
+              sample.col = 'PhenoGraph', 
+              plot.cols = cellular.cols, 
+              plot.title = "PhenoGraph MFI - Lung", 
+              file.name = "PhenoGraph MFI - Lung.jpg")
+make.pheatmap(dat = do.aggregate(dat = expression.data %>%
+                                   filter(Tissue == "Nasal"), 
+                                 use.cols = cellular.cols, 
+                                 by = 'PhenoGraph'), 
+              sample.col = 'PhenoGraph', 
+              plot.cols = cellular.cols, 
+              plot.title = "PhenoGraph MFI - Nasal", 
+              file.name = "PhenoGraph MFI - Nasal.jpg")
+make.pheatmap(dat = do.aggregate(dat = expression.data %>%
+                                   filter(Tissue == "Spleen"), 
+                                 use.cols = cellular.cols, 
+                                 by = 'PhenoGraph'), 
+              sample.col = 'PhenoGraph', 
+              plot.cols = cellular.cols, 
+              plot.title = "PhenoGraph MFI - Spleen", 
+              file.name = "PhenoGraph MFI - Spleen.jpg")
+```
+
+### Cluster Density
+
+```{r}
+setwd(OutputDirectory)
+setwd("3. Graphical Analysis")
+dir.create("3.2 Multiplots", showWarnings = FALSE)
+setwd("3.2 Multiplots")
+dir.create("3.2.2 Isolated Cluster Multiplots", showWarnings = FALSE)
+setwd("3.2.2 Isolated Cluster Multiplots")
+
+# Function from Edison Foo (edited)
+plot_umap_multipheno <- function(data, phenoclusters, save_path, umap_x = "umap_x", umap_y = "umap_y") {
+  # Function to create individual plots for each parameter
+  multiplots <- function(parameter) {
+    # Create the UMAP plot for a specific parameter
+    ggplot(data, aes_string(x = umap_x, y = umap_y)) + 
+      # Plot all clusters in grey
+      geom_scattermore(data = data, aes_string(x = umap_x, y = umap_y), color = "grey80", size = 0.01, alpha = 0.5) +
+      # Highlight the specific cluster using density
+      geom_bin2d(data = data[data$PhenoGraph == parameter, ], bins = 70) +
+      scale_fill_continuous(type = "viridis") +
+      theme_classic() +
+      xlab("umap_x") + ylab("umap_y") +
+      xlim(-10, 10) + ylim(-10, 10) +
+      ggtitle(parameter)
+  }
+  # Apply the multiplots function to each parameter and store results
+  markerexpression <- lapply(phenoclusters, multiplots)
+  # Combine all plots into a grid
+  plotmarkerexpression <- plot_grid(plotlist = markerexpression, 
+                                    ncol = round_any(sqrt(length(markerexpression)), 1, ceiling), 
+                                    align = "hv")
+  # Save the combined plot grid as a high-res file
+  ggsave(save_path, plotmarkerexpression, width = 40, height = 30, units = "in", dpi = 600)
+  # Return the combined plot (optional, for display in the console)
+  return(plotmarkerexpression)
+}
+ 
+clusters <- unique(expression.sub$PhenoGraph)
+
+plot_umap_multipheno(expression.sub, clusters, "Isolated Cluster - Density - All.png")
+plot_umap_multipheno(expression.sub %>% filter(Tissue == "Lung"), clusters, "Isolated Cluster - Density - Lung.png")
+plot_umap_multipheno(expression.sub %>% filter(Tissue == "Nasal"), clusters, "Isolated Cluster - Density - Nasal.png")
+plot_umap_multipheno(expression.sub %>% filter(Tissue == "Spleen"), clusters, "Isolated Cluster - Density - Spleen.png")
+```
+
+## Cluster Identification
+
+This app has been designed to make annotation of clusters easier. Upload the `expression.sub` data as a `.csv`. Make sure that all of the columns have been correctly assigned, then you can select `Update Plot Automatically` and unselect `Show Options`. Now as the Group names are changed, the plot will automatically update and group by clusters.
+
+**Usage:** Have graphs previously created on a second monitor (if avalible), and go through, identifing what each cluster is add assigning names and notes if applicable. Once all groups have been assigned, you can save the plot and annotations as a `.csv` for import back into the main script. The app does also contain a way of highlighting clusters at the bottom of the options menu if that is easier to visualise. That is based on Phenograph ID.
+
+```{r ClusterID_App}
+shiny::runApp("ClusterID_App.R")
+```
+
+```{r}
+expression.sub <- fread(sprintf("%s/data.sub_spectre_%sk%sd%s_ANNOYk%s_%s.csv", RDSDirectory, param.clusterAlgo, param.umap.k, param.minDist, param.pheno.k, param.transformation))
+
+temp_df <- fread("processing/annotations2026-06-30.csv")
+
+print(temp_df)
+Cell_IDs <- setNames(as.character(temp_df$Annotation), temp_df$PhenoGraph)
+print(Cell_IDs)
+rm(temp_df)
+
+annotate.data <- expression.sub
+annotate.data$Cell_ID <- Cell_IDs[as.character(annotate.data$PhenoGraph)]
+
+plot <- ggplot(annotate.data, 
+             aes(x = umap_x,
+                 y = umap_y,
+                 colour = Cell_ID)) +
+      geom_scattermore(size = 0.0005, show.legend = TRUE) +
+      ylim(-11,11) + xlim(-11,11) + xlab("umap_x") + ylab("umap_y") +
+      #scale_colour_manual("Cell_ID", values = c(My_pal)) +
+      theme(legend.text = element_text(size = 12),
+            legend.key = element_blank(),
+            axis.text.x=element_blank(),
+            axis.ticks.x=element_blank(),
+            axis.title.x =element_blank(),
+            axis.title.y=element_blank(),
+            axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(),
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            panel.background = element_rect(fill='transparent')) +
+      guides(colour = guide_legend(override.aes = list(size = 5), ncol = 1))
+plot
+
+annotate.data <- annotate.data %>% 
+  dplyr::filter(!Cell_ID %in% c("Unknown", "Debris", "Drop") & !Tissue %in% c("Unknown", "QC")) %>%
+  dplyr::mutate(Cell_ID = as.factor(Cell_ID))
+glimpse(annotate.data)
+
+gc()
+
+plot1 <- ggplot(annotate.data, 
+             aes(x = umap_x,
+                 y = umap_y,
+                 colour = Cell_ID)) +
+      geom_scattermore(size = 0.0005, show.legend = TRUE) +
+      ylim(-11,11) + xlim(-11,11) + xlab("umap_x") + ylab("umap_y") +
+      #scale_colour_manual("Cell_ID", values = c(My_pal)) +
+      theme(legend.text = element_text(size = 12),
+            legend.key = element_blank(),
+            axis.text.x=element_blank(),
+            axis.ticks.x=element_blank(),
+            axis.title.x =element_blank(),
+            axis.title.y=element_blank(),
+            axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(),
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            panel.background = element_rect(fill='transparent')) +
+      guides(colour = guide_legend(override.aes = list(size = 5), ncol = 1))
+plot1
+
+gc()
+```
+
+## Final Panels
+
+```{r}
+setwd(OutputDirectory)
+setwd("3. Graphical Analysis")
+dir.create("3.3 Final Panel", showWarnings = FALSE)
+setwd("3.3 Final Panel")
+
+#Unlabeled
+make.colour.plot(annotate.data, "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = FALSE, dot.size = 0.1,  title = "Unlabeled Interim Panel - All")
+make.colour.plot(annotate.data %>% filter(Tissue == "Lung"), "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = FALSE, dot.size = 0.1,  title = "Unlabeled Interim Panel - Lung")
+make.colour.plot(annotate.data %>% filter(Tissue == "Nasal"), "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = FALSE, dot.size = 0.1,  title = "Unlabeled Interim Panel - Nasal")
+make.colour.plot(annotate.data %>% filter(Tissue == "Spleen"), "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = FALSE, dot.size = 0.1,  title = "Unlabeled Interim Panel - Spleen")
+
+#Labeled
+make.colour.plot(annotate.data, dot.size = 0.1,  "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = TRUE, title = "Labeled Interim Panel - All")
+make.colour.plot(annotate.data %>% filter(Tissue == "Lung"), "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = TRUE, dot.size = 0.1,  title = "Labeled Interim Panel - Lung")
+make.colour.plot(annotate.data %>% filter(Tissue == "Nasal"), "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = TRUE, dot.size = 0.1,  title = "Labeled Interim Panel - Nasal")
+make.colour.plot(annotate.data %>% filter(Tissue == "Spleen") %>% droplevels(), "umap_x", "umap_y", "Cell_ID", col.type = "factor", add.label = TRUE, dot.size = 0.1,  title = "Labeled Interim Panel - Spleen")
+
+#Unlabeled - Treatment
+make.colour.plot(annotate.data %>% filter(Treatment %in% c("Hh", "Saline")), "umap_x", "umap_y", "Treatment", col.type = "factor", add.label = FALSE, title = "Treatment - Labeled Interim Panel - All", dot.size = 0.05)
+make.colour.plot(annotate.data %>% filter(Tissue == "Lung" & Treatment %in% c("Hh", "Saline")), "umap_x", "umap_y", "Treatment", col.type = "factor", add.label = FALSE, title = "Treatment - Labeled Interim Panel - Lung", dot.size = 0.05)
+make.colour.plot(annotate.data %>% filter(Tissue == "Nasal" & Treatment %in% c("Hh", "Saline")), "umap_x", "umap_y", "Treatment", col.type = "factor", add.label = FALSE, title = "Treatment - Labeled Interim Panel - Nasal", dot.size = 0.05)
+make.colour.plot(annotate.data %>% filter(Tissue == "Spleen" & Treatment %in% c("Hh", "Saline")) %>% droplevels(), "umap_x", "umap_y", "Treatment", col.type = "factor", add.label = FALSE, title = "Treatment - Labeled Interim Panel - Spleen", dot.size = 0.05)
+```
+
+## Data Export
+
+Once the final panel have been generated, and you are happy with how everything appears, the annotation groups can then be applied back to the main data.table `expression.data` and written to .csv
+
+Note: This will not remove any groups annotated "drop", "debris", "unknown". Those will have to be removed again once when used next. This is to preserve the maximal amount of data, and to allow analysis on these group in case you wish to determine if they are of any 'worth' and may be misclassified, important, or markers missing on the panel to adequately describe them.
+
+```{r}
+setwd(OutputDirectory)
+expression.data.annotated <- expression.data
+expression.data.annotated$Cell_ID <- Cell_IDs[as.character(expression.data.annotated$PhenoGraph)]
+glimpse(expression.data.annotated)
+table(expression.data.annotated$Tissue, expression.data.annotated$Cell_ID)
+setwd(OutputDirectory)
+fwrite(expression.data.annotated, "expression.data.annotated.csv")
+expression.data.annotated <- fread(paste0(OutputDirectory, "/expression.data.annotated.csv"))
+```
+
+# Graphical Analysis
+
+```{r}
+pal_tissue <- c("Lung"   = MetBrewer::MetPalettes$Peru1[[1]][6], 
+                "Nasal"  = MetBrewer::MetPalettes$Peru1[[1]][4], 
+                "Nasal Tissue"  = MetBrewer::MetPalettes$Peru1[[1]][4], 
+                "Spleen" = MetBrewer::MetPalettes$Peru1[[1]][2])
+```
+
+## Appending treatment data
+
+Appends the treatment data for timepoints prior to specific treatments where the groups can be considered identical i.e. Hh+IAV at 6h is identical to Hh as the IAV will has not been administered by this timepoint
+
+```{r function.TreatmentAppend}
+function.TreatmentAppend <- function(df, truncated_treatment, equivalent_treatment, timepoints) {
+    # Duplicate the data for the specified timepoints and equivalent treatment
+    duplicated_data <- df %>%
+        filter(Timepoint %in% timepoints & Treatment == equivalent_treatment) %>%
+        mutate(Treatment = truncated_treatment)
+    
+    # Combine the duplicated data back with the original data
+    modified_data <- df %>%
+        bind_rows(duplicated_data) %>%
+        distinct()
+    
+    rm(duplicated_data)
+    return(modified_data)
+}
+
+# Usage has been moved to after calculations pertaining to proportion have been done to save on memory usage and object size
+```
+
+# Statistical Testing
+
+## Exports for Graphpad
+
+This GraphPad export exists for plotting that was done initially in GraphPad, but was not used for final figures.
+
+```{r}
+df.meanFrequency.transformed <- df.meanFrequency %>%
+    filter(Treatment %in% c("Saline", "Hh")) %>%
+    pivot_longer(cols = c(mean_proportion, sem_proportion, n), 
+                 names_to = "metric", 
+                 values_to = "value") %>%
+    unite("group", Tissue, Cell_ID, Treatment, metric, sep = "_") %>%
+    pivot_wider(names_from = group, values_from = value) %>%
+    rename_with(~ gsub("mean_proportion", "1.mean", .), ends_with("mean_proportion")) %>%
+    rename_with(~ gsub("sem_proportion", "2.sem", .), ends_with("sem_proportion")) %>%
+    rename_with(~ gsub("_n$", "_3.n", .), ends_with("_n")) %>%
+    select(order(colnames(.), decreasing = FALSE, method = "radix"))
+
+# View the transformed dataset
+glimpse(df.meanFrequency.transformed)
+
+# Write to CSV
+fwrite(df.meanFrequency.transformed, "df.meanFrequency.transformed.csv", row.names = TRUE)
+```
+
+```{r}
+result_df <- modified_data %>%
+    group_by(FileName) %>%
+    mutate(Unique_TsTrCe = paste(Tissue, Treatment, Cell_ID, sep = "_"), # Unique Cell_ID within Tissue and Treatment
+           Unique_TsTrCeTi_ID = paste(Tissue, Treatment, Cell_ID, Timepoint, sep = "_"), # Unique Cell_ID within Tissue, Treatment, and Timepoint
+           Unique_TsTrTi_ID = paste(Tissue, Treatment, Timepoint, sep = "_")) %>% # Treatment / Tissue / Timepoint ID (contains all Cell_IDs)
+    group_by(Unique_TsTrTi_ID) %>%
+    mutate(Total_Cells = n_distinct(Cell_ID)) %>%
+    group_by(Unique_TsTrCeTi_ID) %>%
+    mutate(Events_Per_Cell = n()) %>%
+    group_by(Unique_TsTrTi_ID) %>%
+    mutate(Mean_Events_Per_Sample = mean(Events_Per_Cell)) %>%
+    ungroup()
+
+# Create a separate dataframe with the unique TsTrCeTi portions
+unique_ts_tr_ce_ti_df <- result_df %>%
+  select(Unique_TsTrCeTi_ID, Events_Per_Cell, Unique_TsTrTi_ID) %>%
+  dplyr::mutate(prop = Events_Per_Cell/Unique_TsTrCeTi_ID)
+
+# Display the results
+glimpse(result_df)
+print(unique_ts_tr_ce_ti_df)
+
+result_df.SalineHh <- result_df %>% filter(Treatment %in% c("Saline", "Hh"))
+```
+
+## Porportional Cell_ID Populations
+
+`Proportion_CellIDPerSample` generates a df where each `Cell_ID` within each unique sample (EXPID_SAMPLEID = `For_Vlookup`) is calculated based on the number of events of each `Cell_ID` against the total number of events recorded within the same sample.
+
+```{r Proportion_CellIDPerSample}
+gc()
+Proportion_CellIDPerSample <- expression.data.annotated %>%
+  group_by(Tissue, Timepoint, Treatment, For_Vlookup) %>%
+  mutate(Total_evtsPerSample = n()) %>%
+  group_by(Cell_ID, .add = TRUE) %>%
+  mutate(Total_idPerSample = n(),
+         Proportion_idPerSample = (Total_idPerSample/Total_evtsPerSample)) %>%
+  select(Total_idPerSample, Total_evtsPerSample, Proportion_idPerSample, For_Vlookup) %>% 
+  glimpse() %>%
+  group_by(Tissue, Timepoint, Treatment, Cell_ID) %>%
+  distinct() %>%
+  mutate(Sample_ID = row_number())%>% 
+  ungroup()
+gc()
+
+# table(Proportion_CellIDPerSample$Timepoint, Proportion_CellIDPerSample$Cell_ID, Proportion_CellIDPerSample$Sample_ID)
+#glimpse(Proportion_CellIDPerSample)
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Hh+IAV", "Hh",c(2, 6, 24))
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Saline+IAV", "Saline",c(2, 6, 24))
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Pam1ug+IAV", "Pam1ug",c(2, 6, 24))
+
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Hh+IAV+NTHi", "Hh+IAV",c(2, 6, 24, 48, 72, 96))
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Saline+IAV+NTHi", "Saline+IAV",c(2, 6, 24, 48, 72, 96))
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Pam1ug+IAV+NTHi", "Pam1ug+IAV",c(2, 6, 24, 48, 72, 96))
+
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Hh+NTHi", "Hh",c(2, 6, 24, 48, 72, 96))
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Saline+NTHi", "Saline",c(2, 6, 24, 48, 72, 96))
+Proportion_CellIDPerSample <- function.TreatmentAppend(Proportion_CellIDPerSample, "Pam1ug+NTHi", "Pam1ug",c(2, 6, 24, 48, 72, 96))
+
+write.csv(Proportion_CellIDPerSample,
+          sprintf("%s/Proportion_CellIDPerSample.csv", OutputDirectory))
+```
+
+`MeanSEMProportionPerGroup_from_Proportion_CellIDPerSample` generates a df where each Cell_ID within a Tissue-Timepoint- Treatment is averaged to generate a "condition" mean
+
+```{r MeanSEMProportionPerGroup_from_Proportion_CellIDPerSample}
+MeanSEMProportionPerGroup_from_Proportion_CellIDPerSample <- Proportion_CellIDPerSample %>%
+    group_by(Tissue, Timepoint, Treatment, Cell_ID) %>%
+    summarise(mean_Proportion_idPerSample = mean(Proportion_idPerSample),
+              sem_Proportion_idPerSample = sd(Proportion_idPerSample) / sqrt(n())) %>% 
+  ungroup()
+
+glimpse(MeanSEMProportionPerGroup_from_Proportion_CellIDPerSample)
+write.csv(MeanSEMProportionPerGroup_from_Proportion_CellIDPerSample,
+          sprintf("%s/MeanSEMProportionPerGroup_from_Proportion_CellIDPerSample.csv", OutputDirectory))
+```
+
+`MedianIQRProportionPerGroup_from_Proportion_CellIDPerSample` generates a df where each Cell_ID within a Tissue-Timepoint- Treatment is averaged to generate a "condition" mean
+
+```{r MedianIQRProportionPerGroup_from_Proportion_CellIDPerSample}
+MedianIQRProportionPerGroup_from_Proportion_CellIDPerSample <- Proportion_CellIDPerSample %>%
+  group_by(Treatment, Tissue, Timepoint, Cell_ID) |>
+  summarise(
+    mean = mean(Proportion_idPerSample, na.rm = TRUE)*100,
+    median = median(Proportion_idPerSample, na.rm = TRUE)*100,
+    q1 = quantile(Proportion_idPerSample, 0.25, na.rm = TRUE)*100,
+    q3 = quantile(Proportion_idPerSample, 0.75, na.rm = TRUE)*100,
+    comparison = (mean/median)*100,
+    .groups = "drop"
+  )
+
+glimpse(MedianIQRProportionPerGroup_from_Proportion_CellIDPerSample)
+write.csv(MedianIQRProportionPerGroup_from_Proportion_CellIDPerSample,
+          sprintf("%s/MedianIQRProportionPerGroup_from_Proportion_CellIDPerSample.csv", OutputDirectory))
+```
+
+## Mixed-Effects Model
+
+```{r}
+library(glmmTMB)
+library(broom.mixed)
+library(gt)
+library(emmeans)
+```
+
+```{r sanitize_filename}
+sanitize_filename <- function(filename) {
+  # Replace invalid characters with an underscore
+  sanitized <- gsub("[\\\\/:*?\"<>|]", "_", filename)
+  return(sanitized)
+}
+```
+
+```{r Statistical Modelling - Proportions}
+temp <- unique(Proportion_CellIDPerSample$Cell_ID) 
+order <- c("Neutrophils",
+           "Monocytes",
+           "Ly6C(hi)CD64(hi) Monocytes",
+           "CD206+ Macrophages",
+           "CD64+MHCII- Macrophages",
+           "cDC1",
+           "cDC2",
+           "moDCs",
+           "pDCs",
+           "Ly6C+ NK cells",
+           "Ly6C- NK cells",
+           "Ly6C+CD8+ T-cells",
+           "Ly6C-CD8+ T-cells",
+           "CD4+ T-cells",
+           "CD103+CD4+ T-cells",
+           "B-cells",
+           "Unknown Myeloid")
+temp <- temp[match(order, temp)]
+
+plot_list_FC <- NULL
+plot_list_Prop <- NULL
+df_list_cellCOmparisons <- NULL
+
+# temp <- "Ly6C(hi)CD64(hi) Monocytes" # Uncomment if you one want to filter what is run
+
+for (i in temp){
+    print(sprintf("%s : %s of %s : %s", Sys.time(), which(temp == i), length(temp), i))
+    
+  # Stats
+  # The below is to make it easier to adjust the significance symbols shown on the graphs. Two options are presented, but only a single option must be selected manually, as this graph does not have any logical to determine which the appropriate symbol configuration. These can be adjusted as required. Each list vector should contain 4 options for the 4 graphable comparisons. for a greater number of comparisons, or comparisons that are not present, the significance code will have to be adjust manaully as well.
+  #c(1v2, 1v4, 2v4, 3v4)
+  config_symbols <- list(Pre = c("", "*", "", ""),
+                         Model = c("", "*", "~", ""),
+                         Mode_Pre = c("*", "^", "~", ""),
+                         Pre_w_Pam = c("","*","","^"),
+                         Model_w_Pam = c("", "*", "~", "^"))
+  
+  # Adjust the selector here to select which symbol set is required for the graphed data and comparisons.
+  # config_symbols <-  config_symbols[[1]]
+  
+    filter_Cell_ID <- i
+    
+    # There is a 3 pairwise comparisons below using the last of these 4 as the baseline. If you have less then 4 groups, place random strings in positions 2 and 3. Make sure that these strings do not match.
+    
+    ## WITHOUT PAM
+    # filter_comparison <- c("Hh", "ChangeMe", "None", "Saline") ; config_symbols <- config_symbols[[1]]
+    # filter_comparison <- c("Hh+IAV", "Saline", "None", "Saline+IAV") ; config_symbols <- config_symbols[[2]]
+    # filter_comparison <- c("Hh+IAV+NTHi", "Saline", "None", "Saline+IAV+NTHi") ; config_symbols <- config_symbols[[2]]
+    
+    ## WITH PAM
+    # filter_comparison <- c("Hh", "None", "Pam1ug", "Saline") ; config_symbols <- config_symbols[[4]]
+    filter_comparison <- c("Hh+IAV", "Saline", "Pam1ug+IAV", "Saline+IAV") ; config_symbols <- config_symbols[[5]]
+    # filter_comparison <- c("Hh+IAV+NTHi", "Saline", "Pam1ug+IAV+NTHi", "Saline+IAV+NTHi") ; config_symbols <- config_symbols[[5]]
+    
+    # Influenza Model
+    # filter_comparison <- c("Saline+IAV", "ChangeMeTEMP", "None", "Saline") ; config_symbols <- config_symbols[[1]]
+    
+    if(any(duplicated(filter_comparison))) {stop("Duplicate values found in `filter_comparison`. If duplicated values are not treatment groups, please alter one so all values are unique.")}
+    if(class(config_symbols) != "character"){stop(sprintf("`config_symbols` is class(%s), when class(character) is required. Please check that the selector has worked in selecting a single symbol vector rather then the whole list.", class(config_symbols)))}
+    
+    filter_timepoint <- c(2, 6, 24, 48, 72, 96, 144)[1:7]
+    
+    config_tissueOrder <- c("Nasal", "Nasal Tissue", "Lung", "Spleen")
+    
+    # This section utilises `Proportional_CellIDPerSample`
+    
+    #### Mean Proportional Data ####
+    if(dim(Proportion_CellIDPerSample %>% filter(Cell_ID == filter_Cell_ID))[1] == 0){stop(paste0("`Cell_ID` ", filter_Cell_ID, " not present in dataset. Check `filter_Cell_ID`."))}
+    
+    # Fit the beta regression model
+    model <- suppressWarnings(glmmTMB(
+        Proportion_idPerSample ~ Treatment * Tissue * factor(Timepoint) + (1 | For_Vlookup), #For_Vlookup is a Unique Mouse ID
+        family = beta_family(link = "logit"), # Specify beta regression with logit link
+        data = Proportion_CellIDPerSample %>% filter(Cell_ID %in% c(filter_Cell_ID))))
+    
+    # Summarize the model
+    # summary(model)
+    
+    #### MPD PWC ####
+    
+    # Calculate marginal means for treatment
+    emm <- emmeans(model, ~ Treatment * Tissue * Timepoint, type = "response")
+    
+    ## PWC
+    # Perform pairwise comparisons within each Tissue and Timepoint
+    pwc <- emmeans::contrast(emm, method = "pairwise", by = c("Tissue", "Timepoint"), adjust = "BH")
+    
+    comparison_summary <- summary(pwc)
+    significant_comparisons <- comparison_summary %>%
+        na.omit() %>%
+        #filter(p.value < 0.99) %>%
+        mutate(significance = case_when(
+            p.value < 0.001 ~ "***",
+            p.value < 0.01 ~ "**",
+            p.value < 0.05 ~ "*",
+            TRUE ~ ""
+        )
+        ) %>%
+        mutate(contrast = str_replace_all(contrast, "[()]", "")) %>%
+        separate(contrast, into = c("Treatment1", "Treatment2"), sep = " / ")
+    
+    gc()
+    
+    df_list_cellCOmparisons[[filter_Cell_ID]] <- significant_comparisons
+}
+
+merged <- bind_rows(df_list_cellCOmparisons, .id = "Cell_ID") %>%
+    select(!(odds.ratio:z.ratio)) %>%
+    relocate(Cell_ID, Tissue, Timepoint)
+
+summary(merged)
+
+write.csv(merged, sprintf("%s/AllComparisonsIncludingSignificance.csv", OutputDirectory))
+```
+
+```{r Statistical Modelling - Per 10^4 cells}
+Per_10e4 <- Proportion_CellIDPerSample %>%
+  mutate(per10e4 = ((Total_idPerSample*10000)/Total_evtsPerSample))
+
+temp <- unique(Proportion_CellIDPerSample$Cell_ID) 
+order <- c("Neutrophils",
+           "Monocytes",
+           "Ly6C(hi)CD64(hi) Monocytes",
+           "CD206+ Macrophages",
+           "CD64+MHCII- Macrophages",
+           "cDC1",
+           "cDC2",
+           "moDCs",
+           "pDCs",
+           "Ly6C+ NK cells",
+           "Ly6C- NK cells",
+           "Ly6C+CD8+ T-cells",
+           "Ly6C-CD8+ T-cells",
+           "CD4+ T-cells",
+           "CD103+CD4+ T-cells",
+           "B-cells",
+           "Unknown Myeloid")
+temp <- temp[match(order, temp)]
+
+plot_list_FC <- NULL
+plot_list_Prop <- NULL
+df_list_cellCOmparisons <- NULL
+
+# temp <- "Ly6C(hi)CD64(hi) Monocytes" # Uncomment if you one want to filter what is run
+
+for (i in temp){
+    print(sprintf("%s : %s of %s : %s", Sys.time(), which(temp == i), length(temp), i))
+    
+  # Stats
+  # The below is to make it easier to adjust the significance symbols shown on the graphs. Two options are presented, but only a single option must be selected manually, as this graph does not have any logical to determine which the appropriate symbol configuration. These can be adjusted as required. Each list vector should contain 4 options for the 4 graphable comparisons. for a greater number of comparisons, or comparisons that are not present, the significance code will have to be adjust manaully as well.
+  #c(1v2, 1v4, 2v4, 3v4)
+  config_symbols <- list(Pre = c("", "*", "", ""),
+                         Model = c("", "*", "~", ""),
+                         Mode_Pre = c("*", "^", "~", ""),
+                         Pre_w_Pam = c("","*","","^"),
+                         Model_w_Pam = c("", "*", "~", "^"))
+  
+  # Adjust the selector here to select which symbol set is required for the graphed data and comparisons.
+  # config_symbols <-  config_symbols[[1]]
+  
+    filter_Cell_ID <- i
+    
+    # There is a 3 pairwise comparisons below using the last of these 4 as the baseline. If you have less then 4 groups, place random strings in positions 2 and 3. Make sure that these strings do not match.
+    
+    ## WITHOUT PAM
+    # filter_comparison <- c("Hh", "ChangeMe", "None", "Saline") ; config_symbols <- config_symbols[[1]]
+    # filter_comparison <- c("Hh+IAV", "Saline", "None", "Saline+IAV") ; config_symbols <- config_symbols[[2]]
+    # filter_comparison <- c("Hh+IAV+NTHi", "Saline", "None", "Saline+IAV+NTHi") ; config_symbols <- config_symbols[[2]]
+    
+    ## WITH PAM
+    # filter_comparison <- c("Hh", "None", "Pam1ug", "Saline") ; config_symbols <- config_symbols[[4]]
+    filter_comparison <- c("Hh+IAV", "Saline", "Pam1ug+IAV", "Saline+IAV") ; config_symbols <- config_symbols[[5]]
+    # filter_comparison <- c("Hh+IAV+NTHi", "Saline", "Pam1ug+IAV+NTHi", "Saline+IAV+NTHi") ; config_symbols <- config_symbols[[5]]
+    
+    # Influenza Model
+    # filter_comparison <- c("Saline+IAV", "ChangeMeTEMP", "None", "Saline") ; config_symbols <- config_symbols[[1]]
+    
+    if(any(duplicated(filter_comparison))) {stop("Duplicate values found in `filter_comparison`. If duplicated values are not treatment groups, please alter one so all values are unique.")}
+    if(class(config_symbols) != "character"){stop(sprintf("`config_symbols` is class(%s), when class(character) is required. Please check that the selector has worked in selecting a single symbol vector rather then the whole list.", class(config_symbols)))}
+    
+    filter_timepoint <- c(2, 6, 24, 48, 72, 96, 144)[1:7]
+    
+    config_tissueOrder <- c("Nasal", "Nasal Tissue", "Lung", "Spleen")
+    
+    # This section utilises `Proportional_CellIDPerSample`
+    
+    #### Mean Proportional Data ####
+    if(dim(Per_10e4 %>% filter(Cell_ID == filter_Cell_ID))[1] == 0){stop(paste0("`Cell_ID` ", filter_Cell_ID, " not present in dataset. Check `filter_Cell_ID`."))}
+    
+    # Fit the beta regression model
+    model <- suppressWarnings(glmmTMB(
+        per10e4 ~ Treatment * Tissue * factor(Timepoint) + (1 | For_Vlookup),
+  family = nbinom2(link = "log"), # Specify beta regression with logit link
+        data = Per_10e4 %>% filter(Cell_ID %in% c(filter_Cell_ID))))
+    
+    # Summarize the model
+    # summary(model)
+    
+    #### MPD PWC ####
+    
+    # Calculate marginal means for treatment
+    emm <- emmeans(model, ~ Treatment * Tissue * Timepoint, type = "response")
+    
+    ## PWC
+    # Perform pairwise comparisons within each Tissue and Timepoint
+    pwc <- emmeans::contrast(emm, method = "pairwise", by = c("Tissue", "Timepoint"), adjust = "BH")
+    
+    comparison_summary <- summary(pwc)
+    significant_comparisons <- comparison_summary %>%
+        na.omit() %>%
+        #filter(p.value < 0.99) %>%
+        mutate(significance = case_when(
+            p.value < 0.001 ~ "***",
+            p.value < 0.01 ~ "**",
+            p.value < 0.05 ~ "*",
+            TRUE ~ ""
+        )
+        ) %>%
+        mutate(contrast = str_replace_all(contrast, "[()]", "")) %>%
+        separate(contrast, into = c("Treatment1", "Treatment2"), sep = " / ")
+    
+    gc()
+    
+    df_list_cellCOmparisons[[filter_Cell_ID]] <- significant_comparisons
+}
+
+merged <- bind_rows(df_list_cellCOmparisons, .id = "Cell_ID") %>%
+    select(!(ratio:z.ratio)) %>%
+    relocate(Cell_ID, Tissue, Timepoint)
+
+summary(merged)
+
+write.csv(merged, sprintf("%s/AllPer10e4ComparisonsIncludingSignificance.csv", OutputDirectory))
+```

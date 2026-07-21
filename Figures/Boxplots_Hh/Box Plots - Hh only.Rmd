@@ -1,0 +1,412 @@
+---
+title: "Boxplots MoA IAV"
+author: "Chris Tjiam, Jack Pepper"
+date: "2025-10-30"
+output: html_document
+---
+## Load Dependencies
+
+```{r setup, include=FALSE}
+# Global chunk behavior
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, cache = FALSE, dir = PrimaryDirectory)
+
+sessionpackages <- (c("dplyr", "ggplot2", "MetBrewer", "RColorBrewer", "cowplot", "rmarkdown", "ggh4x", "patchwork", "ggsignif"))
+lapply(sessionpackages, library, character.only = TRUE)
+```
+
+## Clean Data
+```{r}
+moa.dat <- read.csv("../../output/Proportion_CellIDPerSample.csv")
+moa.dat <- moa.dat %>% dplyr::arrange(Timepoint)
+moa.dat <- moa.dat %>% mutate(Cell_Freq = Proportion_idPerSample*100)
+moa.dat <- moa.dat %>% filter(!Cell_ID %in% c("Drop", "Unknown Myeloid")) #Remove unknown populations
+moa.dat <- moa.dat %>% mutate(Annotation = case_when(Cell_ID == "B-cells" ~ "B-cells",
+                                                     Cell_ID == "moDCs" ~ "Alv Mac",
+                                                     Cell_ID == "CD4+ T-cells" ~ "CD4+ T",
+                                                     Cell_ID == "Ly6C-CD8+ T-cells" ~ "Ly6C-CD8+ T",
+                                                     Cell_ID == "Ly6C+CD8+ T-cells" ~ "Ly6C+CD8+ T",
+                                                     Cell_ID == "Ly6C+ NK cells" ~ "Ly6C+NK",
+                                                     Cell_ID == "Ly6C- NK cells" ~ "Ly6C-NK",
+                                                     Cell_ID == "CD103+CD4+ T-cells" ~ "CD103+CD4+ T",
+                                                     Cell_ID == "Ly6C(hi)CD64(hi) Monocytes" ~ "iMono",
+                                                     Cell_ID == "cDC1" ~ "cDC1",
+                                                     Cell_ID == "Monocytes" ~ "Mono",
+                                                     Cell_ID == "Neutrophils" ~ "Neut",
+                                                     Cell_ID == "CD206+ Macrophages" ~ "CD206+ Mac",
+                                                     Cell_ID == "cDC2" ~ "cDC2",
+                                                     Cell_ID == "pDCs" ~ "pDC",
+                                                     Cell_ID == "CD64+MHCII- Macrophages" ~ "CD64+ Mac")) #Mutate new column for latest annotation.
+
+moa.pre <- moa.dat %>% #filter(Timepoint %in% c("48", "72", "96", "144")) %>% 
+                       filter(!Treatment %in% c("Pam10ug")) %>% 
+                       filter(!grepl("NTHi", Treatment), !grepl("IAV", Treatment)) 
+rm(moa.dat)
+
+moa.pre <- moa.pre %>% 
+  mutate(across(c(Treatment), ~ stringr::str_replace_all(.x, "\\bPam1ug\\b", "Pam2CSK4")),
+         across(c(Treatment), ~ stringr::str_replace_all(.x, "\\bSaline\\b", "Saline")))
+
+```
+
+## Re-format data into List by Tissue & Annotation
+```{r}
+unique_combinations <- unique(moa.pre[, c("Tissue", "Annotation")])
+
+subset_list <- list()
+for (i in 1:nrow(unique_combinations)) {
+                                        g1 <- unique_combinations[i, "Tissue"]
+                                        g2 <- unique_combinations[i, "Annotation"]
+                                        
+                                        # Subset the data frame based on the current combination
+                                        current_subset <- moa.pre[moa.pre$Annotation == g2,]                                                                 
+                                        
+                                        # Store the subset in the list
+                                        subset_name <- paste0(g2)
+                                        subset_list[[subset_name]] <- current_subset
+                                        }
+```
+
+##  Figures
+
+### Reading in exported significance from main analysis document
+
+```{r}
+df.sig <- read.csv("../../output/AllComparisonsIncludingSignificance.csv")
+
+df.sig <- df.sig %>% 
+  mutate(across(c(Treatment1, Treatment2), ~ stringr::str_replace_all(.x, "\\bPam1ug\\b", "Pam2CSK4")),
+         across(c(Treatment1, Treatment2), ~ stringr::str_replace_all(.x, "\\bSaline\\b", "Saline"))) %>%
+  mutate(Annotation = case_when(Cell_ID == "B-cells" ~ "B-cells",
+                                Cell_ID == "moDCs" ~ "Alv Mac",
+                                Cell_ID == "CD4+ T-cells" ~ "CD4+ T",
+                                Cell_ID == "Ly6C-CD8+ T-cells" ~ "Ly6C-CD8+ T",
+                                Cell_ID == "Ly6C+CD8+ T-cells" ~ "Ly6C+CD8+ T",
+                                Cell_ID == "Ly6C+ NK cells" ~ "Ly6C+NK",
+                                Cell_ID == "Ly6C- NK cells" ~ "Ly6C-NK",
+                                Cell_ID == "CD103+CD4+ T-cells" ~ "CD103+CD4+ T",
+                                Cell_ID == "Ly6C(hi)CD64(hi) Monocytes" ~ "iMono",
+                                Cell_ID == "cDC1" ~ "cDC1",
+                                Cell_ID == "Monocytes" ~ "Mono",
+                                Cell_ID == "Neutrophils" ~ "Neut",
+                                Cell_ID == "CD206+ Macrophages" ~ "CD206+ Mac",
+                                Cell_ID == "cDC2" ~ "cDC2",
+                                Cell_ID == "pDCs" ~ "pDC",
+                                Cell_ID == "CD64+MHCII- Macrophages" ~ "CD64+ Mac")) #Mutate new column for latest annotation.
+```
+
+### Data export for graphs
+
+```{r}
+library(openxlsx)
+
+# Helper: bind rows safely and add a 'Cell' column to track origin
+bind_with_cell <- function(lst, slot_name) {
+  # lst is data_export, slot_name is "cells" or "sig"
+  dfs <- lapply(names(lst), function(nm) {
+    df <- lst[[nm]][[slot_name]]
+    if (is.null(df)) return(NULL)
+    if (is.data.frame(df) && nrow(df) > 0) {
+      df$Cell <- nm
+      df
+    } else {
+      NULL
+    }
+  })
+  # Drop NULLs and bind
+  dfs <- Filter(Negate(is.null), dfs)
+  if (length(dfs) == 0) {
+    data.frame()
+  } else {
+    do.call(rbind, dfs)
+  }
+}
+
+# 1) CELLS workbook -----------------------------------------------------------
+wb_cells <- createWorkbook()
+
+# Add combined sheet
+cells_combined <- bind_with_cell(data_export, "cells")
+addWorksheet(wb_cells, "Combined")
+writeData(wb_cells, "Combined", cells_combined)
+
+# Add one sheet per cell type for 'cells'
+for (nm in names(data_export)) {
+  df <- data_export[[nm]]$cells
+  # Skip empty/non-data frames gracefully
+  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) next
+  
+  # Sanitize sheet name (Excel limit 31 chars and no special chars like :\/?*[])
+  safe_nm <- substr(gsub("[\\/:*?\\[\\]]", "_", nm), 1, 31)
+  
+  addWorksheet(wb_cells, safe_nm)
+  writeData(wb_cells, safe_nm, df)
+}
+
+# Save workbook
+saveWorkbook(wb_cells, file = "cells.xlsx", overwrite = TRUE)
+
+
+# 2) SIGNIFICANCE workbook ----------------------------------------------------
+wb_sig <- createWorkbook()
+
+# Add combined sheet
+sig_combined <- bind_with_cell(data_export, "sig")
+addWorksheet(wb_sig, "Combined")
+writeData(wb_sig, "Combined", sig_combined)
+
+# Add one sheet per cell type for 'sig'
+for (nm in names(data_export)) {
+  df <- data_export[[nm]]$sig
+  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) next
+  
+  safe_nm <- substr(gsub("[\\/:*?\\[\\]]", "_", nm), 1, 31)
+  
+  addWorksheet(wb_sig, safe_nm)
+  writeData(wb_sig, safe_nm, df)
+}
+
+# Save workbook
+saveWorkbook(wb_sig, file = "significance.xlsx", overwrite = TRUE)
+```
+
+
+### Figure 3
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+# library(ggsignif)  # uncomment if not loaded globally
+
+plot_and_save <- function(data_list_element, name, sig_df) {
+  message(paste(format(Sys.time(), "%X"), name, sep = " :F3sig: "))
+  
+  # Colors for Treatment
+  my_cols <- c(
+    "Saline" = "grey",
+    "Saline+IAV" = "grey",
+    "Saline+IAV+NTHi" = "grey",
+    "Hh" = "#4FAFA7",
+    "Hh+IAV" = "#4FAFA7",
+    "Hh+IAV+NTHi" = "#4FAFA7",
+    "Pam2CSK4" = "#4A4280",
+    "Pam2CSK4+IAV" = "#4A4280",
+    "Pam2CSK4+IAV+NTHi" = "#4A4280"
+  )
+  
+  # Legend selection
+  legend.wanted.colour <- c("Hh", "Pam2CSK4", "Saline")
+  legend.labels.colour <- c(
+    "Hh" = "Hh",
+    "Pam2CSK4" = "Pam2CSK4",
+    "Saline" = "Saline"
+  )
+  
+  # Compute significance y-positions robustly
+  rng <- range(data_list_element[["Cell_Freq"]], na.rm = TRUE)
+  value.range <- diff(rng)
+  value.min <- rng[1]
+  
+  ifelse(
+    (length(rng) == 1),
+    value.splits <- 40L, 
+    value.splits <- (rng[2] - rng[1]) * 0.1 # Adjust here for levels
+  )
+         
+  vector.levels <- seq(from = value.min, to = value.min + 300, by = value.splits)
+  vector.treatments <- unique(data_list_element$Treatment)
+  
+  df.maxValues <- data_list_element %>%
+    group_by(Tissue, Timepoint, Treatment) %>%
+    slice_max(Cell_Freq, with_ties = FALSE) %>%
+    select(Tissue, Timepoint, Treatment, Cell_Freq)
+  
+  df.sig.temp <- sig_df %>%
+    filter(
+      Annotation == name,
+      (Treatment1 %in% vector.treatments & Treatment2 %in% vector.treatments)
+    ) %>%
+    left_join(df.maxValues, by = c("Tissue", "Timepoint", "Treatment1" = "Treatment")) %>%
+    rename(Cell_Freq_g1 = Cell_Freq) %>%
+    left_join(df.maxValues, by = c("Tissue", "Timepoint", "Treatment2" = "Treatment")) %>%
+    rename(Cell_Freq_g2 = Cell_Freq) %>%
+    filter(significance != "") %>%
+    mutate(
+      max_cf  = pmax(Cell_Freq_g1, Cell_Freq_g2, na.rm = TRUE),
+      min_idx = pmin(length(vector.levels), findInterval(max_cf, vector.levels) + 1),
+      min_level = vector.levels[min_idx]
+    ) %>%
+    distinct(Tissue, Timepoint, Treatment1, Treatment2, .keep_all = TRUE) %>%
+    group_by(Tissue, Timepoint) %>%
+    mutate(
+      row = row_number(),
+      # safe anchor (avoid -Inf when all NA)
+      anchor_idx = if (all(is.na(min_idx))) 1L else max(min_idx, na.rm = TRUE),
+      y_idx = pmin(length(vector.levels), anchor_idx + row),
+      y_pos = vector.levels[y_idx]
+    ) %>%
+    ungroup()
+  
+  # Refactor factors and labels
+  data_list_element <- data_list_element %>%
+    mutate(
+      Tissue    = trimws(Tissue),
+      Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
+      Timepoint = paste0(Timepoint, "hrs"),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs")),
+      Treatment = factor(Treatment, names(my_cols))
+    ) %>%
+    droplevels()
+  
+  df.sig.temp <- df.sig.temp %>%
+    mutate(
+      Tissue    = trimws(Tissue),
+      Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
+      Timepoint = paste0(Timepoint, "hrs"),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs"))
+    ) %>%
+    droplevels()
+  
+  # Shared y-limits across tissue plots; include any annotation y-positions
+  y_limits <- range(
+    c(data_list_element$Cell_Freq, df.sig.temp$y_pos),
+    na.rm = TRUE
+  )
+  
+  # Build one plot per Tissue (faceting only by Timepoint)
+  tissues <- levels(data_list_element$Tissue)
+  plots <- lapply(seq_along(tissues), function(i) {
+    t <- tissues[i]
+    df_tissue <- data_list_element %>%
+      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs"))
+    df_sig_tissue <- df.sig.temp %>%
+      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs"))
+    
+    p_t <- ggplot(df_tissue, aes(x = Treatment, y = Cell_Freq)) +
+      geom_point(aes(col = Treatment)) +
+      geom_boxplot(outliers = FALSE, fill = "transparent") +
+      facet_wrap(~ Timepoint, nrow = 1, drop = FALSE) +
+      scale_color_manual(
+        values = my_cols,
+        breaks = legend.wanted.colour,
+        labels = legend.labels.colour,
+        name = ""
+      ) +
+      scale_y_continuous(limits = y_limits, expand = expansion(mult = c(0.1, 0.1))) +
+      theme_classic() +
+      theme(
+        plot.title         = element_text(size = 14, face = "bold"),
+        strip.text.x       = element_text(size = 14, face = "bold"),
+        axis.title.x       = element_blank(),
+        axis.text.x        = element_text(size = 12, angle = -90, hjust = 0, vjust = 0.5),
+        axis.title.y       = element_text(size = 12),
+        strip.background   = element_rect(colour = "white", fill = "white"),
+        panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.4, linetype = 3),
+        legend.position    = "none",
+        plot.margin        = margin(l = 4)
+      ) +
+      labs(
+        title = t,
+        y = if (i == 1) expression("%CD45"^{"+"}) else NULL
+      )
+    
+    # Add signif only if there are rows to annotate for this tissue
+    if (nrow(df_sig_tissue) > 0) {
+      p_t <- p_t +
+        geom_signif(
+          data = df_sig_tissue,
+          aes(xmin = Treatment1, xmax = Treatment2,
+              annotations = significance, y_position = y_pos),
+          textsize = 5, manual = TRUE, tip_length = 0.01, vjust = 0.5
+        )
+    }
+    
+    p_t
+  })
+  
+  # Stitch horizontally: plot1 | plot2 | plot3 (no divider)
+  combined <- plots[[1]]
+  if (length(plots) > 1) {
+    for (i in 2:length(plots)) {
+      combined <- combined | plots[[i]]
+    }
+    combined <- combined + plot_layout(widths = rep(1, length(plots)))
+  }
+  
+  # Save final combined figure
+  filename <- file.path("Figure3", paste0(name, ".F3sig.png"))
+  ggsave(filename, plot = combined, width = 7.5, height = 3.7, units = "in", dpi = 600)
+  
+  combined
+}
+
+# Driver
+cell_type <- unique(moa.pre$Annotation)
+plot_list_sig <- lapply(cell_type, function(name) {
+  plot_and_save(subset_list[[name]], name, sig_df = df.sig)
+})
+```
+
+### Supplementary
+
+```{r}
+
+adjustments_for_grid <- function(plot_list, ncol) {
+    n <- length(plot_list)
+    nrow <- ceiling(n / ncol)
+    
+    lapply(seq_along(plot_list), function(i) {
+        p <- plot_list[[i]]
+        
+        # Remove x-axis text and title for all plots
+        p <- p + theme(axis.text.x = element_blank(),
+                       axis.title.x = element_blank())
+        
+        # Keep legend for first plot only (patchwork will collect later)
+        if (i != 1) {
+            p <- p + theme(legend.position = "none")
+        }
+        
+        p
+    })
+}
+
+# Apply adjustments
+ncol <- 1
+plot_list_adjusted_1 <- adjustments_for_grid(plot_list_sig[1:8], ncol)
+plot_list_adjusted_2 <- adjustments_for_grid(plot_list_sig[9:16], ncol)
+
+# Combine plots with patchwork and collect legend automatically
+combined_plots_1 <- wrap_plots(plot_list_adjusted_1, ncol = ncol) +
+    plot_layout(guides = "collect") &
+    labs(colour = "") &
+    theme(
+        legend.position = "bottom",
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 20, face = "italic"),
+        panel.grid.major.y = element_line(linetype = "dotted", color = "grey70"),
+        legend.key.size = unit(1, "cm")
+    ) &
+    guides(color = guide_legend(override.aes = list(size = 6)))
+
+combined_plots_2 <- wrap_plots(plot_list_adjusted_2, ncol = ncol) +
+    plot_layout(guides = "collect") &
+    labs(colour = "") &
+    theme(
+        legend.position = "bottom",
+        legend.text = element_text(size = 18),
+        legend.title = element_text(size = 20, face = "italic"),
+        panel.grid.major.y = element_line(linetype = "dotted", color = "grey70"),
+        legend.key.size = unit(1, "cm")
+    ) &
+    guides(color = guide_legend(override.aes = list(size = 6)))
+
+# Save tiff
+ggsave("supp.sig_1.tiff", combined_plots_1, height = 7000/ncol, width = 5000*ncol, units = "px")
+ggsave("supp.sig_2.tiff", combined_plots_2, height = 7000/ncol, width = 5000*ncol, units = "px")
+
+ggsave("supp.sig_1.png", combined_plots_1, height = 7000/ncol, width = 5000*ncol, units = "px")
+ggsave("supp.sig_2.png", combined_plots_2, height = 7000/ncol, width = 5000*ncol, units = "px")
+
+```

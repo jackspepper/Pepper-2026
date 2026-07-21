@@ -1,0 +1,118 @@
+---
+title: "Boxplots MoA IAV"
+author: "Chris Tjiam"
+date: "2025-10-30"
+output: html_document
+---
+## Load Dependencies
+```{r}
+sessionpackages <- (c("dplyr", "ggplot2", "MetBrewer", "RColorBrewer", "cowplot", "rmarkdown", "ggsci", "tidyr", "scales", "ggh4x"))
+lapply(sessionpackages, library, character.only = TRUE)
+```
+
+## Clean Data
+```{r}
+moa.dat <- read.csv("../../output/Proportion_CellIDPerSample.csv")
+moa.dat <- as.data.frame(moa.dat)
+moa.dat <- moa.dat %>% dplyr::arrange(Timepoint)
+moa.dat <- moa.dat %>% mutate(Cell_Freq = Proportion_idPerSample*100)
+
+moa.vaccine <- moa.dat %>% filter(Treatment %in% c("Saline", "Hh") & Timepoint == "48" | Treatment %in% c("Saline", "Saline+NTHi") & Timepoint == "144") %>% 
+                           filter(!Cell_ID %in% c("Drop", "Unknown Myeloid")) %>% 
+                           mutate(After_Challenge = case_when(Treatment %in% c("Saline", "Saline+NTHi") & Timepoint == "144" ~ "48hrs_NTHI",
+                                                              Treatment %in% c("Saline", "Hh") & Timepoint == "48" ~ "48hrs_HH"))
+```
+
+## Re-format data into List by Tissue & Annotation
+```{r pressure, echo=FALSE}
+rad.dat <- moa.vaccine %>% group_by(Timepoint, Treatment, Cell_ID, Tissue) %>% 
+                           summarise(Med_Freq = median(Cell_Freq)) %>%
+                           group_by(Timepoint, Cell_ID, Tissue) %>% 
+                           mutate(baseline_value = Med_Freq[Treatment == "Saline"],
+                                  Med_fc = Med_Freq / baseline_value) %>% 
+                           filter(!Treatment == "Saline")
+
+write.csv(rad.dat, file = "NTHI_Hh_FD.csv", row.names = FALSE)
+
+
+```
+
+## Create ggplot function to iterate through list
+```{r}
+  my_cols = {c("Saline+NTHi" = "#f5bb50",
+              "Hh" = "#4FAFA7",
+              "Saline+IAV+NTHi" = "yellow")}
+  my_labs = {c("B-cells" = "B-cells",
+              "moDCs" = "Alv Mac",
+              "CD4+ T-cells" = "CD4+ T",
+              "Ly6C-CD8+ T-cells" = "Ly6C-CD8+ T",
+              "Ly6C+CD8+ T-cells" = "Ly6C+CD8+ T",
+              "Ly6C+ NK cells" = "Ly6C+NK",
+              "Ly6C- NK cells" = "Ly6C-NK",
+              "CD103+CD4+ T-cells" = "CD103+CD4+ T",
+              "Ly6C(hi)CD64(hi) Monocytes" = "iMono",
+              "cDC1" = "cDC1",
+              "Monocytes" = "Mono",
+              "Neutrophils" = "Neut",
+              "CD206+ Macrophages" = "CD206+ Mac",
+              "cDC2" = "cDC2",
+              "pDCs" = "pDC",
+              "CD64+MHCII- Macrophages" = "CD64+ Mac")}
+  levels_xlab = {c("B-cells",
+               "Ly6C-CD8+ T-cells",
+               "Ly6C+CD8+ T-cells",
+               "Ly6C+ NK cells",
+               "Ly6C- NK cells",
+               "CD103+CD4+ T-cells",
+               "CD4+ T-cells",
+               "Monocytes",
+               "Ly6C(hi)CD64(hi) Monocytes",
+               "moDCs",
+               "cDC1",
+               "cDC2",
+               "pDCs",
+               "CD206+ Macrophages",
+               "CD64+MHCII- Macrophages",
+               "Neutrophils"
+              )}
+  my_facet = {c("2" = "2hrs",
+               "6" = "6hrs",
+               "24" = "24hrs",
+               "48" = "48hrs after Hh",
+               "72" = "72hrs",
+               "96" = "96hrs",
+               "144" = "48hrs after NTHI"
+  )}
+              
+  # Create the ggplot object
+  p2 <- ggplot(rad.dat,
+               aes(x=factor(Cell_ID, levels_xlab), 
+                   y= Med_fc,
+                   fill = Treatment)) + 
+         geom_bar(position = "dodge", stat = "identity") +
+         scale_fill_manual(values = my_cols,
+                           labels = c("Hh" = "Hh", "Saline+NTHi" = "NTHi")) +
+         scale_x_discrete(labels = my_labs) +
+         theme_classic() +
+         facet_wrap(~factor(Tissue, c("Nasal Tissue", "Lung", "Spleen")),
+                    scales = "free_x") +
+         theme(panel.grid.major.y = element_line(color = "grey80", 
+                                                  linetype = "solid", 
+                                                  linewidth = 0.2),
+                axis.text.x = element_text(size = 7),
+                axis.title = element_blank(),
+                axis.ticks = element_blank(),
+                axis.line = element_blank(),
+                legend.title = element_blank(),
+                panel.spacing.x = unit(1, "lines"),
+                strip.text = element_text(size = 14),
+                axis.text = element_text(size = 12)) +
+                geom_vline(xintercept = seq(0.5, (16-0.5), by = 1), 
+                           color = "grey80", 
+                           linetype = "solid", 
+                           size = 0.2) +
+        coord_polar(clip = "off") + scale_y_log10(limits = c(-10,15))
+
+ # Save as .png
+ ggsave("NTHI vs Hh.png", plot = p2, width = 10, height = 4, units = "in")
+```

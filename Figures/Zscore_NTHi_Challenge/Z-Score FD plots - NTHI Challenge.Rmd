@@ -1,0 +1,183 @@
+---
+title: "2D-FD plots MoA IAV"
+author: "Chris Tjiam"
+date: "2025-10-30"
+output: html_document
+---
+
+## Load Dependencies
+```{r}
+sessionpackages <- (c("dplyr", "ggplot2", "MetBrewer", "RColorBrewer", "cowplot", "rmarkdown", "ggrepel"))
+lapply(sessionpackages, library, character.only = TRUE)
+```
+
+
+## Clean frequency data
+```{r}
+moa.dat <- read.csv("../../output/Proportion_CellIDPerSample.csv")
+moa.dat <- moa.dat %>% dplyr::arrange(Timepoint)
+moa.dat <- moa.dat %>% mutate(Cell_Freq = Proportion_idPerSample*100)
+moa.dat <- moa.dat %>% filter(!Cell_ID %in% c("Drop", "Unknown Myeloid"))
+moa.dat <- moa.dat %>% mutate(Annotation = case_when(Cell_ID == "B-cells" ~ "B-cells",
+                                                     Cell_ID == "moDCs" ~ "Alv Mac",
+                                                     Cell_ID == "CD4+ T-cells" ~ "CD4+ T",
+                                                     Cell_ID == "Ly6C-CD8+ T-cells" ~ "Ly6C-CD8+ T",
+                                                     Cell_ID == "Ly6C+CD8+ T-cells" ~ "Ly6C+CD8+ T",
+                                                     Cell_ID == "Ly6C+ NK cells" ~ "Ly6C+NK",
+                                                     Cell_ID == "Ly6C- NK cells" ~ "Ly6C-NK",
+                                                     Cell_ID == "CD103+CD4+ T-cells" ~ "CD103+CD4+ T",
+                                                     Cell_ID == "Ly6C(hi)CD64(hi) Monocytes" ~ "iMono",
+                                                     Cell_ID == "cDC1" ~ "cDC1",
+                                                     Cell_ID == "Monocytes" ~ "Mono",
+                                                     Cell_ID == "Neutrophils" ~ "Neut",
+                                                     Cell_ID == "CD206+ Macrophages" ~ "CD206+ Mac",
+                                                     Cell_ID == "cDC2" ~ "cDC2",
+                                                     Cell_ID == "pDCs" ~ "pDC",
+                                                     Cell_ID == "CD64+MHCII- Macrophages" ~ "CD64+ Mac"))
+
+moa.iav <- moa.dat %>% filter(Timepoint %in% c("144")) %>% 
+                       filter(!Treatment %in% c("Pam10ug")) 
+rm(moa.dat)
+
+moa.iav <- moa.iav %>% mutate(Pre_Treatment = case_when(Treatment == "Saline" ~ "Saline",
+                                                        Treatment == "Hh" ~ "Hh",
+                                                        Treatment == "Pam1ug" ~ "Pam2CSK4",
+                                                        Treatment == "Saline+IAV" ~ "Saline+IAV",
+                                                        Treatment == "Hh+IAV" ~ "Hh+IAV",
+                                                        Treatment == "Pam1ug+IAV" ~ "Pam2CSK4+IAV",
+                                                        Treatment == "Saline+IAV+NTHi" ~ "Saline+IAV+NTHI",
+                                                        Treatment == "Hh+IAV+NTHi" ~ "Hh+IAV+NTHI",
+                                                        Treatment == "Pam1ug+IAV+NTHi" ~ "Pam2CSK4+IAV+NTHI",
+                                                        Treatment == "Saline+NTHi" ~ "Saline+NTHI",
+                                                        Treatment == "Hh+NTHi" ~ "Hh+NTHI",
+                                                        Treatment == "Pam1ug+NTHi" ~ "Pam2CSK4+NTHI"))
+
+flat.dat <- moa.iav %>% 
+            group_by(Annotation) %>% 
+            mutate(scaled_freq = scale(Cell_Freq),
+                   raw_freq = Cell_Freq) %>% 
+            group_by(Tissue, Timepoint, Pre_Treatment, Annotation) %>% 
+            summarise(Med_scaled_Freq = median(scaled_freq),
+                      Med_Freq = median(raw_freq)) %>%
+            group_by(Tissue, Timepoint, Annotation) %>% 
+            mutate(Saline_IAV_NTHI_baseline = Med_scaled_Freq[Pre_Treatment == "Saline+IAV+NTHI"],
+                   Hh_IAV_baseline = Med_scaled_Freq[Pre_Treatment == "Hh+IAV"],
+                   Pam_IAV_baseline = Med_scaled_Freq[Pre_Treatment == "Pam2CSK4+IAV"],
+                   Saline_IAV_NTHI_Med_fc = Med_scaled_Freq - Saline_IAV_NTHI_baseline,
+                   Pre_Treatment_Med_fc = case_when(Pre_Treatment == "Hh+IAV+NTHI" ~ (Med_scaled_Freq - Hh_IAV_baseline),
+                                                    Pre_Treatment == "Pam2CSK4+IAV+NTHI" ~ (Med_scaled_Freq - Pam_IAV_baseline))) %>% 
+                   filter(!Pre_Treatment %in% c("Hh", "Saline", "Pam2CSK4", 
+                                                "Saline+IAV", "Hh+IAV", "Pam2CSK4+IAV",
+                                                "Saline+NTHI", "Hh+NTHI", "Pam2CSK4+NTHI",
+                                                "Saline+IAV+NTHI")) %>% 
+                   mutate(Merge_key = paste(Tissue, Annotation, Timepoint, Pre_Treatment, sep="_"))
+  
+```
+
+## Clean significance data and merge with frequency data
+
+```{r}
+sig.dat <- read.csv("../../output/AllComparisonsIncludingSignificance.csv")
+
+sig.dat <- sig.dat %>% filter(Treatment1 == "Hh+IAV" & Treatment2 == "Hh+IAV+NTHi" |
+                              Treatment1 == "Pam1ug+IAV" & Treatment2 == "Pam1ug+IAV+NTHi" |
+                              Treatment1 == "Hh+IAV+NTHi" & Treatment2 == "Saline+IAV+NTHi" |
+                              Treatment1 == "Pam1ug+IAV+NTHi" & Treatment2 == "Saline+IAV+NTHi") %>% 
+                       filter(Timepoint %in% c("144")) %>% 
+                       filter(!Cell_ID == "Unknown Myeloid") %>% 
+                       mutate(Annotation = case_when(Cell_ID == "B-cells" ~ "B-cells",
+                                                     Cell_ID == "moDCs" ~ "Alv Mac",
+                                                     Cell_ID == "CD4+ T-cells" ~ "CD4+ T",
+                                                     Cell_ID == "Ly6C-CD8+ T-cells" ~ "Ly6C-CD8+ T",
+                                                     Cell_ID == "Ly6C+CD8+ T-cells" ~ "Ly6C+CD8+ T",
+                                                     Cell_ID == "Ly6C+ NK cells" ~ "Ly6C+NK",
+                                                     Cell_ID == "Ly6C- NK cells" ~ "Ly6C-NK",
+                                                     Cell_ID == "CD103+CD4+ T-cells" ~ "CD103+CD4+ T",
+                                                     Cell_ID == "Ly6C(hi)CD64(hi) Monocytes" ~ "iMono",
+                                                     Cell_ID == "cDC1" ~ "cDC1",
+                                                     Cell_ID == "Monocytes" ~ "Mono",
+                                                     Cell_ID == "Neutrophils" ~ "Neut",
+                                                     Cell_ID == "CD206+ Macrophages" ~ "CD206+ Mac",
+                                                     Cell_ID == "cDC2" ~ "cDC2",
+                                                     Cell_ID == "pDCs" ~ "pDC",
+                                                     Cell_ID == "CD64+MHCII- Macrophages" ~ "CD64+ Mac"))
+
+sig.dat <- sig.dat %>% mutate(Pre_Treatment = case_when(Treatment1 == "Pam1ug+IAV+NTHi" ~ "Pam2CSK4+IAV+NTHI",
+                                                        Treatment1 == "Hh+IAV+NTHi" ~ "Hh+IAV+NTHI",
+                                                        Treatment2 == "Hh+IAV+NTHi" ~ "Hh+IAV+NTHI",
+                                                        Treatment2 == "Pam1ug+IAV+NTHi" ~ "Pam2CSK4+IAV+NTHI"
+                                                        ))
+
+sig.treatment <- sig.dat %>% filter(Treatment1 == "Hh+IAV+NTHi" & Treatment2 == "Saline+IAV+NTHi" |
+                                    Treatment1 == "Pam1ug+IAV+NTHi" & Treatment2 == "Saline+IAV+NTHi") %>% 
+                             select(Annotation, Tissue, Timepoint, Treatment1, Treatment2, Pre_Treatment, p.value, significance) %>% 
+                             dplyr::arrange(Tissue, Timepoint, Treatment1) %>% 
+                             mutate(Treatment_logp = -log10(p.value),
+                                    Merge_key = paste(Tissue, Annotation, Timepoint, Pre_Treatment, sep="_")) %>% 
+                             select(Merge_key, Treatment_logp)
+
+sig.nthi <- sig.dat %>% filter(Treatment1 == "Hh+IAV" & Treatment2 == "Hh+IAV+NTHi" |
+                              Treatment1 == "Pam1ug+IAV" & Treatment2 == "Pam1ug+IAV+NTHi") %>% 
+                             select(Annotation, Tissue, Timepoint, Treatment1, Treatment2, Pre_Treatment, p.value, significance) %>% 
+                             dplyr::arrange(Tissue, Timepoint, Treatment1) %>% 
+                             mutate(NTHI_logp = -log10(p.value),
+                                    Merge_key = paste(Tissue, Annotation, Timepoint, Pre_Treatment, sep="_")) %>% 
+                             select(Merge_key, NTHI_logp)
+
+merged.dat <- merge(flat.dat, sig.treatment, by = "Merge_key")
+merged.dat <- merge(merged.dat, sig.nthi, by = "Merge_key")
+
+merged.dat <- merged.dat %>% mutate(Average_logp = (Treatment_logp + NTHI_logp)/2,
+                                    gtr_label = ifelse(Treatment_logp > 1.3 & NTHI_logp > 1.3, Annotation, ""))
+
+
+```
+
+#Plot graph
+
+```{r}
+my_cols = c("Saline" = "Grey",
+            "Saline+IAV" = "Grey",
+             "Hh" = "#4FAFA7",
+             "Hh+IAV" = "#4FAFA7",
+             "Hh+IAV+NTHI" = "#4FAFA7",
+             "Pam2CSK4" = "#4A4280",
+             "Pam2CSK4+IAV" = "#4A4280",
+             "Pam2CSK4+IAV+NTHI" = "#4A4280")
+
+p <- ggplot(merged.dat, 
+            aes(x = Saline_IAV_NTHI_Med_fc, y = Pre_Treatment_Med_fc, color = Pre_Treatment, label = gtr_label)) +
+     geom_hline(yintercept = 0, color = "black", linetype = "solid", size = 0.1) +
+     geom_vline(xintercept = 0, color = "black", linetype = "solid", size = 0.1) +
+     geom_point(aes(size = Average_logp)) +
+     scale_size_continuous(limits = c(0,2), name = expression("Average -log" * italic(p))) +
+     geom_label_repel(aes(label.size = 15),
+                     max.overlaps = Inf,
+                     force = 50,
+                     box.padding = 0.5,
+                     alpha = 0.95,
+                     show.legend = FALSE) +
+     facet_grid(~factor(Tissue, c("Nasal Tissue", "Lung", "Spleen"))) +
+     scale_colour_manual(values = my_cols, 
+                         name = "Treatment",
+                         labels = c("Hh+IAV+NTHI" = "Hh",
+                                    "Pam2CSK4+IAV+NTHI" = "Pam2CSK4")) +
+     guides(color = guide_legend(override.aes = list(size = 6), order = 1)) +
+     theme_classic() +
+     theme(strip.text.x = element_text(size = 14),
+           axis.text.x = element_text(size=16, angle = -90, hjust = 0, vjust = 0.5),
+           axis.text.y = element_text(size=16, vjust = 0.5),
+           axis.title.y = element_text(size=14),
+           axis.title.x = element_text(size=14),
+           plot.title = element_text(size=14, face = "bold")) + 
+           ylim(c(-3,3)) + 
+           xlim(c(-3,3)) +
+           ylab("Z-score difference \n (Tx+IAV+NTHI) - (Tx+IAV)") + xlab("Z-score difference (Tx+IAV+NTHI) - (Saline+IAV+NTHI)") 
+
+
+p
+
+
+# Save the plot
+ggsave("Figure5A_NTHI FD plots.png", plot = p, width = 11, height = 4, units = "in")
+```
