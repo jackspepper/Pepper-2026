@@ -294,7 +294,7 @@ plot_moa <- function(data, sig_df, name, scenario_name) {
   combined <- wrap_plots(plots, nrow = 1)
 
   ggsave(
-    file.path(getwd(), "Figures", "Boxplots_per10e4",
+    file.path(getwd(), "Figures", "Boxplots_per10e4", scenario_name,
               paste0(name, "_SuppFig.png")),
     combined,
     width = 7.5,
@@ -367,7 +367,7 @@ for (nm in names(data_export)) {
   writeData(wb_cells, safe_nm, df)
 }
 
-saveWorkbook(wb_cells, "output/Boxplots_per10e4/cells.xlsx", overwrite = TRUE)
+saveWorkbook(wb_cells, "Figures/Boxplots_per10e4/cells.xlsx", overwrite = TRUE)
 
 # ---------------- SIGNIFICANCE ----------------
 wb_sig <- createWorkbook()
@@ -385,7 +385,7 @@ for (nm in names(data_export)) {
   writeData(wb_sig, safe_nm, df)
 }
 
-saveWorkbook(wb_sig, "output/Boxplots_per10e4/significance.xlsx", overwrite = TRUE)
+saveWorkbook(wb_sig, "Figures/Boxplots_per10e4/significance.xlsx", overwrite = TRUE)
 
 
 run_all()

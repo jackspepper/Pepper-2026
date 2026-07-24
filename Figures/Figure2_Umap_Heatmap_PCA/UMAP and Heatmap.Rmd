@@ -5,7 +5,7 @@ date: "2026-01-30"
 output: html_document
 ---
 
-```{r}
+```{r setup}
 library(tidyverse)
 library(ggplot2)
 library(ComplexHeatmap) #BiocManager::install("ComplexHeatmap")
@@ -13,8 +13,10 @@ library(viridis)
 library(scattermore)
 library(circlize)
 library(RColorBrewer)
-```
 
+warning("This script cannot run straight from a Github repo pull as it utilises data that surpasses the single-file size limit.")
+readline(prompt = "To acknowledge the above warning, press any key.")
+```
 
 #### UMAP FIGURES FOR PAPER
 

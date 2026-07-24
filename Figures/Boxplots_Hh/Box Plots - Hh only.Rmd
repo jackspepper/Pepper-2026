@@ -7,9 +7,6 @@ output: html_document
 ## Load Dependencies
 
 ```{r setup, include=FALSE}
-# Global chunk behavior
-knitr::opts_chunk$set(message = FALSE, warning = FALSE, cache = FALSE, dir = PrimaryDirectory)
-
 sessionpackages <- (c("dplyr", "ggplot2", "MetBrewer", "RColorBrewer", "cowplot", "rmarkdown", "ggh4x", "patchwork", "ggsignif"))
 lapply(sessionpackages, library, character.only = TRUE)
 ```
@@ -93,82 +90,6 @@ df.sig <- df.sig %>%
                                 Cell_ID == "pDCs" ~ "pDC",
                                 Cell_ID == "CD64+MHCII- Macrophages" ~ "CD64+ Mac")) #Mutate new column for latest annotation.
 ```
-
-### Data export for graphs
-
-```{r}
-library(openxlsx)
-
-# Helper: bind rows safely and add a 'Cell' column to track origin
-bind_with_cell <- function(lst, slot_name) {
-  # lst is data_export, slot_name is "cells" or "sig"
-  dfs <- lapply(names(lst), function(nm) {
-    df <- lst[[nm]][[slot_name]]
-    if (is.null(df)) return(NULL)
-    if (is.data.frame(df) && nrow(df) > 0) {
-      df$Cell <- nm
-      df
-    } else {
-      NULL
-    }
-  })
-  # Drop NULLs and bind
-  dfs <- Filter(Negate(is.null), dfs)
-  if (length(dfs) == 0) {
-    data.frame()
-  } else {
-    do.call(rbind, dfs)
-  }
-}
-
-# 1) CELLS workbook -----------------------------------------------------------
-wb_cells <- createWorkbook()
-
-# Add combined sheet
-cells_combined <- bind_with_cell(data_export, "cells")
-addWorksheet(wb_cells, "Combined")
-writeData(wb_cells, "Combined", cells_combined)
-
-# Add one sheet per cell type for 'cells'
-for (nm in names(data_export)) {
-  df <- data_export[[nm]]$cells
-  # Skip empty/non-data frames gracefully
-  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) next
-  
-  # Sanitize sheet name (Excel limit 31 chars and no special chars like :\/?*[])
-  safe_nm <- substr(gsub("[\\/:*?\\[\\]]", "_", nm), 1, 31)
-  
-  addWorksheet(wb_cells, safe_nm)
-  writeData(wb_cells, safe_nm, df)
-}
-
-# Save workbook
-saveWorkbook(wb_cells, file = "cells.xlsx", overwrite = TRUE)
-
-
-# 2) SIGNIFICANCE workbook ----------------------------------------------------
-wb_sig <- createWorkbook()
-
-# Add combined sheet
-sig_combined <- bind_with_cell(data_export, "sig")
-addWorksheet(wb_sig, "Combined")
-writeData(wb_sig, "Combined", sig_combined)
-
-# Add one sheet per cell type for 'sig'
-for (nm in names(data_export)) {
-  df <- data_export[[nm]]$sig
-  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) next
-  
-  safe_nm <- substr(gsub("[\\/:*?\\[\\]]", "_", nm), 1, 31)
-  
-  addWorksheet(wb_sig, safe_nm)
-  writeData(wb_sig, safe_nm, df)
-}
-
-# Save workbook
-saveWorkbook(wb_sig, file = "significance.xlsx", overwrite = TRUE)
-```
-
 
 ### Figure 3
 

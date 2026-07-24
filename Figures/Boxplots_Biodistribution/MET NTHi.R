@@ -87,7 +87,7 @@ p <- ggplot(met.dat,
 
 # ---- Save ----
 ggsave(
-  sprintf("%s/Figures/Boxplots_Biodistribution/Fig1D_CountsMET.png", PrimaryDirectory),
+  "Figures/Boxplots_Biodistribution/Fig1D_CountsMET.png",
   plot = p,
   height = 6.69,
   width = 4.42,

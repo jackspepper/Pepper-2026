@@ -235,7 +235,7 @@ print(final_plot)
 
 # ---- Save ----
 ggplot2::ggsave(
-  sprintf("%s/Figures/Boxplots_Biodistribution/Fig1C_Biodistribution.png", PrimaryDirectory),
+  "Figures/Boxplots_Biodistribution/Fig1C_Biodistribution.png",
   plot = final_plot,
   width = 14.5,
   height = 8,

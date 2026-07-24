@@ -1,0 +1,768 @@
+FCSFileNames,Sample,Experiment,Tissue,Mouse Number,For_Vlookup,UniqueMouseID,Treatment,Timepoint,Sex,Hh Dose,NTHi Dose,NTHi MET CFUml,Log10(CFUml),Developed OM
+EXP1_Inter-run QC_Exp 1.fcs,CD45_EXP1_Inter-run QC_Exp 1.fcs,1,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP2_Inter-run QC_Exp 2.fcs,CD45_EXP2_Inter-run QC_Exp 2.fcs,2,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP3_Inter-run QC_Exp 3.fcs,CD45_EXP3_Inter-run QC_Exp.fcs,3,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP4_Inter-run QC_Exp 4.fcs,CD45_EXP4_Inter-run QC_Exp.fcs,4,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP5_Inter-run QC_Exp 5.fcs,CD45_EXP5_Inter-run QC_Exp.fcs,5,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP6_Inter-run QC_Exp 6.fcs,CD45_EXP6_Inter-run QC_Exp.fcs,6,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP7_Inter-run QC_Exp 7.fcs,CD45_EXP7_Inter-run QC_Exp 7.fcs,7,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP8_Inter-run QC_Exp 8.fcs,CD45_EXP8_Inter-run QC_Exp.fcs,8,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP9_Inter-run QC_Exp 9.fcs,CD45_EXP9_Inter-run QC_Exp.fcs,9,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP10_Inter-run QC_Exp 10.fcs,CD45_EXP10_Inter-run QC_Exp 10.fcs,10,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP11_Inter-run QC_Exp 11.fcs,CD45_EXP11_Inter-run QC_Exp11.fcs,11,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP12_Inter-run QC_Exp 12.fcs,CD45_EXP12_Inter-run QC_Exp12.fcs,12,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP13_Inter-run QC_Exp 13.fcs,CD45_EXP13_Inter-run QC_Exp13.fcs,13,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP14_Inter-run QC_Exp 14.fcs,CD45_EXP14_Inter-run QC_Exp14.fcs,14,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP15_Inter-run QC_Exp 15.fcs,CD45_EXP15_Inter-run QC_Exp15.fcs,15,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP16_Inter-run QC_Exp 16.fcs,CD45_EXP16_Inter-run QC_Exp16.fcs,16,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP17_Inter-run QC_Exp 17.fcs,CD45_EXP17_Inter-run QC_Exp17.fcs,17,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP18_Inter-run QC_Exp 18.fcs,CD45_EXP18_Inter-run QC_Exp.fcs,18,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP19_Inter-run QC_Exp 19.fcs,CD45_EXP19_Inter-run QC_Exp19.fcs,19,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP20_Inter-run QC_Exp 20.fcs,CD45_EXP20_Inter-run QC_Exp20.fcs,20,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP21_Inter-run QC_Exp 21.fcs,CD45_EXP21_Inter-run QC_Exp.fcs,21,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP22_Inter-run QC_Exp 22.fcs,CD45_EXP22_Inter-run QC_Exp.fcs,22,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP23_Inter-run QC_Exp 23.fcs,CD45_EXP23_Inter-run QC_Exp.fcs,23,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP24_Inter-run QC_Exp 24.fcs,CD45_EXP24_Inter-run QC_Exp.fcs,24,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP25_Inter-run QC_Exp 25.fcs,CD45_EXP25_Inter-run QC_Exp25.fcs,25,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP26_Inter-run QC_Exp 26.fcs,CD45_EXP26_Inter-run QC_Exp26.fcs,26,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP27_Inter-run QC_Mouse QC.fcs,CD45_EXP27_Inter-run QC_Mouse QC.fcs,27,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP28_Inter-run QC_Mouse QC.fcs,CD45_EXP28_Inter-run QC_Mouse QC.fcs,28,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP29_Inter-run QC_Mouse QC.fcs,CD45_EXP29_Inter-run QC_Mouse QC.fcs,29,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP30_Inter-run QC_Mouse QC.fcs,CD45_EXP30_Inter-run QC_Mouse QC.fcs,30,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP31_Inter-run QC_Mouse QC.fcs,CD45_EXP31_Inter-run QC_Mouse QC.fcs,31,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP32_Inter-run QC_Mouse QC.fcs,CD45_EXP32_Inter-run QC_Mouse QC.fcs,32,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP33_Inter-run QC_Mouse QC.fcs,CD45_EXP33_Inter-run QC_Mouse QC.fcs,33,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP34_Inter-run QC_Mouse QC.fcs,CD45_EXP34_Inter-run QC_Mouse QC.fcs,34,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP35_Inter-run QC_Mouse QC.fcs,CD45_EXP35_Inter-run QC_Mouse QC.fcs,35,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP36_Inter-run QC_Mouse QC.fcs,CD45_EXP36_Inter-run QC_Mouse QC.fcs,36,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP37_Inter-run QC_Mouse QC.fcs,CD45_EXP37_Inter-run QC_Mouse QC.fcs,37,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP38_Inter-run QC_Mouse QC.fcs,CD45_EXP38_Inter-run QC_Mouse QC.fcs,38,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP39_Inter-run QC_Mouse QC.fcs,CD45_EXP39_Inter-run QC_Mouse QC.fcs,39,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP40_Inter-run QC_Mouse QC.fcs,CD45_EXP40_Inter-run QC_Mouse QC.fcs,40,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP41_Inter-run QC_Mouse QC.fcs,CD45_EXP41_Inter-run QC_Mouse QC.fcs,41,Inter-run QC,QC,QC,QC,QC,QC,QC,NA,NA,NA,NA,NA
+EXP1_Lung_Mouse 1.fcs,CD45_EXP1_Lung_Mouse 1.fcs,1,Lung,1,1_1,1,Hh,6,M,1.83E+07,NA,NA,NA,NA
+EXP1_Lung_Mouse 2.fcs,CD45_EXP1_Lung_Mouse 2.fcs,1,Lung,2,1_2,2,Hh,6,M,1.83E+07,NA,NA,NA,NA
+EXP1_Lung_Mouse 3.fcs,CD45_EXP1_Lung_Mouse 3.fcs,1,Lung,3,1_3,3,Hh,6,F,1.83E+07,NA,NA,NA,NA
+EXP1_Lung_Mouse 4.fcs,CD45_EXP1_Lung_Mouse 4.fcs,1,Lung,4,1_4,4,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP1_Lung_Mouse 5.fcs,CD45_EXP1_Lung_Mouse 5.fcs,1,Lung,5,1_5,5,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP1_Lung_Mouse 6.fcs,CD45_EXP1_Lung_Mouse 6.fcs,1,Lung,6,1_6,6,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP1_Nasal Tissue_Mouse 1.fcs,CD45_EXP1_Nasal Tissue_Mouse 1.fcs,1,Nasal Tissue,1,1_1,1,Hh,6,M,1.83E+07,NA,NA,NA,NA
+EXP1_Nasal Tissue_Mouse 2.fcs,CD45_EXP1_Nasal Tissue_Mouse 2.fcs,1,Nasal Tissue,2,1_2,2,Hh,6,M,1.83E+07,NA,NA,NA,NA
+EXP1_Nasal Tissue_Mouse 3.fcs,CD45_EXP1_Nasal Tissue_Mouse 3.fcs,1,Nasal Tissue,3,1_3,3,Hh,6,F,1.83E+07,NA,NA,NA,NA
+EXP1_Nasal Tissue_Mouse 4.fcs,CD45_EXP1_Nasal Tissue_Mouse 4.fcs,1,Nasal Tissue,4,1_4,4,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP1_Nasal Tissue_Mouse 5.fcs,CD45_EXP1_Nasal Tissue_Mouse 5.fcs,1,Nasal Tissue,5,1_5,5,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP1_Nasal Tissue_Mouse 6.fcs,CD45_EXP1_Nasal Tissue_Mouse 6.fcs,1,Nasal Tissue,6,1_6,6,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP1_Spleen_Mouse 1.fcs,CD45_EXP1_Spleen_Mouse 1.fcs,1,Spleen,1,1_1,1,Hh,6,M,1.83E+07,NA,NA,NA,NA
+EXP1_Spleen_Mouse 2.fcs,CD45_EXP1_Spleen_Mouse 2.fcs,1,Spleen,2,1_2,2,Hh,6,M,1.83E+07,NA,NA,NA,NA
+EXP1_Spleen_Mouse 3.fcs,CD45_EXP1_Spleen_Mouse 3.fcs,1,Spleen,3,1_3,3,Hh,6,F,1.83E+07,NA,NA,NA,NA
+EXP1_Spleen_Mouse 4.fcs,CD45_EXP1_Spleen_Mouse 4.fcs,1,Spleen,4,1_4,4,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP1_Spleen_Mouse 5.fcs,CD45_EXP1_Spleen_Mouse 5.fcs,1,Spleen,5,1_5,5,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP1_Spleen_Mouse 6.fcs,CD45_EXP1_Spleen_Mouse 6.fcs,1,Spleen,6,1_6,6,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP2_Lung_Mouse 1.fcs,CD45_EXP2_Lung_Mouse 1.fcs,2,Lung,1,2_1,7,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP2_Lung_Mouse 2.fcs,CD45_EXP2_Lung_Mouse 2.fcs,2,Lung,2,2_2,8,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP2_Lung_Mouse 3.fcs,CD45_EXP2_Lung_Mouse 3.fcs,2,Lung,3,2_3,9,Hh,24,F,1.83E+07,NA,NA,NA,NA
+EXP2_Lung_Mouse 4.fcs,CD45_EXP2_Lung_Mouse 4.fcs,2,Lung,4,2_4,10,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP2_Lung_Mouse 5.fcs,CD45_EXP2_Lung_Mouse 5.fcs,2,Lung,5,2_5,11,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP2_Lung_Mouse 6.fcs,CD45_EXP2_Lung_Mouse 6.fcs,2,Lung,6,2_6,12,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP2_Nasal Tissue_Mouse 1.fcs,CD45_EXP2_Nasal Tissue_Mouse 1.fcs,2,Nasal Tissue,1,2_1,7,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP2_Nasal Tissue_Mouse 2.fcs,CD45_EXP2_Nasal Tissue_Mouse 2.fcs,2,Nasal Tissue,2,2_2,8,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP2_Nasal Tissue_Mouse 3.fcs,CD45_EXP2_Nasal Tissue_Mouse 3.fcs,2,Nasal Tissue,3,2_3,9,Hh,24,F,1.83E+07,NA,NA,NA,NA
+EXP2_Nasal Tissue_Mouse 4.fcs,CD45_EXP2_Nasal Tissue_Mouse 4.fcs,2,Nasal Tissue,4,2_4,10,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP2_Nasal Tissue_Mouse 5.fcs,CD45_EXP2_Nasal Tissue_Mouse 5.fcs,2,Nasal Tissue,5,2_5,11,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP2_Nasal Tissue_Mouse 6.fcs,CD45_EXP2_Nasal Tissue_Mouse 6.fcs,2,Nasal Tissue,6,2_6,12,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP2_Spleen_Mouse 1.fcs,CD45_EXP2_Spleen_Mouse 1.fcs,2,Spleen,1,2_1,7,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP2_Spleen_Mouse 2.fcs,CD45_EXP2_Spleen_Mouse 2.fcs,2,Spleen,2,2_2,8,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP2_Spleen_Mouse 3.fcs,CD45_EXP2_Spleen_Mouse 3.fcs,2,Spleen,3,2_3,9,Hh,24,F,1.83E+07,NA,NA,NA,NA
+EXP2_Spleen_Mouse 4.fcs,CD45_EXP2_Spleen_Mouse 4.fcs,2,Spleen,4,2_4,10,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP2_Spleen_Mouse 5.fcs,CD45_EXP2_Spleen_Mouse 5.fcs,2,Spleen,5,2_5,11,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP2_Spleen_Mouse 6.fcs,CD45_EXP2_Spleen_Mouse 6.fcs,2,Spleen,6,2_6,12,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP3_Lung_Mouse 1.fcs,CD45_EXP3_Lung_Mouse 1.fcs,3,Lung,1,3_1,13,Saline,6,M,NA,NA,NA,NA,NA
+EXP3_Lung_Mouse 2.fcs,CD45_EXP3_Lung_Mouse 2.fcs,3,Lung,2,3_2,14,Saline,6,M,NA,NA,NA,NA,NA
+EXP3_Lung_Mouse 3.fcs,CD45_EXP3_Lung_Mouse 3.fcs,3,Lung,3,3_3,15,Hh,6,M,7.17E+07,NA,NA,NA,NA
+EXP3_Lung_Mouse 4.fcs,CD45_EXP3_Lung_Mouse 4.fcs,3,Lung,4,3_4,16,Hh,6,F,7.17E+07,NA,NA,NA,NA
+EXP3_Lung_Mouse 5.fcs,CD45_EXP3_Lung_Mouse 5.fcs,3,Lung,5,3_5,17,Pam10ug,6,M,NA,NA,NA,NA,NA
+EXP3_Lung_Mouse 6.fcs,CD45_EXP3_Lung_Mouse 6.fcs,3,Lung,6,3_6,18,Pam10ug,6,F,NA,NA,NA,NA,NA
+EXP3_Nasal Tissue_Mouse 1.fcs,CD45_EXP3_Nasal Tissue_Mouse 1.fcs,3,Nasal Tissue,1,3_1,13,Saline,6,M,NA,NA,NA,NA,NA
+EXP3_Nasal Tissue_Mouse 2.fcs,CD45_EXP3_Nasal Tissue_Mouse 2.fcs,3,Nasal Tissue,2,3_2,14,Saline,6,M,NA,NA,NA,NA,NA
+EXP3_Nasal Tissue_Mouse 3.fcs,CD45_EXP3_Nasal Tissue_Mouse 3.fcs,3,Nasal Tissue,3,3_3,15,Hh,6,M,7.17E+07,NA,NA,NA,NA
+EXP3_Nasal Tissue_Mouse 4.fcs,CD45_EXP3_Nasal Tissue_Mouse 4.fcs,3,Nasal Tissue,4,3_4,16,Hh,6,F,7.17E+07,NA,NA,NA,NA
+EXP3_Nasal Tissue_Mouse 5.fcs,CD45_EXP3_Nasal Tissue_Mouse 5.fcs,3,Nasal Tissue,5,3_5,17,Pam10ug,6,M,NA,NA,NA,NA,NA
+EXP3_Nasal Tissue_Mouse 6.fcs,CD45_EXP3_Nasal Tissue_Mouse 6.fcs,3,Nasal Tissue,6,3_6,18,Pam10ug,6,F,NA,NA,NA,NA,NA
+EXP3_Spleen_Mouse 1.fcs,CD45_EXP3_Spleen_Mouse 1.fcs,3,Spleen,1,3_1,13,Saline,6,M,NA,NA,NA,NA,NA
+EXP3_Spleen_Mouse 2.fcs,CD45_EXP3_Spleen_Mouse 2.fcs,3,Spleen,2,3_2,14,Saline,6,M,NA,NA,NA,NA,NA
+EXP3_Spleen_Mouse 3.fcs,CD45_EXP3_Spleen_Mouse 3.fcs,3,Spleen,3,3_3,15,Hh,6,M,7.17E+07,NA,NA,NA,NA
+EXP3_Spleen_Mouse 4.fcs,CD45_EXP3_Spleen_Mouse 4.fcs,3,Spleen,4,3_4,16,Hh,6,F,7.17E+07,NA,NA,NA,NA
+EXP3_Spleen_Mouse 5.fcs,CD45_EXP3_Spleen_Mouse 5.fcs,3,Spleen,5,3_5,17,Pam10ug,6,M,NA,NA,NA,NA,NA
+EXP3_Spleen_Mouse 6.fcs,CD45_EXP3_Spleen_Mouse 6.fcs,3,Spleen,6,3_6,18,Pam10ug,6,F,NA,NA,NA,NA,NA
+EXP4_Lung_Mouse 1.fcs,CD45_EXP4_Lung_Mouse 1.fcs,4,Lung,1,4_1,19,Saline,24,M,NA,NA,NA,NA,NA
+EXP4_Lung_Mouse 2.fcs,CD45_EXP4_Lung_Mouse 2.fcs,4,Lung,2,4_2,20,Saline,24,M,NA,NA,NA,NA,NA
+EXP4_Lung_Mouse 3.fcs,CD45_EXP4_Lung_Mouse 3.fcs,4,Lung,3,4_3,21,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP4_Lung_Mouse 5.fcs,CD45_EXP4_Lung_Mouse 5.fcs,4,Lung,5,4_5,22,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP4_Lung_Mouse 6.fcs,CD45_EXP4_Lung_Mouse 6.fcs,4,Lung,6,4_6,23,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP4_Nasal Tissue_Mouse 1.fcs,CD45_EXP4_Nasal Tissue_Mouse 1.fcs,4,Nasal Tissue,1,4_1,19,Saline,24,M,NA,NA,NA,NA,NA
+EXP4_Nasal Tissue_Mouse 2.fcs,CD45_EXP4_Nasal Tissue_Mouse 2.fcs,4,Nasal Tissue,2,4_2,20,Saline,24,M,NA,NA,NA,NA,NA
+EXP4_Nasal Tissue_Mouse 3.fcs,CD45_EXP4_Nasal Tissue_Mouse 3.fcs,4,Nasal Tissue,3,4_3,21,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP4_Nasal Tissue_Mouse 5.fcs,CD45_EXP4_Nasal Tissue_Mouse 5.fcs,4,Nasal Tissue,5,4_5,22,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP4_Nasal Tissue_Mouse 6.fcs,CD45_EXP4_Nasal Tissue_Mouse 6.fcs,4,Nasal Tissue,6,4_6,23,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP4_Spleen_Mouse 1.fcs,CD45_EXP4_Spleen_Mouse 1.fcs,4,Spleen,1,4_1,19,Saline,24,M,NA,NA,NA,NA,NA
+EXP4_Spleen_Mouse 2.fcs,CD45_EXP4_Spleen_Mouse 2.fcs,4,Spleen,2,4_2,20,Saline,24,M,NA,NA,NA,NA,NA
+EXP4_Spleen_Mouse 3.fcs,CD45_EXP4_Spleen_Mouse 3.fcs,4,Spleen,3,4_3,21,Hh,24,M,1.83E+07,NA,NA,NA,NA
+EXP4_Spleen_Mouse 5.fcs,CD45_EXP4_Spleen_Mouse 5.fcs,4,Spleen,5,4_5,22,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP4_Spleen_Mouse 6.fcs,CD45_EXP4_Spleen_Mouse 6.fcs,4,Spleen,6,4_6,23,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP5_Lung_Mouse 1.fcs,CD45_EXP5_Lung_Mouse 1.fcs,5,Lung,1,5_1,24,Saline,6,F,NA,NA,NA,NA,NA
+EXP5_Lung_Mouse 2.fcs,CD45_EXP5_Lung_Mouse 2.fcs,5,Lung,2,5_2,25,Saline,6,F,NA,NA,NA,NA,NA
+EXP5_Lung_Mouse 3.fcs,CD45_EXP5_Lung_Mouse 3.fcs,5,Lung,3,5_3,26,Hh,6,F,2.33E+07,NA,NA,NA,NA
+EXP5_Lung_Mouse 4.fcs,CD45_EXP5_Lung_Mouse 4.fcs,5,Lung,4,5_4,27,Pam10ug,6,M,NA,NA,NA,NA,NA
+EXP5_Lung_Mouse 5.fcs,CD45_EXP5_Lung_Mouse 5.fcs,5,Lung,5,5_5,28,Pam10ug,6,F,NA,NA,NA,NA,NA
+EXP5_Nasal Tissue_Mouse 1.fcs,CD45_EXP5_Nasal Tissue_Mouse 1.fcs,5,Nasal Tissue,1,5_1,24,Saline,6,F,NA,NA,NA,NA,NA
+EXP5_Nasal Tissue_Mouse 2.fcs,CD45_EXP5_Nasal Tissue_Mouse 2.fcs,5,Nasal Tissue,2,5_2,25,Saline,6,F,NA,NA,NA,NA,NA
+EXP5_Nasal Tissue_Mouse 3.fcs,CD45_EXP5_Nasal Tissue_Mouse 3.fcs,5,Nasal Tissue,3,5_3,26,Hh,6,F,2.33E+07,NA,NA,NA,NA
+EXP5_Nasal Tissue_Mouse 4.fcs,CD45_EXP5_Nasal Tissue_Mouse 4.fcs,5,Nasal Tissue,4,5_4,27,Pam10ug,6,M,NA,NA,NA,NA,NA
+EXP5_Nasal Tissue_Mouse 5.fcs,CD45_EXP5_Nasal Tissue_Mouse 5.fcs,5,Nasal Tissue,5,5_5,28,Pam10ug,6,F,NA,NA,NA,NA,NA
+EXP5_Spleen_Mouse 1.fcs,CD45_EXP5_Spleen_Mouse 1.fcs,5,Spleen,1,5_1,24,Saline,6,F,NA,NA,NA,NA,NA
+EXP5_Spleen_Mouse 2.fcs,CD45_EXP5_Spleen_Mouse 2.fcs,5,Spleen,2,5_2,25,Saline,6,F,NA,NA,NA,NA,NA
+EXP5_Spleen_Mouse 3.fcs,CD45_EXP5_Spleen_Mouse 3.fcs,5,Spleen,3,5_3,26,Hh,6,F,2.33E+07,NA,NA,NA,NA
+EXP5_Spleen_Mouse 4.fcs,CD45_EXP5_Spleen_Mouse 4.fcs,5,Spleen,4,5_4,27,Pam10ug,6,M,NA,NA,NA,NA,NA
+EXP5_Spleen_Mouse 5.fcs,CD45_EXP5_Spleen_Mouse 5.fcs,5,Spleen,5,5_5,28,Pam10ug,6,F,NA,NA,NA,NA,NA
+EXP6_Lung_Mouse 1.fcs,CD45_EXP6_Lung_Mouse 1.fcs,6,Lung,1,6_1,29,Saline,24,F,NA,NA,NA,NA,NA
+EXP6_Lung_Mouse 2.fcs,CD45_EXP6_Lung_Mouse 2.fcs,6,Lung,2,6_2,30,Saline,24,F,NA,NA,NA,NA,NA
+EXP6_Lung_Mouse 3.fcs,CD45_EXP6_Lung_Mouse 3.fcs,6,Lung,3,6_3,31,Hh,24,F,4.17E+06,NA,NA,NA,NA
+EXP6_Lung_Mouse 4.fcs,CD45_EXP6_Lung_Mouse 4.fcs,6,Lung,4,6_4,32,Hh,24,M,4.17E+06,NA,NA,NA,NA
+EXP6_Lung_Mouse 5.fcs,CD45_EXP6_Lung_Mouse 5.fcs,6,Lung,5,6_5,33,Pam10ug,24,F,NA,NA,NA,NA,NA
+EXP6_Lung_Mouse 6.fcs,CD45_EXP6_Lung_Mouse 6.fcs,6,Lung,6,6_6,34,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP6_Nasal Tissue_Mouse 1.fcs,CD45_EXP6_Nasal Tissue_Mouse 1.fcs,6,Nasal Tissue,1,6_1,29,Saline,24,F,NA,NA,NA,NA,NA
+EXP6_Nasal Tissue_Mouse 2.fcs,CD45_EXP6_Nasal Tissue_Mouse 2.fcs,6,Nasal Tissue,2,6_2,30,Saline,24,F,NA,NA,NA,NA,NA
+EXP6_Nasal Tissue_Mouse 3.fcs,CD45_EXP6_Nasal Tissue_Mouse 3.fcs,6,Nasal Tissue,3,6_3,31,Hh,24,F,4.17E+06,NA,NA,NA,NA
+EXP6_Nasal Tissue_Mouse 4.fcs,CD45_EXP6_Nasal Tissue_Mouse 4.fcs,6,Nasal Tissue,4,6_4,32,Hh,24,M,4.17E+06,NA,NA,NA,NA
+EXP6_Nasal Tissue_Mouse 5.fcs,CD45_EXP6_Nasal Tissue_Mouse 5.fcs,6,Nasal Tissue,5,6_5,33,Pam10ug,24,F,NA,NA,NA,NA,NA
+EXP6_Nasal Tissue_Mouse 6.fcs,CD45_EXP6_Nasal Tissue_Mouse 6.fcs,6,Nasal Tissue,6,6_6,34,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP6_Spleen_Mouse 1.fcs,CD45_EXP6_Spleen_Mouse 1.fcs,6,Spleen,1,6_1,29,Saline,24,F,NA,NA,NA,NA,NA
+EXP6_Spleen_Mouse 2.fcs,CD45_EXP6_Spleen_Mouse 2.fcs,6,Spleen,2,6_2,30,Saline,24,F,NA,NA,NA,NA,NA
+EXP6_Spleen_Mouse 3.fcs,CD45_EXP6_Spleen_Mouse 3.fcs,6,Spleen,3,6_3,31,Hh,24,F,4.17E+06,NA,NA,NA,NA
+EXP6_Spleen_Mouse 4.fcs,CD45_EXP6_Spleen_Mouse 4.fcs,6,Spleen,4,6_4,32,Hh,24,M,4.17E+06,NA,NA,NA,NA
+EXP6_Spleen_Mouse 5.fcs,CD45_EXP6_Spleen_Mouse 5.fcs,6,Spleen,5,6_5,33,Pam10ug,24,F,NA,NA,NA,NA,NA
+EXP6_Spleen_Mouse 6.fcs,CD45_EXP6_Spleen_Mouse 6.fcs,6,Spleen,6,6_6,34,Pam10ug,24,M,NA,NA,NA,NA,NA
+EXP7_Lung_Mouse 1.fcs,CD45_EXP7_Lung_Mouse 1.fcs,7,Lung,1,7_1,35,Saline,2,M,NA,NA,NA,NA,NA
+EXP7_Lung_Mouse 2.fcs,CD45_EXP7_Lung_Mouse 2.fcs,7,Lung,2,7_2,36,Saline,2,F,NA,NA,NA,NA,NA
+EXP7_Lung_Mouse 3.fcs,CD45_EXP7_Lung_Mouse 3.fcs,7,Lung,3,7_3,37,Hh,2,M,2.17E+06,NA,NA,NA,NA
+EXP7_Lung_Mouse 4.fcs,CD45_EXP7_Lung_Mouse 4.fcs,7,Lung,4,7_4,38,Hh,2,F,2.17E+06,NA,NA,NA,NA
+EXP7_Lung_Mouse 5.fcs,CD45_EXP7_Lung_Mouse 5.fcs,7,Lung,5,7_5,39,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP7_Lung_Mouse 6.fcs,CD45_EXP7_Lung_Mouse 6.fcs,7,Lung,6,7_6,40,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP7_Nasal Tissue_Mouse 1.fcs,CD45_EXP7_Nasal Tissue_Mouse 1.fcs,7,Nasal Tissue,1,7_1,35,Saline,2,M,NA,NA,NA,NA,NA
+EXP7_Nasal Tissue_Mouse 2.fcs,CD45_EXP7_Nasal Tissue_Mouse 2.fcs,7,Nasal Tissue,2,7_2,36,Saline,2,F,NA,NA,NA,NA,NA
+EXP7_Nasal Tissue_Mouse 3.fcs,CD45_EXP7_Nasal Tissue_Mouse 3.fcs,7,Nasal Tissue,3,7_3,37,Hh,2,M,2.17E+06,NA,NA,NA,NA
+EXP7_Nasal Tissue_Mouse 4.fcs,CD45_EXP7_Nasal Tissue_Mouse 4.fcs,7,Nasal Tissue,4,7_4,38,Hh,2,F,2.17E+06,NA,NA,NA,NA
+EXP7_Nasal Tissue_Mouse 5.fcs,CD45_EXP7_Nasal Tissue_Mouse 5.fcs,7,Nasal Tissue,5,7_5,39,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP7_Nasal Tissue_Mouse 6.fcs,CD45_EXP7_Nasal Tissue_Mouse 6.fcs,7,Nasal Tissue,6,7_6,40,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP7_Spleen_Mouse 1.fcs,CD45_EXP7_Spleen_Mouse 1.fcs,7,Spleen,1,7_1,35,Saline,2,M,NA,NA,NA,NA,NA
+EXP7_Spleen_Mouse 2.fcs,CD45_EXP7_Spleen_Mouse 2.fcs,7,Spleen,2,7_2,36,Saline,2,F,NA,NA,NA,NA,NA
+EXP7_Spleen_Mouse 3.fcs,CD45_EXP7_Spleen_Mouse 3.fcs,7,Spleen,3,7_3,37,Hh,2,M,2.17E+06,NA,NA,NA,NA
+EXP7_Spleen_Mouse 4.fcs,CD45_EXP7_Spleen_Mouse 4.fcs,7,Spleen,4,7_4,38,Hh,2,F,2.17E+06,NA,NA,NA,NA
+EXP7_Spleen_Mouse 5.fcs,CD45_EXP7_Spleen_Mouse 5.fcs,7,Spleen,5,7_5,39,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP7_Spleen_Mouse 6.fcs,CD45_EXP7_Spleen_Mouse 6.fcs,7,Spleen,6,7_6,40,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP8_Lung_Mouse 1.fcs,CD45_EXP8_Lung_Mouse 1.fcs,8,Lung,1,8_1,41,Saline,2,M,NA,NA,NA,NA,NA
+EXP8_Lung_Mouse 2.fcs,CD45_EXP8_Lung_Mouse 2.fcs,8,Lung,2,8_2,42,Saline,2,F,NA,NA,NA,NA,NA
+EXP8_Lung_Mouse 3.fcs,CD45_EXP8_Lung_Mouse 3.fcs,8,Lung,3,8_3,43,Hh,2,M,4.67E+06,NA,NA,NA,NA
+EXP8_Lung_Mouse 4.fcs,CD45_EXP8_Lung_Mouse 4.fcs,8,Lung,4,8_4,44,Hh,2,F,4.67E+06,NA,NA,NA,NA
+EXP8_Lung_Mouse 5.fcs,CD45_EXP8_Lung_Mouse 5.fcs,8,Lung,5,8_5,45,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP8_Lung_Mouse 6.fcs,CD45_EXP8_Lung_Mouse 6.fcs,8,Lung,6,8_6,46,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP8_Nasal Tissue_Mouse 1.fcs,CD45_EXP8_Nasal Tissue_Mouse 1.fcs,8,Nasal Tissue,1,8_1,41,Saline,2,M,NA,NA,NA,NA,NA
+EXP8_Nasal Tissue_Mouse 2.fcs,CD45_EXP8_Nasal Tissue_Mouse 2.fcs,8,Nasal Tissue,2,8_2,42,Saline,2,F,NA,NA,NA,NA,NA
+EXP8_Nasal Tissue_Mouse 3.fcs,CD45_EXP8_Nasal Tissue_Mouse 3.fcs,8,Nasal Tissue,3,8_3,43,Hh,2,M,4.67E+06,NA,NA,NA,NA
+EXP8_Nasal Tissue_Mouse 4.fcs,CD45_EXP8_Nasal Tissue_Mouse 4.fcs,8,Nasal Tissue,4,8_4,44,Hh,2,F,4.67E+06,NA,NA,NA,NA
+EXP8_Nasal Tissue_Mouse 5.fcs,CD45_EXP8_Nasal Tissue_Mouse 5.fcs,8,Nasal Tissue,5,8_5,45,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP8_Nasal Tissue_Mouse 6.fcs,CD45_EXP8_Nasal Tissue_Mouse 6.fcs,8,Nasal Tissue,6,8_6,46,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP8_Spleen_Mouse 1.fcs,CD45_EXP8_Spleen_Mouse 1.fcs,8,Spleen,1,8_1,41,Saline,2,M,NA,NA,NA,NA,NA
+EXP8_Spleen_Mouse 2.fcs,CD45_EXP8_Spleen_Mouse 2.fcs,8,Spleen,2,8_2,42,Saline,2,F,NA,NA,NA,NA,NA
+EXP8_Spleen_Mouse 3.fcs,CD45_EXP8_Spleen_Mouse 3.fcs,8,Spleen,3,8_3,43,Hh,2,M,4.67E+06,NA,NA,NA,NA
+EXP8_Spleen_Mouse 4.fcs,CD45_EXP8_Spleen_Mouse 4.fcs,8,Spleen,4,8_4,44,Hh,2,F,4.67E+06,NA,NA,NA,NA
+EXP8_Spleen_Mouse 5.fcs,CD45_EXP8_Spleen_Mouse 5.fcs,8,Spleen,5,8_5,45,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP8_Spleen_Mouse 6.fcs,CD45_EXP8_Spleen_Mouse 6.fcs,8,Spleen,6,8_6,46,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP9_Lung_Mouse 1.fcs,CD45_EXP9_Lung_Mouse 1.fcs,9,Lung,1,9_1,47,Saline,2,M,NA,NA,NA,NA,NA
+EXP9_Lung_Mouse 2.fcs,CD45_EXP9_Lung_Mouse 2.fcs,9,Lung,2,9_2,48,Saline,2,F,NA,NA,NA,NA,NA
+EXP9_Lung_Mouse 3.fcs,CD45_EXP9_Lung_Mouse 3.fcs,9,Lung,3,9_3,49,Hh,2,M,6.00E+07,NA,NA,NA,NA
+EXP9_Lung_Mouse 4.fcs,CD45_EXP9_Lung_Mouse 4.fcs,9,Lung,4,9_4,50,Hh,2,F,6.00E+07,NA,NA,NA,NA
+EXP9_Lung_Mouse 5.fcs,CD45_EXP9_Lung_Mouse 5.fcs,9,Lung,5,9_5,51,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP9_Lung_Mouse 6.fcs,CD45_EXP9_Lung_Mouse 6.fcs,9,Lung,6,9_6,52,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP9_Nasal Tissue_Mouse 1.fcs,CD45_EXP9_Nasal Tissue_Mouse 1.fcs,9,Nasal Tissue,1,9_1,47,Saline,2,M,NA,NA,NA,NA,NA
+EXP9_Nasal Tissue_Mouse 2.fcs,CD45_EXP9_Nasal Tissue_Mouse 2.fcs,9,Nasal Tissue,2,9_2,48,Saline,2,F,NA,NA,NA,NA,NA
+EXP9_Nasal Tissue_Mouse 3.fcs,CD45_EXP9_Nasal Tissue_Mouse 3.fcs,9,Nasal Tissue,3,9_3,49,Hh,2,M,6.00E+07,NA,NA,NA,NA
+EXP9_Nasal Tissue_Mouse 4.fcs,CD45_EXP9_Nasal Tissue_Mouse 4.fcs,9,Nasal Tissue,4,9_4,50,Hh,2,F,6.00E+07,NA,NA,NA,NA
+EXP9_Nasal Tissue_Mouse 5.fcs,CD45_EXP9_Nasal Tissue_Mouse 5.fcs,9,Nasal Tissue,5,9_5,51,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP9_Nasal Tissue_Mouse 6.fcs,CD45_EXP9_Nasal Tissue_Mouse 6.fcs,9,Nasal Tissue,6,9_6,52,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP9_Spleen_Mouse 1.fcs,CD45_EXP9_Spleen_Mouse 1.fcs,9,Spleen,1,9_1,47,Saline,2,M,NA,NA,NA,NA,NA
+EXP9_Spleen_Mouse 2.fcs,CD45_EXP9_Spleen_Mouse 2.fcs,9,Spleen,2,9_2,48,Saline,2,F,NA,NA,NA,NA,NA
+EXP9_Spleen_Mouse 3.fcs,CD45_EXP9_Spleen_Mouse 3.fcs,9,Spleen,3,9_3,49,Hh,2,M,6.00E+07,NA,NA,NA,NA
+EXP9_Spleen_Mouse 4.fcs,CD45_EXP9_Spleen_Mouse 4.fcs,9,Spleen,4,9_4,50,Hh,2,F,6.00E+07,NA,NA,NA,NA
+EXP9_Spleen_Mouse 5.fcs,CD45_EXP9_Spleen_Mouse 5.fcs,9,Spleen,5,9_5,51,Pam1ug,2,M,NA,NA,NA,NA,NA
+EXP9_Spleen_Mouse 6.fcs,CD45_EXP9_Spleen_Mouse 6.fcs,9,Spleen,6,9_6,52,Pam1ug,2,F,NA,NA,NA,NA,NA
+EXP10_Lung_Mouse 1.fcs,CD45_EXP10_Lung_Mouse 1.fcs,10,Lung,1,10_1,53,Saline,6,M,NA,NA,NA,NA,NA
+EXP10_Lung_Mouse 2.fcs,CD45_EXP10_Lung_Mouse 2.fcs,10,Lung,2,10_2,54,Saline,6,F,NA,NA,NA,NA,NA
+EXP10_Lung_Mouse 3.fcs,CD45_EXP10_Lung_Mouse 3.fcs,10,Lung,3,10_3,55,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP10_Lung_Mouse 4.fcs,CD45_EXP10_Lung_Mouse 4.fcs,10,Lung,4,10_4,56,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP10_Lung_Mouse 5.fcs,CD45_EXP10_Lung_Mouse 5.fcs,10,Lung,5,10_5,57,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP10_Nasal Tissue_Mouse 1.fcs,CD45_EXP10_Nasal Tissue_Mouse 1.fcs,10,Nasal Tissue,1,10_1,53,Saline,6,M,NA,NA,NA,NA,NA
+EXP10_Nasal Tissue_Mouse 2.fcs,CD45_EXP10_Nasal Tissue_Mouse 2.fcs,10,Nasal Tissue,2,10_2,54,Saline,6,F,NA,NA,NA,NA,NA
+EXP10_Nasal Tissue_Mouse 3.fcs,CD45_EXP10_Nasal Tissue_Mouse 3.fcs,10,Nasal Tissue,3,10_3,55,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP10_Nasal Tissue_Mouse 4.fcs,CD45_EXP10_Nasal Tissue_Mouse 4.fcs,10,Nasal Tissue,4,10_4,56,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP10_Nasal Tissue_Mouse 5.fcs,CD45_EXP10_Nasal Tissue_Mouse 5.fcs,10,Nasal Tissue,5,10_5,57,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP10_Spleen_Mouse 1.fcs,CD45_EXP10_Spleen_Mouse 1.fcs,10,Spleen,1,10_1,53,Saline,6,M,NA,NA,NA,NA,NA
+EXP10_Spleen_Mouse 2.fcs,CD45_EXP10_Spleen_Mouse 2.fcs,10,Spleen,2,10_2,54,Saline,6,F,NA,NA,NA,NA,NA
+EXP10_Spleen_Mouse 3.fcs,CD45_EXP10_Spleen_Mouse 3.fcs,10,Spleen,3,10_3,55,Pam1ug,6,M,NA,NA,NA,NA,NA
+EXP10_Spleen_Mouse 4.fcs,CD45_EXP10_Spleen_Mouse 4.fcs,10,Spleen,4,10_4,56,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP10_Spleen_Mouse 5.fcs,CD45_EXP10_Spleen_Mouse 5.fcs,10,Spleen,5,10_5,57,Pam1ug,6,F,NA,NA,NA,NA,NA
+EXP11_Lung_Mouse 1.fcs,CD45_EXP11_Lung_Mouse 1.fcs,11,Lung,1,11_1,58,Saline,24,M,NA,NA,NA,NA,NA
+EXP11_Lung_Mouse 2.fcs,CD45_EXP11_Lung_Mouse 2.fcs,11,Lung,2,11_2,59,Saline,24,F,NA,NA,NA,NA,NA
+EXP11_Lung_Mouse 3.fcs,CD45_EXP11_Lung_Mouse 3.fcs,11,Lung,3,11_3,60,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP11_Lung_Mouse 4.fcs,CD45_EXP11_Lung_Mouse 4.fcs,11,Lung,4,11_4,61,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP11_Lung_Mouse 5.fcs,CD45_EXP11_Lung_Mouse 5.fcs,11,Lung,5,11_5,62,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP11_Nasal Tissue_Mouse 1.fcs,CD45_EXP11_Nasal Tissue_Mouse 1.fcs,11,Nasal Tissue,1,11_1,58,Saline,24,M,NA,NA,NA,NA,NA
+EXP11_Nasal Tissue_Mouse 2.fcs,CD45_EXP11_Nasal Tissue_Mouse 2.fcs,11,Nasal Tissue,2,11_2,59,Saline,24,F,NA,NA,NA,NA,NA
+EXP11_Nasal Tissue_Mouse 3.fcs,CD45_EXP11_Nasal Tissue_Mouse 3.fcs,11,Nasal Tissue,3,11_3,60,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP11_Nasal Tissue_Mouse 4.fcs,CD45_EXP11_Nasal Tissue_Mouse 4.fcs,11,Nasal Tissue,4,11_4,61,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP11_Nasal Tissue_Mouse 5.fcs,CD45_EXP11_Nasal Tissue_Mouse 5.fcs,11,Nasal Tissue,5,11_5,62,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP11_Spleen_Mouse 1.fcs,CD45_EXP11_Spleen_Mouse 1.fcs,11,Spleen,1,11_1,58,Saline,24,M,NA,NA,NA,NA,NA
+EXP11_Spleen_Mouse 2.fcs,CD45_EXP11_Spleen_Mouse 2.fcs,11,Spleen,2,11_2,59,Saline,24,F,NA,NA,NA,NA,NA
+EXP11_Spleen_Mouse 3.fcs,CD45_EXP11_Spleen_Mouse 3.fcs,11,Spleen,3,11_3,60,Pam1ug,24,M,NA,NA,NA,NA,NA
+EXP11_Spleen_Mouse 4.fcs,CD45_EXP11_Spleen_Mouse 4.fcs,11,Spleen,4,11_4,61,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP11_Spleen_Mouse 5.fcs,CD45_EXP11_Spleen_Mouse 5.fcs,11,Spleen,5,11_5,62,Pam1ug,24,F,NA,NA,NA,NA,NA
+EXP12_Lung_Mouse 1.fcs,CD45_EXP12_Lung_Mouse 1.fcs,12,Lung,1,12_1,63,Saline,48,M,NA,NA,NA,NA,NA
+EXP12_Lung_Mouse 2.fcs,CD45_EXP12_Lung_Mouse 2.fcs,12,Lung,2,12_2,64,Saline,48,F,NA,NA,NA,NA,NA
+EXP12_Lung_Mouse 3.fcs,CD45_EXP12_Lung_Mouse 3.fcs,12,Lung,3,12_3,65,Hh,48,M,7.50E+07,NA,NA,NA,NA
+EXP12_Lung_Mouse 4.fcs,CD45_EXP12_Lung_Mouse 4.fcs,12,Lung,4,12_4,66,Hh,48,F,7.50E+07,NA,NA,NA,NA
+EXP12_Lung_Mouse 5.fcs,CD45_EXP12_Lung_Mouse 5.fcs,12,Lung,5,12_5,67,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP12_Lung_Mouse 6.fcs,CD45_EXP12_Lung_Mouse 6.fcs,12,Lung,6,12_6,68,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP12_Nasal Tissue_Mouse 1.fcs,CD45_EXP12_Nasal Tissue_Mouse 1.fcs,12,Nasal Tissue,1,12_1,63,Saline,48,M,NA,NA,NA,NA,NA
+EXP12_Nasal Tissue_Mouse 2.fcs,CD45_EXP12_Nasal Tissue_Mouse 2.fcs,12,Nasal Tissue,2,12_2,64,Saline,48,F,NA,NA,NA,NA,NA
+EXP12_Nasal Tissue_Mouse 3.fcs,CD45_EXP12_Nasal Tissue_Mouse 3.fcs,12,Nasal Tissue,3,12_3,65,Hh,48,M,7.50E+07,NA,NA,NA,NA
+EXP12_Nasal Tissue_Mouse 4.fcs,CD45_EXP12_Nasal Tissue_Mouse 4.fcs,12,Nasal Tissue,4,12_4,66,Hh,48,F,7.50E+07,NA,NA,NA,NA
+EXP12_Nasal Tissue_Mouse 5.fcs,CD45_EXP12_Nasal Tissue_Mouse 5.fcs,12,Nasal Tissue,5,12_5,67,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP12_Nasal Tissue_Mouse 6.fcs,CD45_EXP12_Nasal Tissue_Mouse 6.fcs,12,Nasal Tissue,6,12_6,68,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP12_Spleen_Mouse 1.fcs,CD45_EXP12_Spleen_Mouse 1.fcs,12,Spleen,1,12_1,63,Saline,48,M,NA,NA,NA,NA,NA
+EXP12_Spleen_Mouse 2.fcs,CD45_EXP12_Spleen_Mouse 2.fcs,12,Spleen,2,12_2,64,Saline,48,F,NA,NA,NA,NA,NA
+EXP12_Spleen_Mouse 3.fcs,CD45_EXP12_Spleen_Mouse 3.fcs,12,Spleen,3,12_3,65,Hh,48,M,7.50E+07,NA,NA,NA,NA
+EXP12_Spleen_Mouse 4.fcs,CD45_EXP12_Spleen_Mouse 4.fcs,12,Spleen,4,12_4,66,Hh,48,F,7.50E+07,NA,NA,NA,NA
+EXP12_Spleen_Mouse 5.fcs,CD45_EXP12_Spleen_Mouse 5.fcs,12,Spleen,5,12_5,67,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP12_Spleen_Mouse 6.fcs,CD45_EXP12_Spleen_Mouse 6.fcs,12,Spleen,6,12_6,68,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP13_Lung_Mouse 1.fcs,CD45_EXP13_Lung_Mouse 1.fcs,13,Lung,1,13_1,69,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP13_Lung_Mouse 2.fcs,CD45_EXP13_Lung_Mouse 2.fcs,13,Lung,2,13_2,70,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP13_Lung_Mouse 3.fcs,CD45_EXP13_Lung_Mouse 3.fcs,13,Lung,3,13_3,71,Hh+IAV,48,M,1.48E+07,NA,NA,NA,NA
+EXP13_Lung_Mouse 4.fcs,CD45_EXP13_Lung_Mouse 4.fcs,13,Lung,4,13_4,72,Hh+IAV,48,F,1.48E+07,NA,NA,NA,NA
+EXP13_Lung_Mouse 5.fcs,CD45_EXP13_Lung_Mouse 5.fcs,13,Lung,5,13_5,73,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP13_Lung_Mouse 6.fcs,CD45_EXP13_Lung_Mouse 6.fcs,13,Lung,6,13_6,74,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP13_Nasal Tissue_Mouse 1.fcs,CD45_EXP13_Nasal Tissue_Mouse 1.fcs,13,Nasal Tissue,1,13_1,69,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP13_Nasal Tissue_Mouse 2.fcs,CD45_EXP13_Nasal Tissue_Mouse 2.fcs,13,Nasal Tissue,2,13_2,70,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP13_Nasal Tissue_Mouse 3.fcs,CD45_EXP13_Nasal Tissue_Mouse 3.fcs,13,Nasal Tissue,3,13_3,71,Hh+IAV,48,M,1.48E+07,NA,NA,NA,NA
+EXP13_Nasal Tissue_Mouse 4.fcs,CD45_EXP13_Nasal Tissue_Mouse 4.fcs,13,Nasal Tissue,4,13_4,72,Hh+IAV,48,F,1.48E+07,NA,NA,NA,NA
+EXP13_Nasal Tissue_Mouse 5.fcs,CD45_EXP13_Nasal Tissue_Mouse 5.fcs,13,Nasal Tissue,5,13_5,73,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP13_Nasal Tissue_Mouse 6.fcs,CD45_EXP13_Nasal Tissue_Mouse 6.fcs,13,Nasal Tissue,6,13_6,74,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP13_Spleen_Mouse 1.fcs,CD45_EXP13_Spleen_Mouse 1.fcs,13,Spleen,1,13_1,69,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP13_Spleen_Mouse 2.fcs,CD45_EXP13_Spleen_Mouse 2.fcs,13,Spleen,2,13_2,70,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP13_Spleen_Mouse 3.fcs,CD45_EXP13_Spleen_Mouse 3.fcs,13,Spleen,3,13_3,71,Hh+IAV,48,M,1.48E+07,NA,NA,NA,NA
+EXP13_Spleen_Mouse 4.fcs,CD45_EXP13_Spleen_Mouse 4.fcs,13,Spleen,4,13_4,72,Hh+IAV,48,F,1.48E+07,NA,NA,NA,NA
+EXP13_Spleen_Mouse 5.fcs,CD45_EXP13_Spleen_Mouse 5.fcs,13,Spleen,5,13_5,73,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP13_Spleen_Mouse 6.fcs,CD45_EXP13_Spleen_Mouse 6.fcs,13,Spleen,6,13_6,74,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP14_Lung_Mouse 1.fcs,CD45_EXP14_Lung_Mouse 1.fcs,14,Lung,1,14_1,75,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP14_Lung_Mouse 2.fcs,CD45_EXP14_Lung_Mouse 2.fcs,14,Lung,2,14_2,76,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP14_Lung_Mouse 3.fcs,CD45_EXP14_Lung_Mouse 3.fcs,14,Lung,3,14_3,77,Hh+IAV,72,M,1.48E+07,NA,NA,NA,NA
+EXP14_Lung_Mouse 4.fcs,CD45_EXP14_Lung_Mouse 4.fcs,14,Lung,4,14_4,78,Hh+IAV,72,F,1.48E+07,NA,NA,NA,NA
+EXP14_Lung_Mouse 5.fcs,CD45_EXP14_Lung_Mouse 5.fcs,14,Lung,5,14_5,79,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP14_Lung_Mouse 6.fcs,CD45_EXP14_Lung_Mouse 6.fcs,14,Lung,6,14_6,80,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP14_Nasal Tissue_Mouse 1.fcs,CD45_EXP14_Nasal Tissue_Mouse 1.fcs,14,Nasal Tissue,1,14_1,75,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP14_Nasal Tissue_Mouse 2.fcs,CD45_EXP14_Nasal Tissue_Mouse 2.fcs,14,Nasal Tissue,2,14_2,76,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP14_Nasal Tissue_Mouse 3.fcs,CD45_EXP14_Nasal Tissue_Mouse 3.fcs,14,Nasal Tissue,3,14_3,77,Hh+IAV,72,M,1.48E+07,NA,NA,NA,NA
+EXP14_Nasal Tissue_Mouse 4.fcs,CD45_EXP14_Nasal Tissue_Mouse 4.fcs,14,Nasal Tissue,4,14_4,78,Hh+IAV,72,F,1.48E+07,NA,NA,NA,NA
+EXP14_Nasal Tissue_Mouse 5.fcs,CD45_EXP14_Nasal Tissue_Mouse 5.fcs,14,Nasal Tissue,5,14_5,79,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP14_Nasal Tissue_Mouse 6.fcs,CD45_EXP14_Nasal Tissue_Mouse 6.fcs,14,Nasal Tissue,6,14_6,80,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP14_Spleen_Mouse 1.fcs,CD45_EXP14_Spleen_Mouse 1.fcs,14,Spleen,1,14_1,75,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP14_Spleen_Mouse 2.fcs,CD45_EXP14_Spleen_Mouse 2.fcs,14,Spleen,2,14_2,76,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP14_Spleen_Mouse 3.fcs,CD45_EXP14_Spleen_Mouse 3.fcs,14,Spleen,3,14_3,77,Hh+IAV,72,M,1.48E+07,NA,NA,NA,NA
+EXP14_Spleen_Mouse 4.fcs,CD45_EXP14_Spleen_Mouse 4.fcs,14,Spleen,4,14_4,78,Hh+IAV,72,F,1.48E+07,NA,NA,NA,NA
+EXP14_Spleen_Mouse 5.fcs,CD45_EXP14_Spleen_Mouse 5.fcs,14,Spleen,5,14_5,79,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP14_Spleen_Mouse 6.fcs,CD45_EXP14_Spleen_Mouse 6.fcs,14,Spleen,6,14_6,80,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP15_Lung_Mouse 1.fcs,CD45_EXP15_Lung_Mouse 1.fcs,15,Lung,1,15_1,81,Saline,48,M,NA,NA,NA,NA,NA
+EXP15_Lung_Mouse 2.fcs,CD45_EXP15_Lung_Mouse 2.fcs,15,Lung,2,15_2,82,Saline,48,F,NA,NA,NA,NA,NA
+EXP15_Lung_Mouse 3.fcs,CD45_EXP15_Lung_Mouse 3.fcs,15,Lung,3,15_3,83,Hh,48,M,6.00E+07,NA,NA,NA,NA
+EXP15_Lung_Mouse 4.fcs,CD45_EXP15_Lung_Mouse 4.fcs,15,Lung,4,15_4,84,Hh,48,F,6.00E+07,NA,NA,NA,NA
+EXP15_Lung_Mouse 5.fcs,CD45_EXP15_Lung_Mouse 5.fcs,15,Lung,5,15_5,85,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP15_Lung_Mouse 6.fcs,CD45_EXP15_Lung_Mouse 6.fcs,15,Lung,6,15_6,86,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP15_Nasal Tissue_Mouse 1.fcs,CD45_EXP15_Nasal Tissue_Mouse 1.fcs,15,Nasal Tissue,1,15_1,81,Saline,48,M,NA,NA,NA,NA,NA
+EXP15_Nasal Tissue_Mouse 2.fcs,CD45_EXP15_Nasal Tissue_Mouse 2.fcs,15,Nasal Tissue,2,15_2,82,Saline,48,F,NA,NA,NA,NA,NA
+EXP15_Nasal Tissue_Mouse 3.fcs,CD45_EXP15_Nasal Tissue_Mouse 3.fcs,15,Nasal Tissue,3,15_3,83,Hh,48,M,6.00E+07,NA,NA,NA,NA
+EXP15_Nasal Tissue_Mouse 4.fcs,CD45_EXP15_Nasal Tissue_Mouse 4.fcs,15,Nasal Tissue,4,15_4,84,Hh,48,F,6.00E+07,NA,NA,NA,NA
+EXP15_Nasal Tissue_Mouse 5.fcs,CD45_EXP15_Nasal Tissue_Mouse 5.fcs,15,Nasal Tissue,5,15_5,85,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP15_Nasal Tissue_Mouse 6.fcs,CD45_EXP15_Nasal Tissue_Mouse 6.fcs,15,Nasal Tissue,6,15_6,86,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP15_Spleen_Mouse 1.fcs,CD45_EXP15_Spleen_Mouse 1.fcs,15,Spleen,1,15_1,81,Saline,48,M,NA,NA,NA,NA,NA
+EXP15_Spleen_Mouse 2.fcs,CD45_EXP15_Spleen_Mouse 2.fcs,15,Spleen,2,15_2,82,Saline,48,F,NA,NA,NA,NA,NA
+EXP15_Spleen_Mouse 3.fcs,CD45_EXP15_Spleen_Mouse 3.fcs,15,Spleen,3,15_3,83,Hh,48,M,6.00E+07,NA,NA,NA,NA
+EXP15_Spleen_Mouse 4.fcs,CD45_EXP15_Spleen_Mouse 4.fcs,15,Spleen,4,15_4,84,Hh,48,F,6.00E+07,NA,NA,NA,NA
+EXP15_Spleen_Mouse 5.fcs,CD45_EXP15_Spleen_Mouse 5.fcs,15,Spleen,5,15_5,85,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP15_Spleen_Mouse 6.fcs,CD45_EXP15_Spleen_Mouse 6.fcs,15,Spleen,6,15_6,86,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP16_Lung_Mouse 1.fcs,CD45_EXP16_Lung_Mouse 1.fcs,16,Lung,1,16_1,87,Saline,72,M,NA,NA,NA,NA,NA
+EXP16_Lung_Mouse 2.fcs,CD45_EXP16_Lung_Mouse 2.fcs,16,Lung,2,16_2,88,Saline,72,F,NA,NA,NA,NA,NA
+EXP16_Lung_Mouse 3.fcs,CD45_EXP16_Lung_Mouse 3.fcs,16,Lung,3,16_3,89,Hh,72,M,6.00E+07,NA,NA,NA,NA
+EXP16_Lung_Mouse 4.fcs,CD45_EXP16_Lung_Mouse 4.fcs,16,Lung,4,16_4,90,Hh,72,F,6.00E+07,NA,NA,NA,NA
+EXP16_Lung_Mouse 5.fcs,CD45_EXP16_Lung_Mouse 5.fcs,16,Lung,5,16_5,91,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP16_Lung_Mouse 6.fcs,CD45_EXP16_Lung_Mouse 6.fcs,16,Lung,6,16_6,92,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP16_Nasal Tissue_Mouse 1.fcs,CD45_EXP16_Nasal Tissue_Mouse 1.fcs,16,Nasal Tissue,1,16_1,87,Saline,72,M,NA,NA,NA,NA,NA
+EXP16_Nasal Tissue_Mouse 2.fcs,CD45_EXP16_Nasal Tissue_Mouse 2.fcs,16,Nasal Tissue,2,16_2,88,Saline,72,F,NA,NA,NA,NA,NA
+EXP16_Nasal Tissue_Mouse 3.fcs,CD45_EXP16_Nasal Tissue_Mouse 3.fcs,16,Nasal Tissue,3,16_3,89,Hh,72,M,6.00E+07,NA,NA,NA,NA
+EXP16_Nasal Tissue_Mouse 4.fcs,CD45_EXP16_Nasal Tissue_Mouse 4.fcs,16,Nasal Tissue,4,16_4,90,Hh,72,F,6.00E+07,NA,NA,NA,NA
+EXP16_Nasal Tissue_Mouse 5.fcs,CD45_EXP16_Nasal Tissue_Mouse 5.fcs,16,Nasal Tissue,5,16_5,91,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP16_Nasal Tissue_Mouse 6.fcs,CD45_EXP16_Nasal Tissue_Mouse 6.fcs,16,Nasal Tissue,6,16_6,92,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP16_Spleen_Mouse 1.fcs,CD45_EXP16_Spleen_Mouse 1.fcs,16,Spleen,1,16_1,87,Saline,72,M,NA,NA,NA,NA,NA
+EXP16_Spleen_Mouse 2.fcs,CD45_EXP16_Spleen_Mouse 2.fcs,16,Spleen,2,16_2,88,Saline,72,F,NA,NA,NA,NA,NA
+EXP16_Spleen_Mouse 3.fcs,CD45_EXP16_Spleen_Mouse 3.fcs,16,Spleen,3,16_3,89,Hh,72,M,6.00E+07,NA,NA,NA,NA
+EXP16_Spleen_Mouse 4.fcs,CD45_EXP16_Spleen_Mouse 4.fcs,16,Spleen,4,16_4,90,Hh,72,F,6.00E+07,NA,NA,NA,NA
+EXP16_Spleen_Mouse 5.fcs,CD45_EXP16_Spleen_Mouse 5.fcs,16,Spleen,5,16_5,91,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP16_Spleen_Mouse 6.fcs,CD45_EXP16_Spleen_Mouse 6.fcs,16,Spleen,6,16_6,92,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP17_Lung_Mouse 1.fcs,CD45_EXP17_Lung_Mouse 1.fcs,17,Lung,1,17_1,93,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP17_Lung_Mouse 2.fcs,CD45_EXP17_Lung_Mouse 2.fcs,17,Lung,2,17_2,94,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP17_Lung_Mouse 3.fcs,CD45_EXP17_Lung_Mouse 3.fcs,17,Lung,3,17_3,95,Hh+IAV,48,M,5.00E+07,NA,NA,NA,NA
+EXP17_Lung_Mouse 4.fcs,CD45_EXP17_Lung_Mouse 4.fcs,17,Lung,4,17_4,96,Hh+IAV,48,F,5.00E+07,NA,NA,NA,NA
+EXP17_Lung_Mouse 5.fcs,CD45_EXP17_Lung_Mouse 5.fcs,17,Lung,5,17_5,97,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP17_Lung_Mouse 6.fcs,CD45_EXP17_Lung_Mouse 6.fcs,17,Lung,6,17_6,98,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP17_Nasal Tissue_Mouse 1.fcs,CD45_EXP17_Nasal Tissue_Mouse 1.fcs,17,Nasal Tissue,1,17_1,93,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP17_Nasal Tissue_Mouse 2.fcs,CD45_EXP17_Nasal Tissue_Mouse 2.fcs,17,Nasal Tissue,2,17_2,94,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP17_Nasal Tissue_Mouse 3.fcs,CD45_EXP17_Nasal Tissue_Mouse 3.fcs,17,Nasal Tissue,3,17_3,95,Hh+IAV,48,M,5.00E+07,NA,NA,NA,NA
+EXP17_Nasal Tissue_Mouse 4.fcs,CD45_EXP17_Nasal Tissue_Mouse 4.fcs,17,Nasal Tissue,4,17_4,96,Hh+IAV,48,F,5.00E+07,NA,NA,NA,NA
+EXP17_Nasal Tissue_Mouse 5.fcs,CD45_EXP17_Nasal Tissue_Mouse 5.fcs,17,Nasal Tissue,5,17_5,97,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP17_Nasal Tissue_Mouse 6.fcs,CD45_EXP17_Nasal Tissue_Mouse 6.fcs,17,Nasal Tissue,6,17_6,98,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP17_Spleen_Mouse 1.fcs,CD45_EXP17_Spleen_Mouse 1.fcs,17,Spleen,1,17_1,93,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP17_Spleen_Mouse 2.fcs,CD45_EXP17_Spleen_Mouse 2.fcs,17,Spleen,2,17_2,94,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP17_Spleen_Mouse 3.fcs,CD45_EXP17_Spleen_Mouse 3.fcs,17,Spleen,3,17_3,95,Hh+IAV,48,M,5.00E+07,NA,NA,NA,NA
+EXP17_Spleen_Mouse 4.fcs,CD45_EXP17_Spleen_Mouse 4.fcs,17,Spleen,4,17_4,96,Hh+IAV,48,F,5.00E+07,NA,NA,NA,NA
+EXP17_Spleen_Mouse 5.fcs,CD45_EXP17_Spleen_Mouse 5.fcs,17,Spleen,5,17_5,97,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP17_Spleen_Mouse 6.fcs,CD45_EXP17_Spleen_Mouse 6.fcs,17,Spleen,6,17_6,98,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP18_Lung_Mouse 1.fcs,CD45_EXP18_Lung_Mouse 1.fcs,18,Lung,1,18_1,99,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP18_Lung_Mouse 2.fcs,CD45_EXP18_Lung_Mouse 2.fcs,18,Lung,2,18_2,100,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP18_Lung_Mouse 3.fcs,CD45_EXP18_Lung_Mouse 3.fcs,18,Lung,3,18_3,101,Hh+IAV,72,M,5.00E+07,NA,NA,NA,NA
+EXP18_Lung_Mouse 4.fcs,CD45_EXP18_Lung_Mouse 4.fcs,18,Lung,4,18_4,102,Hh+IAV,72,F,5.00E+07,NA,NA,NA,NA
+EXP18_Lung_Mouse 5.fcs,CD45_EXP18_Lung_Mouse 5.fcs,18,Lung,5,18_5,103,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP18_Lung_Mouse 6.fcs,CD45_EXP18_Lung_Mouse 6.fcs,18,Lung,6,18_6,104,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP18_Nasal Tissue_Mouse 1.fcs,CD45_EXP18_Nasal Tissue_Mouse 1.fcs,18,Nasal Tissue,1,18_1,99,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP18_Nasal Tissue_Mouse 2.fcs,CD45_EXP18_Nasal Tissue_Mouse 2.fcs,18,Nasal Tissue,2,18_2,100,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP18_Nasal Tissue_Mouse 3.fcs,CD45_EXP18_Nasal Tissue_Mouse 3.fcs,18,Nasal Tissue,3,18_3,101,Hh+IAV,72,M,5.00E+07,NA,NA,NA,NA
+EXP18_Nasal Tissue_Mouse 4.fcs,CD45_EXP18_Nasal Tissue_Mouse 4.fcs,18,Nasal Tissue,4,18_4,102,Hh+IAV,72,F,5.00E+07,NA,NA,NA,NA
+EXP18_Nasal Tissue_Mouse 5.fcs,CD45_EXP18_Nasal Tissue_Mouse 5.fcs,18,Nasal Tissue,5,18_5,103,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP18_Nasal Tissue_Mouse 6.fcs,CD45_EXP18_Nasal Tissue_Mouse 6.fcs,18,Nasal Tissue,6,18_6,104,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP18_Spleen_Mouse 1.fcs,CD45_EXP18_Spleen_Mouse 1.fcs,18,Spleen,1,18_1,99,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP18_Spleen_Mouse 2.fcs,CD45_EXP18_Spleen_Mouse 2.fcs,18,Spleen,2,18_2,100,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP18_Spleen_Mouse 3.fcs,CD45_EXP18_Spleen_Mouse 3.fcs,18,Spleen,3,18_3,101,Hh+IAV,72,M,5.00E+07,NA,NA,NA,NA
+EXP18_Spleen_Mouse 4.fcs,CD45_EXP18_Spleen_Mouse 4.fcs,18,Spleen,4,18_4,102,Hh+IAV,72,F,5.00E+07,NA,NA,NA,NA
+EXP18_Spleen_Mouse 5.fcs,CD45_EXP18_Spleen_Mouse 5.fcs,18,Spleen,5,18_5,103,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP18_Spleen_Mouse 6.fcs,CD45_EXP18_Spleen_Mouse 6.fcs,18,Spleen,6,18_6,104,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP19_Lung_Mouse 1.fcs,CD45_EXP19_Lung_Mouse 1.fcs,19,Lung,1,19_1,105,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP19_Lung_Mouse 2.fcs,CD45_EXP19_Lung_Mouse 2.fcs,19,Lung,2,19_2,106,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP19_Lung_Mouse 3.fcs,CD45_EXP19_Lung_Mouse 3.fcs,19,Lung,3,19_3,107,Hh+IAV,72,M,6.67E+07,NA,NA,NA,NA
+EXP19_Lung_Mouse 4.fcs,CD45_EXP19_Lung_Mouse 4.fcs,19,Lung,4,19_4,108,Hh+IAV,72,F,6.67E+07,NA,NA,NA,NA
+EXP19_Lung_Mouse 5.fcs,CD45_EXP19_Lung_Mouse 5.fcs,19,Lung,5,19_5,109,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP19_Lung_Mouse 6.fcs,CD45_EXP19_Lung_Mouse 6.fcs,19,Lung,6,19_6,110,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP19_Nasal Tissue_Mouse 1.fcs,CD45_EXP19_Nasal Tissue_Mouse 1.fcs,19,Nasal Tissue,1,19_1,105,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP19_Nasal Tissue_Mouse 2.fcs,CD45_EXP19_Nasal Tissue_Mouse 2.fcs,19,Nasal Tissue,2,19_2,106,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP19_Nasal Tissue_Mouse 3.fcs,CD45_EXP19_Nasal Tissue_Mouse 3.fcs,19,Nasal Tissue,3,19_3,107,Hh+IAV,72,M,6.67E+07,NA,NA,NA,NA
+EXP19_Nasal Tissue_Mouse 4.fcs,CD45_EXP19_Nasal Tissue_Mouse 4.fcs,19,Nasal Tissue,4,19_4,108,Hh+IAV,72,F,6.67E+07,NA,NA,NA,NA
+EXP19_Nasal Tissue_Mouse 5.fcs,CD45_EXP19_Nasal Tissue_Mouse 5.fcs,19,Nasal Tissue,5,19_5,109,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP19_Nasal Tissue_Mouse 6.fcs,CD45_EXP19_Nasal Tissue_Mouse 6.fcs,19,Nasal Tissue,6,19_6,110,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP19_Spleen_Mouse 1.fcs,CD45_EXP19_Spleen_Mouse 1.fcs,19,Spleen,1,19_1,105,Saline+IAV,72,M,NA,NA,NA,NA,NA
+EXP19_Spleen_Mouse 2.fcs,CD45_EXP19_Spleen_Mouse 2.fcs,19,Spleen,2,19_2,106,Saline+IAV,72,F,NA,NA,NA,NA,NA
+EXP19_Spleen_Mouse 3.fcs,CD45_EXP19_Spleen_Mouse 3.fcs,19,Spleen,3,19_3,107,Hh+IAV,72,M,6.67E+07,NA,NA,NA,NA
+EXP19_Spleen_Mouse 4.fcs,CD45_EXP19_Spleen_Mouse 4.fcs,19,Spleen,4,19_4,108,Hh+IAV,72,F,6.67E+07,NA,NA,NA,NA
+EXP19_Spleen_Mouse 5.fcs,CD45_EXP19_Spleen_Mouse 5.fcs,19,Spleen,5,19_5,109,Pam1ug+IAV,72,M,NA,NA,NA,NA,NA
+EXP19_Spleen_Mouse 6.fcs,CD45_EXP19_Spleen_Mouse 6.fcs,19,Spleen,6,19_6,110,Pam1ug+IAV,72,F,NA,NA,NA,NA,NA
+EXP20_Lung_Mouse 1.fcs,CD45_EXP20_Lung_Mouse 1.fcs,20,Lung,1,20_1,111,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP20_Lung_Mouse 2.fcs,CD45_EXP20_Lung_Mouse 2.fcs,20,Lung,2,20_2,112,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP20_Lung_Mouse 3.fcs,CD45_EXP20_Lung_Mouse 3.fcs,20,Lung,3,20_3,113,Hh+IAV,96,M,6.67E+07,NA,NA,NA,NA
+EXP20_Lung_Mouse 4.fcs,CD45_EXP20_Lung_Mouse 4.fcs,20,Lung,4,20_4,114,Hh+IAV,96,F,6.67E+07,NA,NA,NA,NA
+EXP20_Lung_Mouse 5.fcs,CD45_EXP20_Lung_Mouse 5.fcs,20,Lung,5,20_5,115,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP20_Lung_Mouse 6.fcs,CD45_EXP20_Lung_Mouse 6.fcs,20,Lung,6,20_6,116,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP20_Nasal Tissue_Mouse 1.fcs,CD45_EXP20_Nasal Tissue_Mouse 1.fcs,20,Nasal Tissue,1,20_1,111,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP20_Nasal Tissue_Mouse 2.fcs,CD45_EXP20_Nasal Tissue_Mouse 2.fcs,20,Nasal Tissue,2,20_2,112,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP20_Nasal Tissue_Mouse 3.fcs,CD45_EXP20_Nasal Tissue_Mouse 3.fcs,20,Nasal Tissue,3,20_3,113,Hh+IAV,96,M,6.67E+07,NA,NA,NA,NA
+EXP20_Nasal Tissue_Mouse 4.fcs,CD45_EXP20_Nasal Tissue_Mouse 4.fcs,20,Nasal Tissue,4,20_4,114,Hh+IAV,96,F,6.67E+07,NA,NA,NA,NA
+EXP20_Nasal Tissue_Mouse 5.fcs,CD45_EXP20_Nasal Tissue_Mouse 5.fcs,20,Nasal Tissue,5,20_5,115,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP20_Nasal Tissue_Mouse 6.fcs,CD45_EXP20_Nasal Tissue_Mouse 6.fcs,20,Nasal Tissue,6,20_6,116,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP20_Spleen_Mouse 1.fcs,CD45_EXP20_Spleen_Mouse 1.fcs,20,Spleen,1,20_1,111,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP20_Spleen_Mouse 2.fcs,CD45_EXP20_Spleen_Mouse 2.fcs,20,Spleen,2,20_2,112,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP20_Spleen_Mouse 3.fcs,CD45_EXP20_Spleen_Mouse 3.fcs,20,Spleen,3,20_3,113,Hh+IAV,96,M,6.67E+07,NA,NA,NA,NA
+EXP20_Spleen_Mouse 4.fcs,CD45_EXP20_Spleen_Mouse 4.fcs,20,Spleen,4,20_4,114,Hh+IAV,96,F,6.67E+07,NA,NA,NA,NA
+EXP20_Spleen_Mouse 5.fcs,CD45_EXP20_Spleen_Mouse 5.fcs,20,Spleen,5,20_5,115,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP20_Spleen_Mouse 6.fcs,CD45_EXP20_Spleen_Mouse 6.fcs,20,Spleen,6,20_6,116,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP21_Lung_Mouse 1.fcs,CD45_EXP21_Lung_Mouse 1.fcs,21,Lung,1,21_1,117,Saline,72,M,NA,NA,NA,NA,NA
+EXP21_Lung_Mouse 2.fcs,CD45_EXP21_Lung_Mouse 2.fcs,21,Lung,2,21_2,118,Saline,72,F,NA,NA,NA,NA,NA
+EXP21_Lung_Mouse 3.fcs,CD45_EXP21_Lung_Mouse 3.fcs,21,Lung,3,21_3,119,Hh,72,M,6.67E+07,NA,NA,NA,NA
+EXP21_Lung_Mouse 4.fcs,CD45_EXP21_Lung_Mouse 4.fcs,21,Lung,4,21_4,120,Hh,72,F,6.67E+07,NA,NA,NA,NA
+EXP21_Lung_Mouse 5.fcs,CD45_EXP21_Lung_Mouse 5.fcs,21,Lung,5,21_5,121,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP21_Lung_Mouse 6.fcs,CD45_EXP21_Lung_Mouse 6.fcs,21,Lung,6,21_6,122,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP21_Nasal Tissue_Mouse 1.fcs,CD45_EXP21_Nasal Tissue_Mouse 1.fcs,21,Nasal Tissue,1,21_1,117,Saline,72,M,NA,NA,NA,NA,NA
+EXP21_Nasal Tissue_Mouse 2.fcs,CD45_EXP21_Nasal Tissue_Mouse 2.fcs,21,Nasal Tissue,2,21_2,118,Saline,72,F,NA,NA,NA,NA,NA
+EXP21_Nasal Tissue_Mouse 3.fcs,CD45_EXP21_Nasal Tissue_Mouse 3.fcs,21,Nasal Tissue,3,21_3,119,Hh,72,M,6.67E+07,NA,NA,NA,NA
+EXP21_Nasal Tissue_Mouse 4.fcs,CD45_EXP21_Nasal Tissue_Mouse 4.fcs,21,Nasal Tissue,4,21_4,120,Hh,72,F,6.67E+07,NA,NA,NA,NA
+EXP21_Nasal Tissue_Mouse 5.fcs,CD45_EXP21_Nasal Tissue_Mouse 5.fcs,21,Nasal Tissue,5,21_5,121,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP21_Nasal Tissue_Mouse 6.fcs,CD45_EXP21_Nasal Tissue_Mouse 6.fcs,21,Nasal Tissue,6,21_6,122,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP21_Spleen_Mouse 1.fcs,CD45_EXP21_Spleen_Mouse 1.fcs,21,Spleen,1,21_1,117,Saline,72,M,NA,NA,NA,NA,NA
+EXP21_Spleen_Mouse 2.fcs,CD45_EXP21_Spleen_Mouse 2.fcs,21,Spleen,2,21_2,118,Saline,72,F,NA,NA,NA,NA,NA
+EXP21_Spleen_Mouse 3.fcs,CD45_EXP21_Spleen_Mouse 3.fcs,21,Spleen,3,21_3,119,Hh,72,M,6.67E+07,NA,NA,NA,NA
+EXP21_Spleen_Mouse 4.fcs,CD45_EXP21_Spleen_Mouse 4.fcs,21,Spleen,4,21_4,120,Hh,72,F,6.67E+07,NA,NA,NA,NA
+EXP21_Spleen_Mouse 5.fcs,CD45_EXP21_Spleen_Mouse 5.fcs,21,Spleen,5,21_5,121,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP21_Spleen_Mouse 6.fcs,CD45_EXP21_Spleen_Mouse 6.fcs,21,Spleen,6,21_6,122,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP22_Lung_Mouse 1.fcs,CD45_EXP22_Lung_Mouse 1.fcs,22,Lung,1,22_1,123,Saline,96,M,NA,NA,NA,NA,NA
+EXP22_Lung_Mouse 2.fcs,CD45_EXP22_Lung_Mouse 2.fcs,22,Lung,2,22_2,124,Saline,96,F,NA,NA,NA,NA,NA
+EXP22_Lung_Mouse 3.fcs,CD45_EXP22_Lung_Mouse 3.fcs,22,Lung,3,22_3,125,Hh,96,M,6.67E+07,NA,NA,NA,NA
+EXP22_Lung_Mouse 4.fcs,CD45_EXP22_Lung_Mouse 4.fcs,22,Lung,4,22_4,126,Hh,96,F,6.67E+07,NA,NA,NA,NA
+EXP22_Lung_Mouse 5.fcs,CD45_EXP22_Lung_Mouse 5.fcs,22,Lung,5,22_5,127,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP22_Lung_Mouse 6.fcs,CD45_EXP22_Lung_Mouse 6.fcs,22,Lung,6,22_6,128,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP22_Nasal Tissue_Mouse 1.fcs,CD45_EXP22_Nasal Tissue_Mouse 1.fcs,22,Nasal Tissue,1,22_1,123,Saline,96,M,NA,NA,NA,NA,NA
+EXP22_Nasal Tissue_Mouse 2.fcs,CD45_EXP22_Nasal Tissue_Mouse 2.fcs,22,Nasal Tissue,2,22_2,124,Saline,96,F,NA,NA,NA,NA,NA
+EXP22_Nasal Tissue_Mouse 3.fcs,CD45_EXP22_Nasal Tissue_Mouse 3.fcs,22,Nasal Tissue,3,22_3,125,Hh,96,M,6.67E+07,NA,NA,NA,NA
+EXP22_Nasal Tissue_Mouse 4.fcs,CD45_EXP22_Nasal Tissue_Mouse 4.fcs,22,Nasal Tissue,4,22_4,126,Hh,96,F,6.67E+07,NA,NA,NA,NA
+EXP22_Nasal Tissue_Mouse 5.fcs,CD45_EXP22_Nasal Tissue_Mouse 5.fcs,22,Nasal Tissue,5,22_5,127,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP22_Nasal Tissue_Mouse 6.fcs,CD45_EXP22_Nasal Tissue_Mouse 6.fcs,22,Nasal Tissue,6,22_6,128,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP22_Spleen_Mouse 1.fcs,CD45_EXP22_Spleen_Mouse 1.fcs,22,Spleen,1,22_1,123,Saline,96,M,NA,NA,NA,NA,NA
+EXP22_Spleen_Mouse 2.fcs,CD45_EXP22_Spleen_Mouse 2.fcs,22,Spleen,2,22_2,124,Saline,96,F,NA,NA,NA,NA,NA
+EXP22_Spleen_Mouse 3.fcs,CD45_EXP22_Spleen_Mouse 3.fcs,22,Spleen,3,22_3,125,Hh,96,M,6.67E+07,NA,NA,NA,NA
+EXP22_Spleen_Mouse 4.fcs,CD45_EXP22_Spleen_Mouse 4.fcs,22,Spleen,4,22_4,126,Hh,96,F,6.67E+07,NA,NA,NA,NA
+EXP22_Spleen_Mouse 5.fcs,CD45_EXP22_Spleen_Mouse 5.fcs,22,Spleen,5,22_5,127,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP22_Spleen_Mouse 6.fcs,CD45_EXP22_Spleen_Mouse 6.fcs,22,Spleen,6,22_6,128,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP23_Lung_Mouse 1.fcs,CD45_EXP23_Lung_Mouse 1.fcs,23,Lung,1,23_1,129,Saline,72,M,NA,NA,NA,NA,NA
+EXP23_Lung_Mouse 2.fcs,CD45_EXP23_Lung_Mouse 2.fcs,23,Lung,2,23_2,130,Saline,72,F,NA,NA,NA,NA,NA
+EXP23_Lung_Mouse 3.fcs,CD45_EXP23_Lung_Mouse 3.fcs,23,Lung,3,23_3,131,Hh,72,M,6.67E+07,NA,NA,NA,NA
+EXP23_Lung_Mouse 4.fcs,CD45_EXP23_Lung_Mouse 4.fcs,23,Lung,4,23_4,132,Hh,72,F,6.67E+07,NA,NA,NA,NA
+EXP23_Lung_Mouse 5.fcs,CD45_EXP23_Lung_Mouse 5.fcs,23,Lung,5,23_5,133,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP23_Lung_Mouse 6.fcs,CD45_EXP23_Lung_Mouse 6.fcs,23,Lung,6,23_6,134,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP23_Nasal Tissue_Mouse 1.fcs,CD45_EXP23_Nasal Tissue_Mouse 1.fcs,23,Nasal Tissue,1,23_1,129,Saline,72,M,NA,NA,NA,NA,NA
+EXP23_Nasal Tissue_Mouse 2.fcs,CD45_EXP23_Nasal Tissue_Mouse 2.fcs,23,Nasal Tissue,2,23_2,130,Saline,72,F,NA,NA,NA,NA,NA
+EXP23_Nasal Tissue_Mouse 3.fcs,CD45_EXP23_Nasal Tissue_Mouse 3.fcs,23,Nasal Tissue,3,23_3,131,Hh,72,M,6.67E+07,NA,NA,NA,NA
+EXP23_Nasal Tissue_Mouse 4.fcs,CD45_EXP23_Nasal Tissue_Mouse 4.fcs,23,Nasal Tissue,4,23_4,132,Hh,72,F,6.67E+07,NA,NA,NA,NA
+EXP23_Nasal Tissue_Mouse 5.fcs,CD45_EXP23_Nasal Tissue_Mouse 5.fcs,23,Nasal Tissue,5,23_5,133,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP23_Nasal Tissue_Mouse 6.fcs,CD45_EXP23_Nasal Tissue_Mouse 6.fcs,23,Nasal Tissue,6,23_6,134,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP23_Spleen_Mouse 1.fcs,CD45_EXP23_Spleen_Mouse 1.fcs,23,Spleen,1,23_1,129,Saline,72,M,NA,NA,NA,NA,NA
+EXP23_Spleen_Mouse 2.fcs,CD45_EXP23_Spleen_Mouse 2.fcs,23,Spleen,2,23_2,130,Saline,72,F,NA,NA,NA,NA,NA
+EXP23_Spleen_Mouse 3.fcs,CD45_EXP23_Spleen_Mouse 3.fcs,23,Spleen,3,23_3,131,Hh,72,M,6.67E+07,NA,NA,NA,NA
+EXP23_Spleen_Mouse 4.fcs,CD45_EXP23_Spleen_Mouse 4.fcs,23,Spleen,4,23_4,132,Hh,72,F,6.67E+07,NA,NA,NA,NA
+EXP23_Spleen_Mouse 5.fcs,CD45_EXP23_Spleen_Mouse 5.fcs,23,Spleen,5,23_5,133,Pam1ug,72,M,NA,NA,NA,NA,NA
+EXP23_Spleen_Mouse 6.fcs,CD45_EXP23_Spleen_Mouse 6.fcs,23,Spleen,6,23_6,134,Pam1ug,72,F,NA,NA,NA,NA,NA
+EXP24_Lung_Mouse 1.fcs,CD45_EXP24_Lung_Mouse 1.fcs,24,Lung,1,24_1,135,Saline,96,M,NA,NA,NA,NA,NA
+EXP24_Lung_Mouse 2.fcs,CD45_EXP24_Lung_Mouse 2.fcs,24,Lung,2,24_2,136,Saline,96,F,NA,NA,NA,NA,NA
+EXP24_Lung_Mouse 3.fcs,CD45_EXP24_Lung_Mouse 3.fcs,24,Lung,3,24_3,137,Hh,96,M,6.67E+07,NA,NA,NA,NA
+EXP24_Lung_Mouse 4.fcs,CD45_EXP24_Lung_Mouse 4.fcs,24,Lung,4,24_4,138,Hh,96,F,6.67E+07,NA,NA,NA,NA
+EXP24_Lung_Mouse 5.fcs,CD45_EXP24_Lung_Mouse 5.fcs,24,Lung,5,24_5,139,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP24_Lung_Mouse 6.fcs,CD45_EXP24_Lung_Mouse 6.fcs,24,Lung,6,24_6,140,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP24_Nasal Tissue_Mouse 1.fcs,CD45_EXP24_Nasal Tissue_Mouse 1.fcs,24,Nasal Tissue,1,24_1,135,Saline,96,M,NA,NA,NA,NA,NA
+EXP24_Nasal Tissue_Mouse 2.fcs,CD45_EXP24_Nasal Tissue_Mouse 2.fcs,24,Nasal Tissue,2,24_2,136,Saline,96,F,NA,NA,NA,NA,NA
+EXP24_Nasal Tissue_Mouse 3.fcs,CD45_EXP24_Nasal Tissue_Mouse 3.fcs,24,Nasal Tissue,3,24_3,137,Hh,96,M,6.67E+07,NA,NA,NA,NA
+EXP24_Nasal Tissue_Mouse 4.fcs,CD45_EXP24_Nasal Tissue_Mouse 4.fcs,24,Nasal Tissue,4,24_4,138,Hh,96,F,6.67E+07,NA,NA,NA,NA
+EXP24_Nasal Tissue_Mouse 5.fcs,CD45_EXP24_Nasal Tissue_Mouse 5.fcs,24,Nasal Tissue,5,24_5,139,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP24_Nasal Tissue_Mouse 6.fcs,CD45_EXP24_Nasal Tissue_Mouse 6.fcs,24,Nasal Tissue,6,24_6,140,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP24_Spleen_Mouse 1.fcs,CD45_EXP24_Spleen_Mouse 1.fcs,24,Spleen,1,24_1,135,Saline,96,M,NA,NA,NA,NA,NA
+EXP24_Spleen_Mouse 2.fcs,CD45_EXP24_Spleen_Mouse 2.fcs,24,Spleen,2,24_2,136,Saline,96,F,NA,NA,NA,NA,NA
+EXP24_Spleen_Mouse 3.fcs,CD45_EXP24_Spleen_Mouse 3.fcs,24,Spleen,3,24_3,137,Hh,96,M,6.67E+07,NA,NA,NA,NA
+EXP24_Spleen_Mouse 4.fcs,CD45_EXP24_Spleen_Mouse 4.fcs,24,Spleen,4,24_4,138,Hh,96,F,6.67E+07,NA,NA,NA,NA
+EXP24_Spleen_Mouse 5.fcs,CD45_EXP24_Spleen_Mouse 5.fcs,24,Spleen,5,24_5,139,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP24_Spleen_Mouse 6.fcs,CD45_EXP24_Spleen_Mouse 6.fcs,24,Spleen,6,24_6,140,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP25_Lung_Mouse 1.fcs,CD45_EXP25_Lung_Mouse 1.fcs,25,Lung,1,25_1,141,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Lung_Mouse 2.fcs,CD45_EXP25_Lung_Mouse 2.fcs,25,Lung,2,25_2,142,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Lung_Mouse 3.fcs,CD45_EXP25_Lung_Mouse 3.fcs,25,Lung,3,25_3,143,Hh+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Lung_Mouse 4.fcs,CD45_EXP25_Lung_Mouse 4.fcs,25,Lung,4,25_4,144,Hh+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Lung_Mouse 5.fcs,CD45_EXP25_Lung_Mouse 5.fcs,25,Lung,5,25_5,145,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Lung_Mouse 6.fcs,CD45_EXP25_Lung_Mouse 6.fcs,25,Lung,6,25_6,146,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Nasal Tissue_Mouse 1.fcs,CD45_EXP25_Nasal Tissue_Mouse 1.fcs,25,Nasal Tissue,1,25_1,141,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Nasal Tissue_Mouse 2.fcs,CD45_EXP25_Nasal Tissue_Mouse 2.fcs,25,Nasal Tissue,2,25_2,142,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Nasal Tissue_Mouse 3.fcs,CD45_EXP25_Nasal Tissue_Mouse 3.fcs,25,Nasal Tissue,3,25_3,143,Hh+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Nasal Tissue_Mouse 4.fcs,CD45_EXP25_Nasal Tissue_Mouse 4.fcs,25,Nasal Tissue,4,25_4,144,Hh+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Nasal Tissue_Mouse 5.fcs,CD45_EXP25_Nasal Tissue_Mouse 5.fcs,25,Nasal Tissue,5,25_5,145,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Nasal Tissue_Mouse 6.fcs,CD45_EXP25_Nasal Tissue_Mouse 6.fcs,25,Nasal Tissue,6,25_6,146,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Spleen_Mouse 1.fcs,CD45_EXP25_Spleen_Mouse 1.fcs,25,Spleen,1,25_1,141,Saline+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Spleen_Mouse 2.fcs,CD45_EXP25_Spleen_Mouse 2.fcs,25,Spleen,2,25_2,142,Saline+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Spleen_Mouse 3.fcs,CD45_EXP25_Spleen_Mouse 3.fcs,25,Spleen,3,25_3,143,Hh+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Spleen_Mouse 4.fcs,CD45_EXP25_Spleen_Mouse 4.fcs,25,Spleen,4,25_4,144,Hh+IAV,48,F,NA,NA,NA,NA,NA
+EXP25_Spleen_Mouse 5.fcs,CD45_EXP25_Spleen_Mouse 5.fcs,25,Spleen,5,25_5,145,Pam1ug+IAV,48,M,NA,NA,NA,NA,NA
+EXP25_Spleen_Mouse 6.fcs,CD45_EXP25_Spleen_Mouse 6.fcs,25,Spleen,6,25_6,146,Pam1ug+IAV,48,F,NA,NA,NA,NA,NA
+EXP26_Lung_Mouse 1.fcs,CD45_EXP26_Lung_Mouse 1.fcs,26,Lung,1,26_1,147,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Lung_Mouse 2.fcs,CD45_EXP26_Lung_Mouse 2.fcs,26,Lung,2,26_2,148,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Lung_Mouse 3.fcs,CD45_EXP26_Lung_Mouse 3.fcs,26,Lung,3,26_3,149,Hh+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Lung_Mouse 4.fcs,CD45_EXP26_Lung_Mouse 4.fcs,26,Lung,4,26_4,150,Hh+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Lung_Mouse 5.fcs,CD45_EXP26_Lung_Mouse 5.fcs,26,Lung,5,26_5,151,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Lung_Mouse 6.fcs,CD45_EXP26_Lung_Mouse 6.fcs,26,Lung,6,26_6,152,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Nasal Tissue_Mouse 1.fcs,CD45_EXP26_Nasal Tissue_Mouse 1.fcs,26,Nasal Tissue,1,26_1,147,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Nasal Tissue_Mouse 2.fcs,CD45_EXP26_Nasal Tissue_Mouse 2.fcs,26,Nasal Tissue,2,26_2,148,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Nasal Tissue_Mouse 3.fcs,CD45_EXP26_Nasal Tissue_Mouse 3.fcs,26,Nasal Tissue,3,26_3,149,Hh+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Nasal Tissue_Mouse 4.fcs,CD45_EXP26_Nasal Tissue_Mouse 4.fcs,26,Nasal Tissue,4,26_4,150,Hh+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Nasal Tissue_Mouse 5.fcs,CD45_EXP26_Nasal Tissue_Mouse 5.fcs,26,Nasal Tissue,5,26_5,151,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Nasal Tissue_Mouse 6.fcs,CD45_EXP26_Nasal Tissue_Mouse 6.fcs,26,Nasal Tissue,6,26_6,152,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Spleen_Mouse 1.fcs,CD45_EXP26_Spleen_Mouse 1.fcs,26,Spleen,1,26_1,147,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Spleen_Mouse 2.fcs,CD45_EXP26_Spleen_Mouse 2.fcs,26,Spleen,2,26_2,148,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Spleen_Mouse 3.fcs,CD45_EXP26_Spleen_Mouse 3.fcs,26,Spleen,3,26_3,149,Hh+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Spleen_Mouse 4.fcs,CD45_EXP26_Spleen_Mouse 4.fcs,26,Spleen,4,26_4,150,Hh+IAV,96,F,NA,NA,NA,NA,NA
+EXP26_Spleen_Mouse 5.fcs,CD45_EXP26_Spleen_Mouse 5.fcs,26,Spleen,5,26_5,151,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP26_Spleen_Mouse 6.fcs,CD45_EXP26_Spleen_Mouse 6.fcs,26,Spleen,6,26_6,152,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP27_Lung_Mouse 1.fcs,CD45_EXP27_Lung_Mouse 1.fcs,27,Lung,1,27_1,153,Saline,48,M,NA,NA,NA,NA,NA
+EXP27_Lung_Mouse 2.fcs,CD45_EXP27_Lung_Mouse 2.fcs,27,Lung,2,27_2,154,Saline,48,F,NA,NA,NA,NA,NA
+EXP27_Lung_Mouse 3.fcs,CD45_EXP27_Lung_Mouse 3.fcs,27,Lung,3,27_3,155,Hh,48,M,2.45E+07,NA,NA,NA,NA
+EXP27_Lung_Mouse 4.fcs,CD45_EXP27_Lung_Mouse 4.fcs,27,Lung,4,27_4,156,Hh,48,F,2.45E+07,NA,NA,NA,NA
+EXP27_Lung_Mouse 5.fcs,CD45_EXP27_Lung_Mouse 5.fcs,27,Lung,5,27_5,157,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP27_Lung_Mouse 6.fcs,CD45_EXP27_Lung_Mouse 6.fcs,27,Lung,6,27_6,158,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP27_Nasal Tissue_Mouse 1.fcs,CD45_EXP27_Nasal Tissue_Mouse 1.fcs,27,Nasal Tissue,1,27_1,153,Saline,48,M,NA,NA,NA,NA,NA
+EXP27_Nasal Tissue_Mouse 2.fcs,CD45_EXP27_Nasal Tissue_Mouse 2.fcs,27,Nasal Tissue,2,27_2,154,Saline,48,F,NA,NA,NA,NA,NA
+EXP27_Nasal Tissue_Mouse 3.fcs,CD45_EXP27_Nasal Tissue_Mouse 3.fcs,27,Nasal Tissue,3,27_3,155,Hh,48,M,2.45E+07,NA,NA,NA,NA
+EXP27_Nasal Tissue_Mouse 4.fcs,CD45_EXP27_Nasal Tissue_Mouse 4.fcs,27,Nasal Tissue,4,27_4,156,Hh,48,F,2.45E+07,NA,NA,NA,NA
+EXP27_Nasal Tissue_Mouse 5.fcs,CD45_EXP27_Nasal Tissue_Mouse 5.fcs,27,Nasal Tissue,5,27_5,157,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP27_Nasal Tissue_Mouse 6.fcs,CD45_EXP27_Nasal Tissue_Mouse 6.fcs,27,Nasal Tissue,6,27_6,158,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP27_Spleen_Mouse 1.fcs,CD45_EXP27_Spleen_Mouse 1.fcs,27,Spleen,1,27_1,153,Saline,48,M,NA,NA,NA,NA,NA
+EXP27_Spleen_Mouse 2.fcs,CD45_EXP27_Spleen_Mouse 2.fcs,27,Spleen,2,27_2,154,Saline,48,F,NA,NA,NA,NA,NA
+EXP27_Spleen_Mouse 3.fcs,CD45_EXP27_Spleen_Mouse 3.fcs,27,Spleen,3,27_3,155,Hh,48,M,2.45E+07,NA,NA,NA,NA
+EXP27_Spleen_Mouse 4.fcs,CD45_EXP27_Spleen_Mouse 4.fcs,27,Spleen,4,27_4,156,Hh,48,F,2.45E+07,NA,NA,NA,NA
+EXP27_Spleen_Mouse 5.fcs,CD45_EXP27_Spleen_Mouse 5.fcs,27,Spleen,5,27_5,157,Pam1ug,48,M,NA,NA,NA,NA,NA
+EXP27_Spleen_Mouse 6.fcs,CD45_EXP27_Spleen_Mouse 6.fcs,27,Spleen,6,27_6,158,Pam1ug,48,F,NA,NA,NA,NA,NA
+EXP28_Lung_Mouse 1.fcs,CD45_EXP28_Lung_Mouse 1.fcs,28,Lung,1,28_1,159,Saline,96,M,NA,NA,NA,NA,NA
+EXP28_Lung_Mouse 2.fcs,CD45_EXP28_Lung_Mouse 2.fcs,28,Lung,2,28_2,160,Saline,96,F,NA,NA,NA,NA,NA
+EXP28_Lung_Mouse 3.fcs,CD45_EXP28_Lung_Mouse 3.fcs,28,Lung,3,28_3,161,Hh,96,M,2.45E+07,NA,NA,NA,NA
+EXP28_Lung_Mouse 4.fcs,CD45_EXP28_Lung_Mouse 4.fcs,28,Lung,4,28_4,162,Hh,96,F,2.45E+07,NA,NA,NA,NA
+EXP28_Lung_Mouse 5.fcs,CD45_EXP28_Lung_Mouse 5.fcs,28,Lung,5,28_5,163,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP28_Lung_Mouse 6.fcs,CD45_EXP28_Lung_Mouse 6.fcs,28,Lung,6,28_6,164,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP28_Nasal Tissue_Mouse 1.fcs,CD45_EXP28_Nasal Tissue_Mouse 1.fcs,28,Nasal Tissue,1,28_1,159,Saline,96,M,NA,NA,NA,NA,NA
+EXP28_Nasal Tissue_Mouse 2.fcs,CD45_EXP28_Nasal Tissue_Mouse 2.fcs,28,Nasal Tissue,2,28_2,160,Saline,96,F,NA,NA,NA,NA,NA
+EXP28_Nasal Tissue_Mouse 3.fcs,CD45_EXP28_Nasal Tissue_Mouse 3.fcs,28,Nasal Tissue,3,28_3,161,Hh,96,M,2.45E+07,NA,NA,NA,NA
+EXP28_Nasal Tissue_Mouse 4.fcs,CD45_EXP28_Nasal Tissue_Mouse 4.fcs,28,Nasal Tissue,4,28_4,162,Hh,96,F,2.45E+07,NA,NA,NA,NA
+EXP28_Nasal Tissue_Mouse 5.fcs,CD45_EXP28_Nasal Tissue_Mouse 5.fcs,28,Nasal Tissue,5,28_5,163,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP28_Nasal Tissue_Mouse 6.fcs,CD45_EXP28_Nasal Tissue_Mouse 6.fcs,28,Nasal Tissue,6,28_6,164,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP28_Spleen_Mouse 1.fcs,CD45_EXP28_Spleen_Mouse 1.fcs,28,Spleen,1,28_1,159,Saline,96,M,NA,NA,NA,NA,NA
+EXP28_Spleen_Mouse 2.fcs,CD45_EXP28_Spleen_Mouse 2.fcs,28,Spleen,2,28_2,160,Saline,96,F,NA,NA,NA,NA,NA
+EXP28_Spleen_Mouse 3.fcs,CD45_EXP28_Spleen_Mouse 3.fcs,28,Spleen,3,28_3,161,Hh,96,M,2.45E+07,NA,NA,NA,NA
+EXP28_Spleen_Mouse 4.fcs,CD45_EXP28_Spleen_Mouse 4.fcs,28,Spleen,4,28_4,162,Hh,96,F,2.45E+07,NA,NA,NA,NA
+EXP28_Spleen_Mouse 5.fcs,CD45_EXP28_Spleen_Mouse 5.fcs,28,Spleen,5,28_5,163,Pam1ug,96,M,NA,NA,NA,NA,NA
+EXP28_Spleen_Mouse 6.fcs,CD45_EXP28_Spleen_Mouse 6.fcs,28,Spleen,6,28_6,164,Pam1ug,96,F,NA,NA,NA,NA,NA
+EXP29_Lung_Mouse 1.fcs,CD45_EXP29_Lung_Mouse 1.fcs,29,Lung,1,29_1,165,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP29_Lung_Mouse 2.fcs,CD45_EXP29_Lung_Mouse 2.fcs,29,Lung,2,29_2,166,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP29_Lung_Mouse 3.fcs,CD45_EXP29_Lung_Mouse 3.fcs,29,Lung,3,29_3,167,Hh+IAV,144,M,2.00E+07,NA,NA,NA,NA
+EXP29_Lung_Mouse 4.fcs,CD45_EXP29_Lung_Mouse 4.fcs,29,Lung,4,29_4,168,Hh+IAV,144,F,2.00E+07,NA,NA,NA,NA
+EXP29_Lung_Mouse 5.fcs,CD45_EXP29_Lung_Mouse 5.fcs,29,Lung,5,29_5,169,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP29_Lung_Mouse 6.fcs,CD45_EXP29_Lung_Mouse 6.fcs,29,Lung,6,29_6,170,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP29_Nasal Tissue_Mouse 1.fcs,CD45_EXP29_Nasal Tissue_Mouse 1.fcs,29,Nasal Tissue,1,29_1,165,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP29_Nasal Tissue_Mouse 2.fcs,CD45_EXP29_Nasal Tissue_Mouse 2.fcs,29,Nasal Tissue,2,29_2,166,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP29_Nasal Tissue_Mouse 3.fcs,CD45_EXP29_Nasal Tissue_Mouse 3.fcs,29,Nasal Tissue,3,29_3,167,Hh+IAV,144,M,2.00E+07,NA,NA,NA,NA
+EXP29_Nasal Tissue_Mouse 4.fcs,CD45_EXP29_Nasal Tissue_Mouse 4.fcs,29,Nasal Tissue,4,29_4,168,Hh+IAV,144,F,2.00E+07,NA,NA,NA,NA
+EXP29_Nasal Tissue_Mouse 5.fcs,CD45_EXP29_Nasal Tissue_Mouse 5.fcs,29,Nasal Tissue,5,29_5,169,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP29_Nasal Tissue_Mouse 6.fcs,CD45_EXP29_Nasal Tissue_Mouse 6.fcs,29,Nasal Tissue,6,29_6,170,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP29_Spleen_Mouse 1.fcs,CD45_EXP29_Spleen_Mouse 1.fcs,29,Spleen,1,29_1,165,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP29_Spleen_Mouse 2.fcs,CD45_EXP29_Spleen_Mouse 2.fcs,29,Spleen,2,29_2,166,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP29_Spleen_Mouse 3.fcs,CD45_EXP29_Spleen_Mouse 3.fcs,29,Spleen,3,29_3,167,Hh+IAV,144,M,2.00E+07,NA,NA,NA,NA
+EXP29_Spleen_Mouse 4.fcs,CD45_EXP29_Spleen_Mouse 4.fcs,29,Spleen,4,29_4,168,Hh+IAV,144,F,2.00E+07,NA,NA,NA,NA
+EXP29_Spleen_Mouse 5.fcs,CD45_EXP29_Spleen_Mouse 5.fcs,29,Spleen,5,29_5,169,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP29_Spleen_Mouse 6.fcs,CD45_EXP29_Spleen_Mouse 6.fcs,29,Spleen,6,29_6,170,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP30_Lung_Mouse 1.fcs,CD45_EXP30_Lung_Mouse 1.fcs,30,Lung,1,30_1,171,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP30_Lung_Mouse 2.fcs,CD45_EXP30_Lung_Mouse 2.fcs,30,Lung,2,30_2,172,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP30_Lung_Mouse 3.fcs,CD45_EXP30_Lung_Mouse 3.fcs,30,Lung,3,30_3,173,Hh+IAV,96,M,3.83E+06,NA,NA,NA,NA
+EXP30_Lung_Mouse 4.fcs,CD45_EXP30_Lung_Mouse 4.fcs,30,Lung,4,30_4,174,Hh+IAV,96,F,3.83E+06,NA,NA,NA,NA
+EXP30_Lung_Mouse 5.fcs,CD45_EXP30_Lung_Mouse 5.fcs,30,Lung,5,30_5,175,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP30_Lung_Mouse 6.fcs,CD45_EXP30_Lung_Mouse 6.fcs,30,Lung,6,30_6,176,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP30_Nasal Tissue_Mouse 1.fcs,CD45_EXP30_Nasal Tissue_Mouse 1.fcs,30,Nasal Tissue,1,30_1,171,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP30_Nasal Tissue_Mouse 2.fcs,CD45_EXP30_Nasal Tissue_Mouse 2.fcs,30,Nasal Tissue,2,30_2,172,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP30_Nasal Tissue_Mouse 3.fcs,CD45_EXP30_Nasal Tissue_Mouse 3.fcs,30,Nasal Tissue,3,30_3,173,Hh+IAV,96,M,3.83E+06,NA,NA,NA,NA
+EXP30_Nasal Tissue_Mouse 4.fcs,CD45_EXP30_Nasal Tissue_Mouse 4.fcs,30,Nasal Tissue,4,30_4,174,Hh+IAV,96,F,3.83E+06,NA,NA,NA,NA
+EXP30_Nasal Tissue_Mouse 5.fcs,CD45_EXP30_Nasal Tissue_Mouse 5.fcs,30,Nasal Tissue,5,30_5,175,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP30_Nasal Tissue_Mouse 6.fcs,CD45_EXP30_Nasal Tissue_Mouse 6.fcs,30,Nasal Tissue,6,30_6,176,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP30_Spleen_Mouse 1.fcs,CD45_EXP30_Spleen_Mouse 1.fcs,30,Spleen,1,30_1,171,Saline+IAV,96,M,NA,NA,NA,NA,NA
+EXP30_Spleen_Mouse 2.fcs,CD45_EXP30_Spleen_Mouse 2.fcs,30,Spleen,2,30_2,172,Saline+IAV,96,F,NA,NA,NA,NA,NA
+EXP30_Spleen_Mouse 3.fcs,CD45_EXP30_Spleen_Mouse 3.fcs,30,Spleen,3,30_3,173,Hh+IAV,96,M,3.83E+06,NA,NA,NA,NA
+EXP30_Spleen_Mouse 4.fcs,CD45_EXP30_Spleen_Mouse 4.fcs,30,Spleen,4,30_4,174,Hh+IAV,96,F,3.83E+06,NA,NA,NA,NA
+EXP30_Spleen_Mouse 5.fcs,CD45_EXP30_Spleen_Mouse 5.fcs,30,Spleen,5,30_5,175,Pam1ug+IAV,96,M,NA,NA,NA,NA,NA
+EXP30_Spleen_Mouse 6.fcs,CD45_EXP30_Spleen_Mouse 6.fcs,30,Spleen,6,30_6,176,Pam1ug+IAV,96,F,NA,NA,NA,NA,NA
+EXP31_Lung_Mouse 1.fcs,CD45_EXP31_Lung_Mouse 1.fcs,31,Lung,1,31_1,177,Saline,144,M,NA,NA,NA,NA,NA
+EXP31_Lung_Mouse 2.fcs,CD45_EXP31_Lung_Mouse 2.fcs,31,Lung,2,31_2,178,Saline,144,F,NA,NA,NA,NA,NA
+EXP31_Lung_Mouse 3.fcs,CD45_EXP31_Lung_Mouse 3.fcs,31,Lung,3,31_3,179,Hh,144,M,2.67E+06,NA,NA,NA,NA
+EXP31_Lung_Mouse 4.fcs,CD45_EXP31_Lung_Mouse 4.fcs,31,Lung,4,31_4,180,Hh,144,F,2.67E+06,NA,NA,NA,NA
+EXP31_Lung_Mouse 5.fcs,CD45_EXP31_Lung_Mouse 5.fcs,31,Lung,5,31_5,181,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP31_Lung_Mouse 6.fcs,CD45_EXP31_Lung_Mouse 6.fcs,31,Lung,6,31_6,182,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP31_Nasal Tissue_Mouse 1.fcs,CD45_EXP31_Nasal Tissue_Mouse 1.fcs,31,Nasal Tissue,1,31_1,177,Saline,144,M,NA,NA,NA,NA,NA
+EXP31_Nasal Tissue_Mouse 2.fcs,CD45_EXP31_Nasal Tissue_Mouse 2.fcs,31,Nasal Tissue,2,31_2,178,Saline,144,F,NA,NA,NA,NA,NA
+EXP31_Nasal Tissue_Mouse 3.fcs,CD45_EXP31_Nasal Tissue_Mouse 3.fcs,31,Nasal Tissue,3,31_3,179,Hh,144,M,2.67E+06,NA,NA,NA,NA
+EXP31_Nasal Tissue_Mouse 4.fcs,CD45_EXP31_Nasal Tissue_Mouse 4.fcs,31,Nasal Tissue,4,31_4,180,Hh,144,F,2.67E+06,NA,NA,NA,NA
+EXP31_Nasal Tissue_Mouse 5.fcs,CD45_EXP31_Nasal Tissue_Mouse 5.fcs,31,Nasal Tissue,5,31_5,181,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP31_Nasal Tissue_Mouse 6.fcs,CD45_EXP31_Nasal Tissue_Mouse 6.fcs,31,Nasal Tissue,6,31_6,182,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP31_Spleen_Mouse 1.fcs,CD45_EXP31_Spleen_Mouse 1.fcs,31,Spleen,1,31_1,177,Saline,144,M,NA,NA,NA,NA,NA
+EXP31_Spleen_Mouse 2.fcs,CD45_EXP31_Spleen_Mouse 2.fcs,31,Spleen,2,31_2,178,Saline,144,F,NA,NA,NA,NA,NA
+EXP31_Spleen_Mouse 3.fcs,CD45_EXP31_Spleen_Mouse 3.fcs,31,Spleen,3,31_3,179,Hh,144,M,2.67E+06,NA,NA,NA,NA
+EXP31_Spleen_Mouse 4.fcs,CD45_EXP31_Spleen_Mouse 4.fcs,31,Spleen,4,31_4,180,Hh,144,F,2.67E+06,NA,NA,NA,NA
+EXP31_Spleen_Mouse 5.fcs,CD45_EXP31_Spleen_Mouse 5.fcs,31,Spleen,5,31_5,181,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP31_Spleen_Mouse 6.fcs,CD45_EXP31_Spleen_Mouse 6.fcs,31,Spleen,6,31_6,182,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP32_Lung_Mouse 1.fcs,CD45_EXP32_Lung_Mouse 1.fcs,32,Lung,1,32_1,183,Saline+IAV+NTHi,144,M,NA,1.25E+06,1.22E+06,6.09E+00,OM
+EXP32_Lung_Mouse 2.fcs,CD45_EXP32_Lung_Mouse 2.fcs,32,Lung,2,32_2,184,Saline+IAV+NTHi,144,F,NA,1.25E+06,8.25E+06,6.92E+00,OM
+EXP32_Lung_Mouse 3.fcs,CD45_EXP32_Lung_Mouse 3.fcs,32,Lung,3,32_3,185,Hh+IAV+NTHi,144,M,2.50E+07,1.25E+06,1.60E+06,6.20E+00,OM
+EXP32_Lung_Mouse 4.fcs,CD45_EXP32_Lung_Mouse 4.fcs,32,Lung,4,32_4,186,Hh+IAV+NTHi,144,F,2.50E+07,1.25E+06,0.00E+00,9.60E-01,nOM
+EXP32_Lung_Mouse 5.fcs,CD45_EXP32_Lung_Mouse 5.fcs,32,Lung,5,32_5,187,Pam1ug+IAV+NTHi,144,M,NA,1.25E+06,4.25E+04,4.63E+00,OM
+EXP32_Lung_Mouse 6.fcs,CD45_EXP32_Lung_Mouse 6.fcs,32,Lung,6,32_6,188,Pam1ug+IAV+NTHi,144,F,NA,1.25E+06,4.83E+06,6.68E+00,OM
+EXP32_Nasal Tissue_Mouse 1.fcs,CD45_EXP32_Nasal Tissue_Mouse 1.fcs,32,Nasal Tissue,1,32_1,183,Saline+IAV+NTHi,144,M,NA,1.25E+06,1.22E+06,6.09E+00,OM
+EXP32_Nasal Tissue_Mouse 2.fcs,CD45_EXP32_Nasal Tissue_Mouse 2.fcs,32,Nasal Tissue,2,32_2,184,Saline+IAV+NTHi,144,F,NA,1.25E+06,8.25E+06,6.92E+00,OM
+EXP32_Nasal Tissue_Mouse 3.fcs,CD45_EXP32_Nasal Tissue_Mouse 3.fcs,32,Nasal Tissue,3,32_3,185,Hh+IAV+NTHi,144,M,2.50E+07,1.25E+06,1.60E+06,6.20E+00,OM
+EXP32_Nasal Tissue_Mouse 4.fcs,CD45_EXP32_Nasal Tissue_Mouse 4.fcs,32,Nasal Tissue,4,32_4,186,Hh+IAV+NTHi,144,F,2.50E+07,1.25E+06,0.00E+00,9.60E-01,nOM
+EXP32_Nasal Tissue_Mouse 5.fcs,CD45_EXP32_Nasal Tissue_Mouse 5.fcs,32,Nasal Tissue,5,32_5,187,Pam1ug+IAV+NTHi,144,M,NA,1.25E+06,4.25E+04,4.63E+00,OM
+EXP32_Nasal Tissue_Mouse 6.fcs,CD45_EXP32_Nasal Tissue_Mouse 6.fcs,32,Nasal Tissue,6,32_6,188,Pam1ug+IAV+NTHi,144,F,NA,1.25E+06,4.83E+06,6.68E+00,OM
+EXP32_Spleen_Mouse 1.fcs,CD45_EXP32_Spleen_Mouse 1.fcs,32,Spleen,1,32_1,183,Saline+IAV+NTHi,144,M,NA,1.25E+06,1.22E+06,6.09E+00,OM
+EXP32_Spleen_Mouse 2.fcs,CD45_EXP32_Spleen_Mouse 2.fcs,32,Spleen,2,32_2,184,Saline+IAV+NTHi,144,F,NA,1.25E+06,8.25E+06,6.92E+00,OM
+EXP32_Spleen_Mouse 3.fcs,CD45_EXP32_Spleen_Mouse 3.fcs,32,Spleen,3,32_3,185,Hh+IAV+NTHi,144,M,2.50E+07,1.25E+06,1.60E+06,6.20E+00,OM
+EXP32_Spleen_Mouse 4.fcs,CD45_EXP32_Spleen_Mouse 4.fcs,32,Spleen,4,32_4,186,Hh+IAV+NTHi,144,F,2.50E+07,1.25E+06,0.00E+00,9.60E-01,nOM
+EXP32_Spleen_Mouse 5.fcs,CD45_EXP32_Spleen_Mouse 5.fcs,32,Spleen,5,32_5,187,Pam1ug+IAV+NTHi,144,M,NA,1.25E+06,4.25E+04,4.63E+00,OM
+EXP32_Spleen_Mouse 6.fcs,CD45_EXP32_Spleen_Mouse 6.fcs,32,Spleen,6,32_6,188,Pam1ug+IAV+NTHi,144,F,NA,1.25E+06,4.83E+06,6.68E+00,OM
+EXP33_Lung_Mouse 1.fcs,CD45_EXP33_Lung_Mouse 1.fcs,33,Lung,1,33_1,189,Saline,144,M,NA,NA,NA,NA,NA
+EXP33_Lung_Mouse 2.fcs,CD45_EXP33_Lung_Mouse 2.fcs,33,Lung,2,33_2,190,Saline,144,F,NA,NA,NA,NA,NA
+EXP33_Lung_Mouse 3.fcs,CD45_EXP33_Lung_Mouse 3.fcs,33,Lung,3,33_3,191,Hh,144,M,2.33E+07,NA,NA,NA,NA
+EXP33_Lung_Mouse 4.fcs,CD45_EXP33_Lung_Mouse 4.fcs,33,Lung,4,33_4,192,Hh,144,F,2.33E+07,NA,NA,NA,NA
+EXP33_Lung_Mouse 5.fcs,CD45_EXP33_Lung_Mouse 5.fcs,33,Lung,5,33_5,193,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP33_Lung_Mouse 6.fcs,CD45_EXP33_Lung_Mouse 6.fcs,33,Lung,6,33_6,194,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP33_Nasal Tissue_Mouse 1.fcs,CD45_EXP33_Nasal Tissue_Mouse 1.fcs,33,Nasal Tissue,1,33_1,189,Saline,144,M,NA,NA,NA,NA,NA
+EXP33_Nasal Tissue_Mouse 2.fcs,CD45_EXP33_Nasal Tissue_Mouse 2.fcs,33,Nasal Tissue,2,33_2,190,Saline,144,F,NA,NA,NA,NA,NA
+EXP33_Nasal Tissue_Mouse 3.fcs,CD45_EXP33_Nasal Tissue_Mouse 3.fcs,33,Nasal Tissue,3,33_3,191,Hh,144,M,2.33E+07,NA,NA,NA,NA
+EXP33_Nasal Tissue_Mouse 4.fcs,CD45_EXP33_Nasal Tissue_Mouse 4.fcs,33,Nasal Tissue,4,33_4,192,Hh,144,F,2.33E+07,NA,NA,NA,NA
+EXP33_Nasal Tissue_Mouse 5.fcs,CD45_EXP33_Nasal Tissue_Mouse 5.fcs,33,Nasal Tissue,5,33_5,193,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP33_Nasal Tissue_Mouse 6.fcs,CD45_EXP33_Nasal Tissue_Mouse 6.fcs,33,Nasal Tissue,6,33_6,194,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP33_Spleen_Mouse 1.fcs,CD45_EXP33_Spleen_Mouse 1.fcs,33,Spleen,1,33_1,189,Saline,144,M,NA,NA,NA,NA,NA
+EXP33_Spleen_Mouse 2.fcs,CD45_EXP33_Spleen_Mouse 2.fcs,33,Spleen,2,33_2,190,Saline,144,F,NA,NA,NA,NA,NA
+EXP33_Spleen_Mouse 3.fcs,CD45_EXP33_Spleen_Mouse 3.fcs,33,Spleen,3,33_3,191,Hh,144,M,2.33E+07,NA,NA,NA,NA
+EXP33_Spleen_Mouse 4.fcs,CD45_EXP33_Spleen_Mouse 4.fcs,33,Spleen,4,33_4,192,Hh,144,F,2.33E+07,NA,NA,NA,NA
+EXP33_Spleen_Mouse 5.fcs,CD45_EXP33_Spleen_Mouse 5.fcs,33,Spleen,5,33_5,193,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP33_Spleen_Mouse 6.fcs,CD45_EXP33_Spleen_Mouse 6.fcs,33,Spleen,6,33_6,194,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP34_Lung_Mouse 1.fcs,CD45_EXP34_Lung_Mouse 1.fcs,34,Lung,1,34_1,195,Saline+NTHi,144,M,NA,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Lung_Mouse 2.fcs,CD45_EXP34_Lung_Mouse 2.fcs,34,Lung,2,34_2,196,Saline+NTHi,144,F,NA,2.13E+06,7.08E+05,5.85E+00,OM
+EXP34_Lung_Mouse 3.fcs,CD45_EXP34_Lung_Mouse 3.fcs,34,Lung,3,34_3,197,Hh+NTHi,144,M,1.67E+07,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Lung_Mouse 4.fcs,CD45_EXP34_Lung_Mouse 4.fcs,34,Lung,4,34_4,198,Hh+NTHi,144,F,1.67E+07,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Lung_Mouse 5.fcs,CD45_EXP34_Lung_Mouse 5.fcs,34,Lung,5,34_5,199,Pam1ug+NTHi,144,M,NA,2.13E+06,1.18E+05,5.07E+00,OM
+EXP34_Lung_Mouse 6.fcs,CD45_EXP34_Lung_Mouse 6.fcs,34,Lung,6,34_6,200,Pam1ug+NTHi,144,F,NA,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Nasal Tissue_Mouse 1.fcs,CD45_EXP34_Nasal Tissue_Mouse 1.fcs,34,Nasal Tissue,1,34_1,195,Saline+NTHi,144,M,NA,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Nasal Tissue_Mouse 2.fcs,CD45_EXP34_Nasal Tissue_Mouse 2.fcs,34,Nasal Tissue,2,34_2,196,Saline+NTHi,144,F,NA,2.13E+06,7.08E+05,5.85E+00,OM
+EXP34_Nasal Tissue_Mouse 3.fcs,CD45_EXP34_Nasal Tissue_Mouse 3.fcs,34,Nasal Tissue,3,34_3,197,Hh+NTHi,144,M,1.67E+07,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Nasal Tissue_Mouse 4.fcs,CD45_EXP34_Nasal Tissue_Mouse 4.fcs,34,Nasal Tissue,4,34_4,198,Hh+NTHi,144,F,1.67E+07,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Nasal Tissue_Mouse 5.fcs,CD45_EXP34_Nasal Tissue_Mouse 5.fcs,34,Nasal Tissue,5,34_5,199,Pam1ug+NTHi,144,M,NA,2.13E+06,1.18E+05,5.07E+00,OM
+EXP34_Nasal Tissue_Mouse 6.fcs,CD45_EXP34_Nasal Tissue_Mouse 6.fcs,34,Nasal Tissue,6,34_6,200,Pam1ug+NTHi,144,F,NA,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Spleen_Mouse 1.fcs,CD45_EXP34_Spleen_Mouse 1.fcs,34,Spleen,1,34_1,195,Saline+NTHi,144,M,NA,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Spleen_Mouse 2.fcs,CD45_EXP34_Spleen_Mouse 2.fcs,34,Spleen,2,34_2,196,Saline+NTHi,144,F,NA,2.13E+06,7.08E+05,5.85E+00,OM
+EXP34_Spleen_Mouse 3.fcs,CD45_EXP34_Spleen_Mouse 3.fcs,34,Spleen,3,34_3,197,Hh+NTHi,144,M,1.67E+07,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Spleen_Mouse 4.fcs,CD45_EXP34_Spleen_Mouse 4.fcs,34,Spleen,4,34_4,198,Hh+NTHi,144,F,1.67E+07,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP34_Spleen_Mouse 5.fcs,CD45_EXP34_Spleen_Mouse 5.fcs,34,Spleen,5,34_5,199,Pam1ug+NTHi,144,M,NA,2.13E+06,1.18E+05,5.07E+00,OM
+EXP34_Spleen_Mouse 6.fcs,CD45_EXP34_Spleen_Mouse 6.fcs,34,Spleen,6,34_6,200,Pam1ug+NTHi,144,F,NA,2.13E+06,0.00E+00,9.60E-01,nOM
+EXP35_Lung_Mouse 1.fcs,CD45_EXP35_Lung_Mouse 1.fcs,35,Lung,1,35_1,201,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP35_Lung_Mouse 2.fcs,CD45_EXP35_Lung_Mouse 2.fcs,35,Lung,2,35_2,202,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP35_Lung_Mouse 3.fcs,CD45_EXP35_Lung_Mouse 3.fcs,35,Lung,3,35_3,203,Hh+IAV,144,M,8.17E+07,NA,NA,NA,NA
+EXP35_Lung_Mouse 4.fcs,CD45_EXP35_Lung_Mouse 4.fcs,35,Lung,4,35_4,204,Hh+IAV,144,F,8.17E+07,NA,NA,NA,NA
+EXP35_Lung_Mouse 5.fcs,CD45_EXP35_Lung_Mouse 5.fcs,35,Lung,5,35_5,205,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP35_Lung_Mouse 6.fcs,CD45_EXP35_Lung_Mouse 6.fcs,35,Lung,6,35_6,206,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP35_Nasal Tissue_Mouse 1.fcs,CD45_EXP35_Nasal Tissue_Mouse 1.fcs,35,Nasal Tissue,1,35_1,201,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP35_Nasal Tissue_Mouse 2.fcs,CD45_EXP35_Nasal Tissue_Mouse 2.fcs,35,Nasal Tissue,2,35_2,202,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP35_Nasal Tissue_Mouse 3.fcs,CD45_EXP35_Nasal Tissue_Mouse 3.fcs,35,Nasal Tissue,3,35_3,203,Hh+IAV,144,M,8.17E+07,NA,NA,NA,NA
+EXP35_Nasal Tissue_Mouse 4.fcs,CD45_EXP35_Nasal Tissue_Mouse 4.fcs,35,Nasal Tissue,4,35_4,204,Hh+IAV,144,F,8.17E+07,NA,NA,NA,NA
+EXP35_Nasal Tissue_Mouse 5.fcs,CD45_EXP35_Nasal Tissue_Mouse 5.fcs,35,Nasal Tissue,5,35_5,205,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP35_Nasal Tissue_Mouse 6.fcs,CD45_EXP35_Nasal Tissue_Mouse 6.fcs,35,Nasal Tissue,6,35_6,206,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP35_Spleen_Mouse 1.fcs,CD45_EXP35_Spleen_Mouse 1.fcs,35,Spleen,1,35_1,201,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP35_Spleen_Mouse 2.fcs,CD45_EXP35_Spleen_Mouse 2.fcs,35,Spleen,2,35_2,202,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP35_Spleen_Mouse 3.fcs,CD45_EXP35_Spleen_Mouse 3.fcs,35,Spleen,3,35_3,203,Hh+IAV,144,M,8.17E+07,NA,NA,NA,NA
+EXP35_Spleen_Mouse 4.fcs,CD45_EXP35_Spleen_Mouse 4.fcs,35,Spleen,4,35_4,204,Hh+IAV,144,F,8.17E+07,NA,NA,NA,NA
+EXP35_Spleen_Mouse 5.fcs,CD45_EXP35_Spleen_Mouse 5.fcs,35,Spleen,5,35_5,205,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP35_Spleen_Mouse 6.fcs,CD45_EXP35_Spleen_Mouse 6.fcs,35,Spleen,6,35_6,206,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP36_Lung_Mouse 1.fcs,CD45_EXP36_Lung_Mouse 1.fcs,36,Lung,1,36_1,207,Saline+IAV+NTHi,144,M,NA,1.42E+06,1.54E+06,6.19E+00,OM
+EXP36_Lung_Mouse 2.fcs,CD45_EXP36_Lung_Mouse 2.fcs,36,Lung,2,36_2,208,Saline+IAV+NTHi,144,F,NA,1.42E+06,4.33E+05,5.64E+00,OM
+EXP36_Lung_Mouse 3.fcs,CD45_EXP36_Lung_Mouse 3.fcs,36,Lung,3,36_3,209,Hh+IAV+NTHi,144,M,1.42E+08,1.42E+06,2.58E+05,5.41E+00,OM
+EXP36_Lung_Mouse 4.fcs,CD45_EXP36_Lung_Mouse 4.fcs,36,Lung,4,36_4,210,Hh+IAV+NTHi,144,F,1.42E+08,1.42E+06,2.50E+01,9.60E-01,nOM
+EXP36_Lung_Mouse 5.fcs,CD45_EXP36_Lung_Mouse 5.fcs,36,Lung,5,36_5,211,Pam1ug+IAV+NTHi,144,M,NA,1.42E+06,0.00E+00,9.60E-01,nOM
+EXP36_Lung_Mouse 6.fcs,CD45_EXP36_Lung_Mouse 6.fcs,36,Lung,6,36_6,212,Pam1ug+IAV+NTHi,144,F,NA,1.42E+06,0.00E+00,9.60E-01,nOM
+EXP36_Nasal Tissue_Mouse 1.fcs,CD45_EXP36_Nasal Tissue_Mouse 1.fcs,36,Nasal Tissue,1,36_1,207,Saline+IAV+NTHi,144,M,NA,1.42E+06,1.54E+06,6.19E+00,OM
+EXP36_Nasal Tissue_Mouse 2.fcs,CD45_EXP36_Nasal Tissue_Mouse 2.fcs,36,Nasal Tissue,2,36_2,208,Saline+IAV+NTHi,144,F,NA,1.42E+06,4.33E+05,5.64E+00,OM
+EXP36_Nasal Tissue_Mouse 3.fcs,CD45_EXP36_Nasal Tissue_Mouse 3.fcs,36,Nasal Tissue,3,36_3,209,Hh+IAV+NTHi,144,M,1.42E+08,1.42E+06,2.58E+05,5.41E+00,OM
+EXP36_Nasal Tissue_Mouse 4.fcs,CD45_EXP36_Nasal Tissue_Mouse 4.fcs,36,Nasal Tissue,4,36_4,210,Hh+IAV+NTHi,144,F,1.42E+08,1.42E+06,2.50E+01,9.60E-01,nOM
+EXP36_Nasal Tissue_Mouse 5.fcs,CD45_EXP36_Nasal Tissue_Mouse 5.fcs,36,Nasal Tissue,5,36_5,211,Pam1ug+IAV+NTHi,144,M,NA,1.42E+06,0.00E+00,9.60E-01,nOM
+EXP36_Nasal Tissue_Mouse 6.fcs,CD45_EXP36_Nasal Tissue_Mouse 6.fcs,36,Nasal Tissue,6,36_6,212,Pam1ug+IAV+NTHi,144,F,NA,1.42E+06,0.00E+00,9.60E-01,nOM
+EXP36_Spleen_Mouse 1.fcs,CD45_EXP36_Spleen_Mouse 1.fcs,36,Spleen,1,36_1,207,Saline+IAV+NTHi,144,M,NA,1.42E+06,1.54E+06,6.19E+00,OM
+EXP36_Spleen_Mouse 2.fcs,CD45_EXP36_Spleen_Mouse 2.fcs,36,Spleen,2,36_2,208,Saline+IAV+NTHi,144,F,NA,1.42E+06,4.33E+05,5.64E+00,OM
+EXP36_Spleen_Mouse 3.fcs,CD45_EXP36_Spleen_Mouse 3.fcs,36,Spleen,3,36_3,209,Hh+IAV+NTHi,144,M,1.42E+08,1.42E+06,2.58E+05,5.41E+00,OM
+EXP36_Spleen_Mouse 4.fcs,CD45_EXP36_Spleen_Mouse 4.fcs,36,Spleen,4,36_4,210,Hh+IAV+NTHi,144,F,1.42E+08,1.42E+06,2.50E+01,9.60E-01,nOM
+EXP36_Spleen_Mouse 5.fcs,CD45_EXP36_Spleen_Mouse 5.fcs,36,Spleen,5,36_5,211,Pam1ug+IAV+NTHi,144,M,NA,1.42E+06,0.00E+00,9.60E-01,nOM
+EXP36_Spleen_Mouse 6.fcs,CD45_EXP36_Spleen_Mouse 6.fcs,36,Spleen,6,36_6,212,Pam1ug+IAV+NTHi,144,F,NA,1.42E+06,0.00E+00,9.60E-01,nOM
+EXP37_Lung_Mouse 1.fcs,CD45_EXP37_Lung_Mouse 1.fcs,37,Lung,1,37_1,213,Saline,144,M,NA,NA,NA,NA,NA
+EXP37_Lung_Mouse 2.fcs,CD45_EXP37_Lung_Mouse 2.fcs,37,Lung,2,37_2,214,Saline,144,F,NA,NA,NA,NA,NA
+EXP37_Lung_Mouse 3.fcs,CD45_EXP37_Lung_Mouse 3.fcs,37,Lung,3,37_3,215,Hh,144,M,2.50E+07,NA,NA,NA,NA
+EXP37_Lung_Mouse 4.fcs,CD45_EXP37_Lung_Mouse 4.fcs,37,Lung,4,37_4,216,Hh,144,F,2.50E+07,NA,NA,NA,NA
+EXP37_Lung_Mouse 5.fcs,CD45_EXP37_Lung_Mouse 5.fcs,37,Lung,5,37_5,217,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP37_Lung_Mouse 6.fcs,CD45_EXP37_Lung_Mouse 6.fcs,37,Lung,6,37_6,218,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP37_Nasal Tissue_Mouse 1.fcs,CD45_EXP37_Nasal Tissue_Mouse 1.fcs,37,Nasal Tissue,1,37_1,213,Saline,144,M,NA,NA,NA,NA,NA
+EXP37_Nasal Tissue_Mouse 2.fcs,CD45_EXP37_Nasal Tissue_Mouse 2.fcs,37,Nasal Tissue,2,37_2,214,Saline,144,F,NA,NA,NA,NA,NA
+EXP37_Nasal Tissue_Mouse 3.fcs,CD45_EXP37_Nasal Tissue_Mouse 3.fcs,37,Nasal Tissue,3,37_3,215,Hh,144,M,2.50E+07,NA,NA,NA,NA
+EXP37_Nasal Tissue_Mouse 4.fcs,CD45_EXP37_Nasal Tissue_Mouse 4.fcs,37,Nasal Tissue,4,37_4,216,Hh,144,F,2.50E+07,NA,NA,NA,NA
+EXP37_Nasal Tissue_Mouse 5.fcs,CD45_EXP37_Nasal Tissue_Mouse 5.fcs,37,Nasal Tissue,5,37_5,217,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP37_Nasal Tissue_Mouse 6.fcs,CD45_EXP37_Nasal Tissue_Mouse 6.fcs,37,Nasal Tissue,6,37_6,218,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP37_Spleen_Mouse 1.fcs,CD45_EXP37_Spleen_Mouse 1.fcs,37,Spleen,1,37_1,213,Saline,144,M,NA,NA,NA,NA,NA
+EXP37_Spleen_Mouse 2.fcs,CD45_EXP37_Spleen_Mouse 2.fcs,37,Spleen,2,37_2,214,Saline,144,F,NA,NA,NA,NA,NA
+EXP37_Spleen_Mouse 3.fcs,CD45_EXP37_Spleen_Mouse 3.fcs,37,Spleen,3,37_3,215,Hh,144,M,2.50E+07,NA,NA,NA,NA
+EXP37_Spleen_Mouse 4.fcs,CD45_EXP37_Spleen_Mouse 4.fcs,37,Spleen,4,37_4,216,Hh,144,F,2.50E+07,NA,NA,NA,NA
+EXP37_Spleen_Mouse 5.fcs,CD45_EXP37_Spleen_Mouse 5.fcs,37,Spleen,5,37_5,217,Pam1ug,144,M,NA,NA,NA,NA,NA
+EXP37_Spleen_Mouse 6.fcs,CD45_EXP37_Spleen_Mouse 6.fcs,37,Spleen,6,37_6,218,Pam1ug,144,F,NA,NA,NA,NA,NA
+EXP38_Lung_Mouse 1.fcs,CD45_EXP38_Lung_Mouse 1.fcs,38,Lung,1,38_1,219,Saline+NTHi,144,M,NA,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Lung_Mouse 2.fcs,CD45_EXP38_Lung_Mouse 2.fcs,38,Lung,2,38_2,220,Saline+NTHi,144,F,NA,2.92E+06,3.58E+04,4.55E+00,OM
+EXP38_Lung_Mouse 3.fcs,CD45_EXP38_Lung_Mouse 3.fcs,38,Lung,3,38_3,221,Hh+NTHi,144,M,2.00E+07,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Lung_Mouse 4.fcs,CD45_EXP38_Lung_Mouse 4.fcs,38,Lung,4,38_4,222,Hh+NTHi,144,F,2.00E+07,2.92E+06,2.50E+03,3.40E+00,OM
+EXP38_Lung_Mouse 5.fcs,CD45_EXP38_Lung_Mouse 5.fcs,38,Lung,5,38_5,223,Pam1ug+NTHi,144,M,NA,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Lung_Mouse 6.fcs,CD45_EXP38_Lung_Mouse 6.fcs,38,Lung,6,38_6,224,Pam1ug+NTHi,144,F,NA,2.92E+06,4.00E+06,6.60E+00,OM
+EXP38_Nasal Tissue_Mouse 1.fcs,CD45_EXP38_Nasal Tissue_Mouse 1.fcs,38,Nasal Tissue,1,38_1,219,Saline+NTHi,144,M,NA,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Nasal Tissue_Mouse 2.fcs,CD45_EXP38_Nasal Tissue_Mouse 2.fcs,38,Nasal Tissue,2,38_2,220,Saline+NTHi,144,F,NA,2.92E+06,3.58E+04,4.55E+00,OM
+EXP38_Nasal Tissue_Mouse 3.fcs,CD45_EXP38_Nasal Tissue_Mouse 3.fcs,38,Nasal Tissue,3,38_3,221,Hh+NTHi,144,M,2.00E+07,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Nasal Tissue_Mouse 4.fcs,CD45_EXP38_Nasal Tissue_Mouse 4.fcs,38,Nasal Tissue,4,38_4,222,Hh+NTHi,144,F,2.00E+07,2.92E+06,2.50E+03,3.40E+00,OM
+EXP38_Nasal Tissue_Mouse 5.fcs,CD45_EXP38_Nasal Tissue_Mouse 5.fcs,38,Nasal Tissue,5,38_5,223,Pam1ug+NTHi,144,M,NA,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Nasal Tissue_Mouse 6.fcs,CD45_EXP38_Nasal Tissue_Mouse 6.fcs,38,Nasal Tissue,6,38_6,224,Pam1ug+NTHi,144,F,NA,2.92E+06,4.00E+06,6.60E+00,OM
+EXP38_Spleen_Mouse 1.fcs,CD45_EXP38_Spleen_Mouse 1.fcs,38,Spleen,1,38_1,219,Saline+NTHi,144,M,NA,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Spleen_Mouse 2.fcs,CD45_EXP38_Spleen_Mouse 2.fcs,38,Spleen,2,38_2,220,Saline+NTHi,144,F,NA,2.92E+06,3.58E+04,4.55E+00,OM
+EXP38_Spleen_Mouse 3.fcs,CD45_EXP38_Spleen_Mouse 3.fcs,38,Spleen,3,38_3,221,Hh+NTHi,144,M,2.00E+07,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Spleen_Mouse 4.fcs,CD45_EXP38_Spleen_Mouse 4.fcs,38,Spleen,4,38_4,222,Hh+NTHi,144,F,2.00E+07,2.92E+06,2.50E+03,3.40E+00,OM
+EXP38_Spleen_Mouse 5.fcs,CD45_EXP38_Spleen_Mouse 5.fcs,38,Spleen,5,38_5,223,Pam1ug+NTHi,144,M,NA,2.92E+06,0.00E+00,9.60E-01,nOM
+EXP38_Spleen_Mouse 6.fcs,CD45_EXP38_Spleen_Mouse 6.fcs,38,Spleen,6,38_6,224,Pam1ug+NTHi,144,F,NA,2.92E+06,4.00E+06,6.60E+00,OM
+EXP39_Lung_Mouse 1.fcs,CD45_EXP39_Lung_Mouse 1.fcs,39,Lung,1,39_1,225,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP39_Lung_Mouse 2.fcs,CD45_EXP39_Lung_Mouse 2.fcs,39,Lung,2,39_2,226,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP39_Lung_Mouse 3.fcs,CD45_EXP39_Lung_Mouse 3.fcs,39,Lung,3,39_3,227,Hh+IAV,144,M,1.67E+07,NA,NA,NA,NA
+EXP39_Lung_Mouse 4.fcs,CD45_EXP39_Lung_Mouse 4.fcs,39,Lung,4,39_4,228,Hh+IAV,144,F,1.67E+07,NA,NA,NA,NA
+EXP39_Lung_Mouse 5.fcs,CD45_EXP39_Lung_Mouse 5.fcs,39,Lung,5,39_5,229,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP39_Lung_Mouse 6.fcs,CD45_EXP39_Lung_Mouse 6.fcs,39,Lung,6,39_6,230,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP39_Nasal Tissue_Mouse 1.fcs,CD45_EXP39_Nasal Tissue_Mouse 1.fcs,39,Nasal Tissue,1,39_1,225,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP39_Nasal Tissue_Mouse 2.fcs,CD45_EXP39_Nasal Tissue_Mouse 2.fcs,39,Nasal Tissue,2,39_2,226,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP39_Nasal Tissue_Mouse 3.fcs,CD45_EXP39_Nasal Tissue_Mouse 3.fcs,39,Nasal Tissue,3,39_3,227,Hh+IAV,144,M,1.67E+07,NA,NA,NA,NA
+EXP39_Nasal Tissue_Mouse 4.fcs,CD45_EXP39_Nasal Tissue_Mouse 4.fcs,39,Nasal Tissue,4,39_4,228,Hh+IAV,144,F,1.67E+07,NA,NA,NA,NA
+EXP39_Nasal Tissue_Mouse 5.fcs,CD45_EXP39_Nasal Tissue_Mouse 5.fcs,39,Nasal Tissue,5,39_5,229,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP39_Nasal Tissue_Mouse 6.fcs,CD45_EXP39_Nasal Tissue_Mouse 6.fcs,39,Nasal Tissue,6,39_6,230,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP39_Spleen_Mouse 1.fcs,CD45_EXP39_Spleen_Mouse 1.fcs,39,Spleen,1,39_1,225,Saline+IAV,144,M,NA,NA,NA,NA,NA
+EXP39_Spleen_Mouse 2.fcs,CD45_EXP39_Spleen_Mouse 2.fcs,39,Spleen,2,39_2,226,Saline+IAV,144,F,NA,NA,NA,NA,NA
+EXP39_Spleen_Mouse 3.fcs,CD45_EXP39_Spleen_Mouse 3.fcs,39,Spleen,3,39_3,227,Hh+IAV,144,M,1.67E+07,NA,NA,NA,NA
+EXP39_Spleen_Mouse 4.fcs,CD45_EXP39_Spleen_Mouse 4.fcs,39,Spleen,4,39_4,228,Hh+IAV,144,F,1.67E+07,NA,NA,NA,NA
+EXP39_Spleen_Mouse 5.fcs,CD45_EXP39_Spleen_Mouse 5.fcs,39,Spleen,5,39_5,229,Pam1ug+IAV,144,M,NA,NA,NA,NA,NA
+EXP39_Spleen_Mouse 6.fcs,CD45_EXP39_Spleen_Mouse 6.fcs,39,Spleen,6,39_6,230,Pam1ug+IAV,144,F,NA,NA,NA,NA,NA
+EXP40_Lung_Mouse 1.fcs,CD45_EXP40_Lung_Mouse 1.fcs,40,Lung,1,40_1,231,Saline+IAV+NTHi,144,M,NA,3.33E+06,4.75E+06,6.68E+00,OM
+EXP40_Lung_Mouse 2.fcs,CD45_EXP40_Lung_Mouse 2.fcs,40,Lung,2,40_2,232,Saline+IAV+NTHi,144,F,NA,3.33E+06,1.75E+05,5.24E+00,OM
+EXP40_Lung_Mouse 3.fcs,CD45_EXP40_Lung_Mouse 3.fcs,40,Lung,3,40_3,233,Hh+IAV+NTHi,144,M,2.00E+07,3.33E+06,2.50E+01,9.60E-01,nOM
+EXP40_Lung_Mouse 4.fcs,CD45_EXP40_Lung_Mouse 4.fcs,40,Lung,4,40_4,234,Hh+IAV+NTHi,144,F,2.00E+07,3.33E+06,4.17E+02,2.62E+00,OM
+EXP40_Lung_Mouse 5.fcs,CD45_EXP40_Lung_Mouse 5.fcs,40,Lung,5,40_5,235,Pam1ug+IAV+NTHi,144,M,NA,3.33E+06,0.00E+00,9.60E-01,nOM
+EXP40_Lung_Mouse 6.fcs,CD45_EXP40_Lung_Mouse 6.fcs,40,Lung,6,40_6,236,Pam1ug+IAV+NTHi,144,F,NA,3.33E+06,9.17E+03,3.96E+00,OM
+EXP40_Nasal Tissue_Mouse 1.fcs,CD45_EXP40_Nasal Tissue_Mouse 1.fcs,40,Nasal Tissue,1,40_1,231,Saline+IAV+NTHi,144,M,NA,3.33E+06,4.75E+06,6.68E+00,OM
+EXP40_Nasal Tissue_Mouse 2.fcs,CD45_EXP40_Nasal Tissue_Mouse 2.fcs,40,Nasal Tissue,2,40_2,232,Saline+IAV+NTHi,144,F,NA,3.33E+06,1.75E+05,5.24E+00,OM
+EXP40_Nasal Tissue_Mouse 3.fcs,CD45_EXP40_Nasal Tissue_Mouse 3.fcs,40,Nasal Tissue,3,40_3,233,Hh+IAV+NTHi,144,M,2.00E+07,3.33E+06,2.50E+01,9.60E-01,nOM
+EXP40_Nasal Tissue_Mouse 4.fcs,CD45_EXP40_Nasal Tissue_Mouse 4.fcs,40,Nasal Tissue,4,40_4,234,Hh+IAV+NTHi,144,F,2.00E+07,3.33E+06,4.17E+02,2.62E+00,OM
+EXP40_Nasal Tissue_Mouse 5.fcs,CD45_EXP40_Nasal Tissue_Mouse 5.fcs,40,Nasal Tissue,5,40_5,235,Pam1ug+IAV+NTHi,144,M,NA,3.33E+06,0.00E+00,9.60E-01,nOM
+EXP40_Nasal Tissue_Mouse 6.fcs,CD45_EXP40_Nasal Tissue_Mouse 6.fcs,40,Nasal Tissue,6,40_6,236,Pam1ug+IAV+NTHi,144,F,NA,3.33E+06,9.17E+03,3.96E+00,OM
+EXP40_Spleen_Mouse 1.fcs,CD45_EXP40_Spleen_Mouse 1.fcs,40,Spleen,1,40_1,231,Saline+IAV+NTHi,144,M,NA,3.33E+06,4.75E+06,6.68E+00,OM
+EXP40_Spleen_Mouse 2.fcs,CD45_EXP40_Spleen_Mouse 2.fcs,40,Spleen,2,40_2,232,Saline+IAV+NTHi,144,F,NA,3.33E+06,1.75E+05,5.24E+00,OM
+EXP40_Spleen_Mouse 3.fcs,CD45_EXP40_Spleen_Mouse 3.fcs,40,Spleen,3,40_3,233,Hh+IAV+NTHi,144,M,2.00E+07,3.33E+06,2.50E+01,9.60E-01,nOM
+EXP40_Spleen_Mouse 4.fcs,CD45_EXP40_Spleen_Mouse 4.fcs,40,Spleen,4,40_4,234,Hh+IAV+NTHi,144,F,2.00E+07,3.33E+06,4.17E+02,2.62E+00,OM
+EXP40_Spleen_Mouse 5.fcs,CD45_EXP40_Spleen_Mouse 5.fcs,40,Spleen,5,40_5,235,Pam1ug+IAV+NTHi,144,M,NA,3.33E+06,0.00E+00,9.60E-01,nOM
+EXP40_Spleen_Mouse 6.fcs,CD45_EXP40_Spleen_Mouse 6.fcs,40,Spleen,6,40_6,236,Pam1ug+IAV+NTHi,144,F,NA,3.33E+06,9.17E+03,3.96E+00,OM
+EXP41_Lung_Mouse 1.fcs,CD45_EXP41_Lung_Mouse 1.fcs,41,Lung,1,41_1,237,Saline+NTHi,144,M,NA,5.63E+06,0.00E+00,9.60E-01,nOM
+EXP41_Lung_Mouse 2.fcs,CD45_EXP41_Lung_Mouse 2.fcs,41,Lung,2,41_2,238,Saline+NTHi,144,F,NA,5.63E+06,2.33E+06,6.37E+00,OM
+EXP41_Lung_Mouse 3.fcs,CD45_EXP41_Lung_Mouse 3.fcs,41,Lung,3,41_3,239,Hh+NTHi,144,M,2.33E+07,5.63E+06,3.33E+02,2.52E+00,OM
+EXP41_Lung_Mouse 4.fcs,CD45_EXP41_Lung_Mouse 4.fcs,41,Lung,4,41_4,240,Hh+NTHi,144,F,2.33E+07,5.63E+06,0.00E+00,9.60E-01,nOM
+EXP41_Lung_Mouse 5.fcs,CD45_EXP41_Lung_Mouse 5.fcs,41,Lung,5,41_5,241,Pam1ug+NTHi,144,M,NA,5.63E+06,1.03E+05,5.01E+00,OM
+EXP41_Lung_Mouse 6.fcs,CD45_EXP41_Lung_Mouse 6.fcs,41,Lung,6,41_6,242,Pam1ug+NTHi,144,F,NA,5.63E+06,3.50E+06,6.54E+00,OM
+EXP41_Nasal Tissue_Mouse 1.fcs,CD45_EXP41_Nasal Tissue_Mouse 1.fcs,41,Nasal Tissue,1,41_1,237,Saline+NTHi,144,M,NA,5.63E+06,0.00E+00,9.60E-01,nOM
+EXP41_Nasal Tissue_Mouse 2.fcs,CD45_EXP41_Nasal Tissue_Mouse 2.fcs,41,Nasal Tissue,2,41_2,238,Saline+NTHi,144,F,NA,5.63E+06,2.33E+06,6.37E+00,OM
+EXP41_Nasal Tissue_Mouse 3.fcs,CD45_EXP41_Nasal Tissue_Mouse 3.fcs,41,Nasal Tissue,3,41_3,239,Hh+NTHi,144,M,2.33E+07,5.63E+06,3.33E+02,2.52E+00,OM
+EXP41_Nasal Tissue_Mouse 4.fcs,CD45_EXP41_Nasal Tissue_Mouse 4.fcs,41,Nasal Tissue,4,41_4,240,Hh+NTHi,144,F,2.33E+07,5.63E+06,0.00E+00,9.60E-01,nOM
+EXP41_Nasal Tissue_Mouse 5.fcs,CD45_EXP41_Nasal Tissue_Mouse 5.fcs,41,Nasal Tissue,5,41_5,241,Pam1ug+NTHi,144,M,NA,5.63E+06,1.03E+05,5.01E+00,OM
+EXP41_Nasal Tissue_Mouse 6.fcs,CD45_EXP41_Nasal Tissue_Mouse 6.fcs,41,Nasal Tissue,6,41_6,242,Pam1ug+NTHi,144,F,NA,5.63E+06,3.50E+06,6.54E+00,OM
+EXP41_Spleen_Mouse 1.fcs,CD45_EXP41_Spleen_Mouse 1.fcs,41,Spleen,1,41_1,237,Saline+NTHi,144,M,NA,5.63E+06,0.00E+00,9.60E-01,nOM
+EXP41_Spleen_Mouse 2.fcs,CD45_EXP41_Spleen_Mouse 2.fcs,41,Spleen,2,41_2,238,Saline+NTHi,144,F,NA,5.63E+06,2.33E+06,6.37E+00,OM
+EXP41_Spleen_Mouse 3.fcs,CD45_EXP41_Spleen_Mouse 3.fcs,41,Spleen,3,41_3,239,Hh+NTHi,144,M,2.33E+07,5.63E+06,3.33E+02,2.52E+00,OM
+EXP41_Spleen_Mouse 4.fcs,CD45_EXP41_Spleen_Mouse 4.fcs,41,Spleen,4,41_4,240,Hh+NTHi,144,F,2.33E+07,5.63E+06,0.00E+00,9.60E-01,nOM
+EXP41_Spleen_Mouse 5.fcs,CD45_EXP41_Spleen_Mouse 5.fcs,41,Spleen,5,41_5,241,Pam1ug+NTHi,144,M,NA,5.63E+06,1.03E+05,5.01E+00,OM
+EXP41_Spleen_Mouse 6.fcs,CD45_EXP41_Spleen_Mouse 6.fcs,41,Spleen,6,41_6,242,Pam1ug+NTHi,144,F,NA,5.63E+06,3.50E+06,6.54E+00,OM
