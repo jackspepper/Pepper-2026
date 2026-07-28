@@ -161,8 +161,108 @@ plot_list <- lapply(tissue_type, function(name) {
 
 ```
 
-### Create Supplementary sig plot in A4 ratio
 ```{r}
+plot_and_save <- function(data_list_element, name) {
+                                                    my_cols = {c("Hh" = "#4FAFA7",
+                                                                "Pam2CSK4" = "#4A4280")}
+                                                    my_labs = {c("B-cells" = "B-cells",
+                                                                "moDC" = "moDC",
+                                                                "CD4+ T-cells" = "CD4+ T",
+                                                                "Ly6C-CD8+ T-cells" = "Ly6C-CD8+ T",
+                                                                "Ly6C+CD8+ T-cells" = "Ly6C+CD8+ T",
+                                                                "Ly6C+ NK cells" = "Ly6C+NK",
+                                                                "Ly6C- NK cells" = "Ly6C-NK",
+                                                                "CD103+CD4+ T-cells" = "CD103+CD4+ T",
+                                                                "Ly6C(hi)CD64(hi) Monocytes" = "iMono",
+                                                                "cDC1" = "cDC1",
+                                                                "Monocytes" = "Mono",
+                                                                "Neutrophils" = "Neut",
+                                                                "CD206+ Macrophages" = "CD206+ Mac",
+                                                                "cDC2" = "cDC2",
+                                                                "pDCs" = "pDC",
+                                                                "CD64+MHCII- Macrophages" = "CD64+ Mac")}
+                                                    levels_xlab = {c("B-cells",
+                                                                 "Ly6C-CD8+ T-cells",
+                                                                 "Ly6C+CD8+ T-cells",
+                                                                 "Ly6C+ NK cells",
+                                                                 "Ly6C- NK cells",
+                                                                 "CD103+CD4+ T-cells",
+                                                                 "CD4+ T-cells",
+                                                                 "Monocytes",
+                                                                 "Ly6C(hi)CD64(hi) Monocytes",
+                                                                 "moDCs",
+                                                                 "cDC1",
+                                                                 "cDC2",
+                                                                 "pDCs",
+                                                                 "CD206+ Macrophages",
+                                                                 "CD64+MHCII- Macrophages",
+                                                                 "Neutrophils"
+                                                                )}
+                                                    my_facet = {c("2" = "2hrs",
+                                                                 "6" = "6hrs",
+                                                                 "24" = "24hrs",
+                                                                 "48" = "48hrs",
+                                                                 "72" = "72hrs",
+                                                                 "96" = "96hrs",
+                                                                 "144" = "144hrs"
+                                                    )}
+                                                                
+                                                    # Create the ggplot object
+                                                    p2 <- {ggplot(data_list_element %>% 
+                                                                    filter(Timepoint %in% c(48, 72, 96, 144)) %>%
+                                                                    filter(Treatment %in% c("Hh", "Pam2CSK4")),
+                                                                 aes(x=factor(Cell_ID, levels_xlab), 
+                                                                     y= Med_fc,
+                                                                     fill = Treatment)) + 
+                                                           geom_bar(position = "dodge", stat = "identity") +
+                                                           scale_fill_manual(values = my_cols) +
+                                                           scale_x_discrete(labels = my_labs) +
+                                                           facet_grid(~Timepoint, 
+                                                                      labeller = labeller(Timepoint = my_facet)) +
+                                                           theme_classic() +
+                                                           theme(panel.grid.major.y = element_line(color = "grey80", 
+                                                                                                    linetype = "solid", 
+                                                                                                    linewidth = 0.2),
+                                                                  axis.text.x = element_text(size = 8),
+                                                                  axis.title = element_blank(),
+                                                                  axis.ticks = element_blank(),
+                                                                  axis.line = element_blank(),
+                                                                  panel.spacing.x = unit(1, "lines"),
+                                                                  strip.text = element_text(size = 14),
+                                                                  axis.text.y = element_text(size = 10,
+                                                                                             margin = margin(r = 8, l = -20)),
+                                                                  plot.title = element_text(size=16, face = "bold"),
+                                                                 legend.position="none") +
+                                                          geom_vline(xintercept = seq(0.5, (16-0.5), by = 1), 
+                                                                     color = "grey80", 
+                                                                     linetype = "solid", 
+                                                                     size = 0.2) +
+                                                          coord_polar(clip = "off") + 
+                                                          scale_y_log10(limits = c(-10,90))
+                                                    }
+                   
+                                                    # Define the filename
+                                                    filename <- paste0("Figure3_Late_", name, ".png")
+  
+                                                   # Save as .png
+                                                   ggsave(filename, plot = p2, width = 7.2, height = 1.93, units = "in", scale = 1.4)
+                                                   
+                                                   plot_list[[name]] <- p2
+                                                   }
+
+tissue_type <- c("Nasal Tissue", "Lung", "Spleen") #indicate here the Tissue of interest)
+
+plot_list <- NULL
+
+plot_list <- lapply(tissue_type, function(name) {
+  plot_and_save(rad_list[[name]], 
+                name)
+})
+
+```
+
+### Create Supplementary sig plot in A4 ratio
+```{r eval=FALSE, include=FALSE}
 
 adjustments_for_grid <- function(plot_list, ncol) {
     n <- length(plot_list)

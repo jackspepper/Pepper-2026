@@ -97,17 +97,17 @@ df.sig <- df.sig %>%
 
 comparisons <- list(
   # Between treatments with Pretreatment only
-  c("Saline", "Hh"), c("Saline", "Pam2CSK4"), c("Hh", "Pam2CSK4"),
+   c("Saline", "Hh"), c("Saline", "Pam2CSK4"), c("Hh", "Pam2CSK4"),
   # Between treatments with Pretreatment and IAV
-  c("Hh", "Hh+IAV"), c("Saline", "Saline+IAV"), c("Pam2CSK4", "Pam2CSK4+IAV"),
+  # c("Hh", "Hh+IAV"), c("Saline", "Saline+IAV"), c("Pam2CSK4", "Pam2CSK4+IAV"),
   # Between treatments with OM-challenge and IAV
-  c("Hh+IAV+NTHi", "Hh+IAV"), c("Saline+IAV+NTHi", "Saline+IAV"), c("Pam2CSK4+IAV+NTHi", "Pam2CSK4+IAV"),
+  # c("Hh+IAV+NTHi", "Hh+IAV"), c("Saline+IAV+NTHi", "Saline+IAV"), c("Pam2CSK4+IAV+NTHi", "Pam2CSK4+IAV"),
   # Between treatments with OM-challenge and no challenge
-  c("Hh+IAV+NTHi", "Hh"), c("Saline+IAV+NTHi", "Saline"), c("Pam2CSK4+IAV+NTHi", "Pam2CSK4"),
+  # c("Hh+IAV+NTHi", "Hh"), c("Saline+IAV+NTHi", "Saline"), c("Pam2CSK4+IAV+NTHi", "Pam2CSK4"),
   # Between treatments with IAV-challenge
   c("Saline+IAV", "Hh+IAV"), c("Saline+IAV", "Pam2CSK4+IAV"), c("Hh+IAV", "Pam2CSK4+IAV"),
   # Between treatments with OM-challenge
-  c("Saline+IAV+NTHi", "Hh+IAV+NTHi"), c("Saline+IAV+NTHi", "Pam2CSK4+IAV+NTHi"), c("Hh+IAV+NTHi", "Pam2CSK4+IAV+NTHi")
+   c("Saline+IAV+NTHi", "Hh+IAV+NTHi"), c("Saline+IAV+NTHi", "Pam2CSK4+IAV+NTHi"), c("Hh+IAV+NTHi", "Pam2CSK4+IAV+NTHi")
   )
 
 comp_keys <- purrr::map_chr(comparisons, ~ paste(sort(.x), collapse = "|||"))
@@ -127,63 +127,101 @@ df.sig.filtered <- df.sig %>%
 ### Figure 5
 
 ```{r}
+
 library(ggplot2)
 library(dplyr)
 library(patchwork)
-# library(ggsignif)
+# library(ggsignif)  # uncomment if not loaded globally
 
 plot_and_save <- function(data_list_element, name, sig_df) {
-  message(paste(format(Sys.time(), "%X"), name, sep = " :F4sig: "))
+  message(paste(format(Sys.time(), "%X"), name, sep = " :F3sig: "))
   
-  # ----- aesthetics -----
-  my_cols = c("Saline" = "grey",
-              "Saline+IAV" = "grey",
-              "Saline+IAV+NTHi" = "grey",
-              "Saline+NTHi" = "grey",
-              "Hh" = "#4FAFA7",
-              "Hh+IAV" = "#4FAFA7",
-              "Hh+IAV+NTHi" = "#4FAFA7",
-              "Hh+NTHi" = "#4FAFA7",
-              "Pam2CSK4" = "#4A4280",
-              "Pam2CSK4+IAV" = "#4A4280",
-              "Pam2CSK4+IAV+NTHi" = "#4A4280",
-              "Pam2CSK4+NTHi" = "#4A4280"
-              )
+  data_list_element <- data_list_element %>%
+  mutate(
+    Treatment = recode(
+      Treatment,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    )
+  )
   
-  # my_shapes <- c(
-  #   "Saline" = 16,
-  #   "Saline+IAV" = 4,
-  #   "Saline+IAV+NTHi" = 17,
-  #   "Hh" = 16,
-  #   "Hh+IAV" = 4,
-  #   "Hh+IAV+NTHi" = 17,
-  #   "Pam2CSK4" = 16,
-  #   "Pam2CSK4+IAV" = 4,
-  #   "Pam2CSK4+IAV+NTHi" = 17
-  # )
-  legend.wanted.colour <- c("Hh", "Pam2CSK4", "Saline")
-  legend.labels.colour <- c("Hh"="Hh","Pam2CSK4"="Pam2CSK4","Saline"="Saline")
-  # legend.wanted.shape  <- c("Hh", "Hh+IAV", "Hh+IAV+NTHi")
-  # legend.labels.shape  <- c("Hh"="No challenge","Hh+IAV"="IAV challenge","Hh+IAV+NTHi"="IAV-NTHi challenge")
+  sig_df <- sig_df %>%
+  mutate(
+    Treatment1 = recode(
+      Treatment1,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    ),
+    Treatment2 = recode(
+      Treatment2,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    )
+  )
   
+  # Colors for Treatment
+  my_cols <- c(
+    "Placebo" = "grey",
+    "Placebo+IAV" = "grey",
+    "Placebo+IAV+NTHi" = "grey",
+    "Spritz-OM" = "#4FAFA7",
+    "Spritz-OM+IAV" = "#4FAFA7",
+    "Spritz-OM+IAV+NTHi" = "#4FAFA7",
+    "Pam2CSK4" = "#4A4280",
+    "Pam2CSK4+IAV" = "#4A4280",
+    "Pam2CSK4+IAV+NTHi" = "#4A4280"
+  )
   
-  # --- Spacing scaffolding ---
+  # Legend selection
+  legend.wanted.colour <- c("Spritz-OM", "Pam2CSK4", "Placebo")
+  legend.labels.colour <- c(
+    "Hh" = "Spritz-OM",
+    "Pam2CSK4" = "Pam2CSK4",
+    "Saline" = "Placebo"
+  )
+  
+    # Sets Treatment order for graphing
+  treatment_order <- c(
+    "Placebo",
+    "Spritz-OM",
+    "Pam2CSK4",
+    "Placebo+IAV",
+    "Spritz-OM+IAV",
+    "Pam2CSK4+IAV",
+    "Placebo+IAV+NTHi",
+    "Spritz-OM+IAV+NTHi",
+    "Pam2CSK4+IAV+NTHi"
+  )
+  
+  data_list_element <- data_list_element %>%
+    mutate(
+      Treatment = factor(Treatment, levels = treatment_order)
+    )
+  
+  # Compute significance y-positions robustly
   rng <- range(data_list_element[["Cell_Freq"]], na.rm = TRUE)
+  value.range <- diff(rng)
   value.min <- rng[1]
-  range_width <- diff(rng)
   
-  # Your spacing rule with guards
-  desired_by <- if (range_width > 0) range_width * 0.15 else 1e-6
-  
-  vec_try <- seq(from = value.min, to = value.min + 300, by = desired_by)
-  if (length(vec_try) < 2L) {
-    n_levels <- 40L
-    vector.levels <- seq(from = value.min, to = value.min + 300, length.out = n_levels)
-  } else {
-    vector.levels <- vec_try
-    n_levels <- length(vector.levels)
-  }
-  
+  ifelse(
+    (length(rng) == 1),
+    value.splits <- 40L, 
+    value.splits <- (rng[2] - rng[1]) * 0.1 # Adjust here for levels
+  )
+         
+  vector.levels <- seq(from = value.min, to = value.min + 300, by = value.splits)
   vector.treatments <- unique(data_list_element$Treatment)
   
   df.maxValues <- data_list_element %>%
@@ -194,104 +232,80 @@ plot_and_save <- function(data_list_element, name, sig_df) {
   df.sig.temp <- sig_df %>%
     filter(
       Annotation == name,
-      (Treatment1 %in% vector.treatments & Treatment2 %in% vector.treatments),
-      grepl("NTHi", Treatment1),       # Filtering for only NTHi significance to be shown
-      grepl("NTHi", Treatment2)) %>%   # Filtering for only NTHi significance to be shown
+      (Treatment1 %in% vector.treatments & Treatment2 %in% vector.treatments)
+    ) %>%
     left_join(df.maxValues, by = c("Tissue", "Timepoint", "Treatment1" = "Treatment")) %>%
     rename(Cell_Freq_g1 = Cell_Freq) %>%
     left_join(df.maxValues, by = c("Tissue", "Timepoint", "Treatment2" = "Treatment")) %>%
     rename(Cell_Freq_g2 = Cell_Freq) %>%
-    filter(significance != "")
+    filter(significance != "") %>%
+    mutate(
+      max_cf  = pmax(Cell_Freq_g1, Cell_Freq_g2, na.rm = TRUE),
+      min_idx = pmin(length(vector.levels), findInterval(max_cf, vector.levels) + 1),
+      min_level = vector.levels[min_idx]
+    ) %>%
+    distinct(Tissue, Timepoint, Treatment1, Treatment2, .keep_all = TRUE) %>%
+    group_by(Tissue, Timepoint) %>%
+    mutate(
+      row = row_number(),
+      # safe anchor (avoid -Inf when all NA)
+      anchor_idx = if (all(is.na(min_idx))) 1L else max(min_idx, na.rm = TRUE),
+      y_idx = pmin(length(vector.levels), anchor_idx + row),
+      y_pos = vector.levels[y_idx]
+    ) %>%
+    ungroup()
   
-  # If empty, skip cleanly (prevents seq_len() errors in geom_signif)
-  if (nrow(df.sig.temp) == 0) {
-    df.sig.temp <- tibble(
-      Tissue = character(), Timepoint = character(),
-      Treatment1 = character(), Treatment2 = character(),
-      significance = character(), y_pos = numeric()
-    )
-  } else {
-    df.sig.temp <- df.sig.temp %>%
-      mutate(
-        max_cf   = pmax(Cell_Freq_g1, Cell_Freq_g2, na.rm = TRUE),
-        min_idx  = pmin(n_levels, pmax(1L, findInterval(max_cf, vector.levels) + 1L)),
-        min_level = vector.levels[min_idx]
-      ) %>%
-      distinct(Tissue, Timepoint, Treatment1, Treatment2, .keep_all = TRUE) %>%
-      group_by(Tissue, Timepoint) %>%
-      mutate(
-        row        = row_number(),
-        anchor_idx = if (all(is.na(min_idx))) 1L else max(min_idx, na.rm = TRUE),
-        y_idx      = pmin(n_levels, pmax(1L, anchor_idx + row)),
-        y_pos      = vector.levels[y_idx]
-      ) %>%
-      ungroup()
-  }
-  
-  # ----- harmonize factors and filter to the single timepoint -----
-  # If your data uses "144 hours", change to paste0(Timepoint, " hours") and filter == "144 hours"
+  # Refactor factors and labels
   data_list_element <- data_list_element %>%
     mutate(
       Tissue    = trimws(Tissue),
       Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
       Timepoint = paste0(Timepoint, "hrs"),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs")),
       Treatment = factor(Treatment, names(my_cols))
     ) %>%
-    filter(Timepoint == "144hrs") %>%
-    droplevels() %>%                           # drop unused levels on the whole data frame
-    mutate(Timepoint = factor(Timepoint, levels = "144hrs"))  # lock factor to the single level
+    droplevels()
   
   df.sig.temp <- df.sig.temp %>%
     mutate(
       Tissue    = trimws(Tissue),
       Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
-      Timepoint = paste0(Timepoint, "hrs")
+      Timepoint = paste0(Timepoint, "hrs"),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
     ) %>%
-    filter(Timepoint == "144hrs") %>%
-    droplevels() %>%
-    mutate(Timepoint = factor(Timepoint, levels = "144hrs"))
+    droplevels()
   
-  # ----- shared y-limits include annotation heights -----
-  y_limits <- range(c(data_list_element$Cell_Freq, df.sig.temp$y_pos), na.rm = TRUE)
+  # Shared y-limits across tissue plots; include any annotation y-positions
+  y_limits <- range(
+    c(data_list_element$Cell_Freq, df.sig.temp$y_pos),
+    na.rm = TRUE
+  )
   
-  # ----- build per-tissue plots (facets only by the single 144h) -----
-  tissues_present <- unique(as.character(data_list_element$Tissue))
-  plots <- list()
-  
-  for (i in seq_along(tissues_present)) {
-    t <- tissues_present[i]
-    
+  # Build one plot per Tissue (faceting only by Timepoint)
+  tissues <- levels(data_list_element$Tissue)
+  plots <- lapply(seq_along(tissues), function(i) {
+    t <- tissues[i]
     df_tissue <- data_list_element %>%
-      filter(Tissue == t) %>%
-      droplevels()
-    
-    if (nrow(df_tissue) == 0) next
-    
+      filter(Tissue == t, Timepoint %in% c("96hrs", "144hrs"))
     df_sig_tissue <- df.sig.temp %>%
-      filter(Tissue == t) %>%
-      droplevels()
+      filter(Tissue == t, Timepoint %in% c("96hrs", "144hrs"))
     
     p_t <- ggplot(df_tissue, aes(x = Treatment, y = Cell_Freq)) +
-      geom_point(aes(col = Treatment)) + #  shape = Treatment
+      geom_point(aes(col = Treatment)) +
       geom_boxplot(outliers = FALSE, fill = "transparent") +
-      facet_wrap(~ Timepoint, nrow = 1, drop = TRUE) +
+      facet_wrap(~ Timepoint, nrow = 1, drop = FALSE) +
       scale_color_manual(
         values = my_cols,
         breaks = legend.wanted.colour,
         labels = legend.labels.colour,
         name = ""
       ) +
-      # scale_shape_manual(
-      #   values = my_shapes,
-      #   breaks = legend.wanted.shape,
-      #   labels = legend.labels.shape,
-      #   name = ""
-      # ) +
       scale_y_continuous(limits = y_limits, expand = expansion(mult = c(0.1, 0.1))) +
+      scale_x_discrete(limits = treatment_order) +
       theme_classic() +
       theme(
-        plot.title         = element_text(size = 16, face = "bold"),
-        strip.text.x       = element_text(size = 14, face = "bold"),
+        plot.title         = element_text(size = 14, face = "bold"),
+        strip.text.x       = element_text(size = 10, face = "bold"),
         axis.title.x       = element_blank(),
         axis.text.x        = element_text(size = 12, angle = -90, hjust = 0, vjust = 0.5),
         axis.title.y       = element_text(size = 12),
@@ -305,6 +319,7 @@ plot_and_save <- function(data_list_element, name, sig_df) {
         y = if (i == 1) expression("%CD45"^{"+"}) else NULL
       )
     
+    # Add signif only if there are rows to annotate for this tissue
     if (nrow(df_sig_tissue) > 0) {
       p_t <- p_t +
         geom_signif(
@@ -315,15 +330,10 @@ plot_and_save <- function(data_list_element, name, sig_df) {
         )
     }
     
-    plots[[length(plots) + 1]] <- p_t
-  }
+    p_t
+  })
   
-  if (length(plots) == 0) {
-    warning("No tissue plots generated for: ", name)
-    return(invisible(NULL))
-  }
-  
-  # ----- stitch horizontally (no divider) -----
+  # Stitch horizontally: plot1 | plot2 | plot3 (no divider)
   combined <- plots[[1]]
   if (length(plots) > 1) {
     for (i in 2:length(plots)) {
@@ -332,25 +342,16 @@ plot_and_save <- function(data_list_element, name, sig_df) {
     combined <- combined + plot_layout(widths = rep(1, length(plots)))
   }
   
-  # ← Add an overall title using patchwork
-  combined <- combined + plot_annotation(
-    title = name,                     # the cell type
-    # Optional extras:
-    # subtitle = "144h",
-    # caption  = "Treatments as color & shape; significance via geom_signif"
-  ) & theme(
-    plot.title = element_text(size = 16, face = "bold", hjust = 0.105)  # center & style
-  )
-  
-  # ----- save -----
-  filename <- file.path("Figure5", paste0(name, ".F5sig.png"))
-  ggsave(filename, plot = combined, width = 6, height = 4.2, units = "in", dpi = 600)
+  # Save final combined figure
+  filename <- file.path("Figure3", paste0(name, ".AllTimepoints.png"))
+  ggsave(filename, plot = combined, width = 7, height = 4.5, units = "in", dpi = 600)
   
   combined
 }
 
-# Driver (first annotation as in your earlier flow)
-cell_type <- unique(moa.pre$Annotation)
+# Driver
+# cell_type <- unique(moa.pre$Annotation)
+cell_type <- c("Neut", "iMono", "CD103+CD4+ T")
 plot_list_sig <- lapply(cell_type, function(name) {
   plot_and_save(subset_list[[name]], name, sig_df = df.sig.filtered)
 })
@@ -358,7 +359,7 @@ plot_list_sig <- lapply(cell_type, function(name) {
 
 ### Supplementary
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # library(ggsignif)
 
 plot_and_save <- function(data_list_element, name, sig_df) {

@@ -93,6 +93,8 @@ df.sig <- df.sig %>%
 
 ### Figure 3
 
+#### 2-48hrs
+
 ```{r}
 
 library(ggplot2)
@@ -103,25 +105,60 @@ library(patchwork)
 plot_and_save <- function(data_list_element, name, sig_df) {
   message(paste(format(Sys.time(), "%X"), name, sep = " :F3sig: "))
   
+  data_list_element <- data_list_element %>%
+  mutate(
+    Treatment = recode(
+      Treatment,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    )
+  )
+  
+  sig_df <- sig_df %>%
+  mutate(
+    Treatment1 = recode(
+      Treatment1,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    ),
+    Treatment2 = recode(
+      Treatment2,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    )
+  )
+  
   # Colors for Treatment
   my_cols <- c(
-    "Saline" = "grey",
-    "Saline+IAV" = "grey",
-    "Saline+IAV+NTHi" = "grey",
-    "Hh" = "#4FAFA7",
-    "Hh+IAV" = "#4FAFA7",
-    "Hh+IAV+NTHi" = "#4FAFA7",
+    "Placebo" = "grey",
+    "Placebo+IAV" = "grey",
+    "Placebo+IAV+NTHi" = "grey",
+    "Spritz-OM" = "#4FAFA7",
+    "Spritz-OM+IAV" = "#4FAFA7",
+    "Spritz-OM+IAV+NTHi" = "#4FAFA7",
     "Pam2CSK4" = "#4A4280",
     "Pam2CSK4+IAV" = "#4A4280",
     "Pam2CSK4+IAV+NTHi" = "#4A4280"
   )
   
   # Legend selection
-  legend.wanted.colour <- c("Hh", "Pam2CSK4", "Saline")
+  legend.wanted.colour <- c("Spritz-OM", "Pam2CSK4", "Placebo")
   legend.labels.colour <- c(
-    "Hh" = "Hh",
+    "Hh" = "Spritz-OM",
     "Pam2CSK4" = "Pam2CSK4",
-    "Saline" = "Saline"
+    "Saline" = "Placebo"
   )
   
   # Compute significance y-positions robustly
@@ -175,7 +212,7 @@ plot_and_save <- function(data_list_element, name, sig_df) {
       Tissue    = trimws(Tissue),
       Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
       Timepoint = paste0(Timepoint, "hrs"),
-      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs")),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs")),
       Treatment = factor(Treatment, names(my_cols))
     ) %>%
     droplevels()
@@ -185,7 +222,7 @@ plot_and_save <- function(data_list_element, name, sig_df) {
       Tissue    = trimws(Tissue),
       Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
       Timepoint = paste0(Timepoint, "hrs"),
-      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs"))
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
     ) %>%
     droplevels()
   
@@ -200,9 +237,9 @@ plot_and_save <- function(data_list_element, name, sig_df) {
   plots <- lapply(seq_along(tissues), function(i) {
     t <- tissues[i]
     df_tissue <- data_list_element %>%
-      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs"))
+      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
     df_sig_tissue <- df.sig.temp %>%
-      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs"))
+      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
     
     p_t <- ggplot(df_tissue, aes(x = Treatment, y = Cell_Freq)) +
       geom_point(aes(col = Treatment)) +
@@ -218,7 +255,7 @@ plot_and_save <- function(data_list_element, name, sig_df) {
       theme_classic() +
       theme(
         plot.title         = element_text(size = 14, face = "bold"),
-        strip.text.x       = element_text(size = 14, face = "bold"),
+        strip.text.x       = element_text(size = 10, face = "bold"),
         axis.title.x       = element_blank(),
         axis.text.x        = element_text(size = 12, angle = -90, hjust = 0, vjust = 0.5),
         axis.title.y       = element_text(size = 12),
@@ -256,14 +293,229 @@ plot_and_save <- function(data_list_element, name, sig_df) {
   }
   
   # Save final combined figure
-  filename <- file.path("Figure3", paste0(name, ".F3sig.png"))
+  filename <- file.path("Figure3", paste0(name, ".EarlyTimepoints.png"))
   ggsave(filename, plot = combined, width = 7.5, height = 3.7, units = "in", dpi = 600)
   
   combined
 }
 
 # Driver
-cell_type <- unique(moa.pre$Annotation)
+# cell_type <- unique(moa.pre$Annotation)
+cell_type <- c("Neut", "iMono", "CD103+CD4+ T")
+plot_list_sig <- lapply(cell_type, function(name) {
+  plot_and_save(subset_list[[name]], name, sig_df = df.sig)
+})
+```
+
+#### All Timepoints
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+# library(ggsignif)  # uncomment if not loaded globally
+
+plot_and_save <- function(data_list_element, name, sig_df) {
+  message(paste(format(Sys.time(), "%X"), name, sep = " :F3sig: "))
+  
+  data_list_element <- data_list_element %>%
+  mutate(
+    Treatment = recode(
+      Treatment,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    )
+  )
+  
+  sig_df <- sig_df %>%
+  mutate(
+    Treatment1 = recode(
+      Treatment1,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    ),
+    Treatment2 = recode(
+      Treatment2,
+      "Hh" = "Spritz-OM",
+      "Hh+IAV" = "Spritz-OM+IAV",
+      "Hh+IAV+NTHi" = "Spritz-OM+IAV+NTHi",
+      "Saline" = "Placebo",
+      "Saline+IAV" = "Placebo+IAV",
+      "Saline+IAV+NTHi" = "Placebo+IAV+NTHi"
+    )
+  )
+  
+  # Colors for Treatment
+  my_cols <- c(
+    "Placebo" = "grey",
+    "Placebo+IAV" = "grey",
+    "Placebo+IAV+NTHi" = "grey",
+    "Spritz-OM" = "#4FAFA7",
+    "Spritz-OM+IAV" = "#4FAFA7",
+    "Spritz-OM+IAV+NTHi" = "#4FAFA7",
+    "Pam2CSK4" = "#4A4280",
+    "Pam2CSK4+IAV" = "#4A4280",
+    "Pam2CSK4+IAV+NTHi" = "#4A4280"
+  )
+  
+  # Legend selection
+  legend.wanted.colour <- c("Spritz-OM", "Pam2CSK4", "Placebo")
+  legend.labels.colour <- c(
+    "Hh" = "Spritz-OM",
+    "Pam2CSK4" = "Pam2CSK4",
+    "Saline" = "Placebo"
+  )
+  
+  # Compute significance y-positions robustly
+  rng <- range(data_list_element[["Cell_Freq"]], na.rm = TRUE)
+  value.range <- diff(rng)
+  value.min <- rng[1]
+  
+  ifelse(
+    (length(rng) == 1),
+    value.splits <- 40L, 
+    value.splits <- (rng[2] - rng[1]) * 0.1 # Adjust here for levels
+  )
+         
+  vector.levels <- seq(from = value.min, to = value.min + 300, by = value.splits)
+  vector.treatments <- unique(data_list_element$Treatment)
+  
+  df.maxValues <- data_list_element %>%
+    group_by(Tissue, Timepoint, Treatment) %>%
+    slice_max(Cell_Freq, with_ties = FALSE) %>%
+    select(Tissue, Timepoint, Treatment, Cell_Freq)
+  
+  df.sig.temp <- sig_df %>%
+    filter(
+      Annotation == name,
+      (Treatment1 %in% vector.treatments & Treatment2 %in% vector.treatments)
+    ) %>%
+    left_join(df.maxValues, by = c("Tissue", "Timepoint", "Treatment1" = "Treatment")) %>%
+    rename(Cell_Freq_g1 = Cell_Freq) %>%
+    left_join(df.maxValues, by = c("Tissue", "Timepoint", "Treatment2" = "Treatment")) %>%
+    rename(Cell_Freq_g2 = Cell_Freq) %>%
+    filter(significance != "") %>%
+    mutate(
+      max_cf  = pmax(Cell_Freq_g1, Cell_Freq_g2, na.rm = TRUE),
+      min_idx = pmin(length(vector.levels), findInterval(max_cf, vector.levels) + 1),
+      min_level = vector.levels[min_idx]
+    ) %>%
+    distinct(Tissue, Timepoint, Treatment1, Treatment2, .keep_all = TRUE) %>%
+    group_by(Tissue, Timepoint) %>%
+    mutate(
+      row = row_number(),
+      # safe anchor (avoid -Inf when all NA)
+      anchor_idx = if (all(is.na(min_idx))) 1L else max(min_idx, na.rm = TRUE),
+      y_idx = pmin(length(vector.levels), anchor_idx + row),
+      y_pos = vector.levels[y_idx]
+    ) %>%
+    ungroup()
+  
+  # Refactor factors and labels
+  data_list_element <- data_list_element %>%
+    mutate(
+      Tissue    = trimws(Tissue),
+      Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
+      Timepoint = paste0(Timepoint, "hrs"),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs")),
+      Treatment = factor(Treatment, names(my_cols))
+    ) %>%
+    droplevels()
+  
+  df.sig.temp <- df.sig.temp %>%
+    mutate(
+      Tissue    = trimws(Tissue),
+      Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
+      Timepoint = paste0(Timepoint, "hrs"),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
+    ) %>%
+    droplevels()
+  
+  # Shared y-limits across tissue plots; include any annotation y-positions
+  y_limits <- range(
+    c(data_list_element$Cell_Freq, df.sig.temp$y_pos),
+    na.rm = TRUE
+  )
+  
+  # Build one plot per Tissue (faceting only by Timepoint)
+  tissues <- levels(data_list_element$Tissue)
+  plots <- lapply(seq_along(tissues), function(i) {
+    t <- tissues[i]
+    df_tissue <- data_list_element %>%
+      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
+    df_sig_tissue <- df.sig.temp %>%
+      filter(Tissue == t, Timepoint %in% c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
+    
+    p_t <- ggplot(df_tissue, aes(x = Treatment, y = Cell_Freq)) +
+      geom_point(aes(col = Treatment)) +
+      geom_boxplot(outliers = FALSE, fill = "transparent") +
+      facet_wrap(~ Timepoint, nrow = 1, drop = FALSE) +
+      scale_color_manual(
+        values = my_cols,
+        breaks = legend.wanted.colour,
+        labels = legend.labels.colour,
+        name = ""
+      ) +
+      scale_y_continuous(limits = y_limits, expand = expansion(mult = c(0.1, 0.1))) +
+      theme_classic() +
+      theme(
+        plot.title         = element_text(size = 14, face = "bold"),
+        strip.text.x       = element_text(size = 10, face = "bold"),
+        axis.title.x       = element_blank(),
+        axis.text.x        = element_text(size = 12, angle = -90, hjust = 0, vjust = 0.5),
+        axis.title.y       = element_text(size = 12),
+        strip.background   = element_rect(colour = "white", fill = "white"),
+        panel.grid.major.y = element_line(colour = "grey80", linewidth = 0.4, linetype = 3),
+        legend.position    = "none",
+        plot.margin        = margin(l = 4)
+      ) +
+      labs(
+        title = t,
+        y = if (i == 1) expression("%CD45"^{"+"}) else NULL
+      )
+    
+    # Add signif only if there are rows to annotate for this tissue
+    if (nrow(df_sig_tissue) > 0) {
+      p_t <- p_t +
+        geom_signif(
+          data = df_sig_tissue,
+          aes(xmin = Treatment1, xmax = Treatment2,
+              annotations = significance, y_position = y_pos),
+          textsize = 5, manual = TRUE, tip_length = 0.01, vjust = 0.5
+        )
+    }
+    
+    p_t
+  })
+  
+  # Stitch horizontally: plot1 | plot2 | plot3 (no divider)
+  combined <- plots[[1]]
+  if (length(plots) > 1) {
+    for (i in 2:length(plots)) {
+      combined <- combined | plots[[i]]
+    }
+    combined <- combined + plot_layout(widths = rep(1, length(plots)))
+  }
+  
+  # Save final combined figure
+  filename <- file.path("Figure3", paste0(name, ".AllTimepoints.png"))
+  ggsave(filename, plot = combined, width = 15, height = 3.7, units = "in", dpi = 600)
+  
+  combined
+}
+
+# Driver
+# cell_type <- unique(moa.pre$Annotation)
+cell_type <- c("Neut", "iMono", "CD103+CD4+ T")
 plot_list_sig <- lapply(cell_type, function(name) {
   plot_and_save(subset_list[[name]], name, sig_df = df.sig)
 })
@@ -271,7 +523,7 @@ plot_list_sig <- lapply(cell_type, function(name) {
 
 ### Supplementary
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 adjustments_for_grid <- function(plot_list, ncol) {
     n <- length(plot_list)
