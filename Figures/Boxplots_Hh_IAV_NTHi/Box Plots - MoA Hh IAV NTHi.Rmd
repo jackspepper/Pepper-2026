@@ -343,8 +343,8 @@ plot_and_save <- function(data_list_element, name, sig_df) {
   }
   
   # Save final combined figure
-  filename <- file.path("Figure3", paste0(name, ".AllTimepoints.png"))
-  ggsave(filename, plot = combined, width = 7, height = 4.5, units = "in", dpi = 600)
+  filename <- file.path("Figure3", paste0(name, ".144.png"))
+  ggsave(filename, plot = combined, width = 9, height = 4.5, units = "in", dpi = 600)
   
   combined
 }

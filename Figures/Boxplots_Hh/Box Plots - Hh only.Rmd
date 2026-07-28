@@ -212,7 +212,7 @@ plot_and_save <- function(data_list_element, name, sig_df) {
       Tissue    = trimws(Tissue),
       Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
       Timepoint = paste0(Timepoint, "hrs"),
-      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs")),
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs")),
       Treatment = factor(Treatment, names(my_cols))
     ) %>%
     droplevels()
@@ -222,7 +222,7 @@ plot_and_save <- function(data_list_element, name, sig_df) {
       Tissue    = trimws(Tissue),
       Tissue    = factor(Tissue, c("Nasal Tissue", "Nasal", "Lung", "Spleen")),
       Timepoint = paste0(Timepoint, "hrs"),
-      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs", "72hrs", "96hrs", "144hrs"))
+      Timepoint = factor(Timepoint, c("2hrs", "6hrs", "24hrs", "48hrs"))
     ) %>%
     droplevels()
   
